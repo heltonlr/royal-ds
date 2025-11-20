@@ -1,0 +1,2898 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal DS - Design System Documentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <style>
+        @font-face {
+            font-family: 'JUST Sans Variable';
+            src: url('https://cdn.jsdelivr.net/gh/jussee/just-sans@latest/fonts/JUSTSans-Variable.woff2') format('woff2');
+            font-weight: 100 900;
+            font-display: swap;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-bg-primary: #0C0F17;
+            --color-bg-secondary: #1D202B;
+            --color-bg-tertiary: #383C48;
+            --color-text-primary: #EBECED;
+            --color-text-secondary: #C8CAD0;
+            --color-text-muted: #90939E;
+            --color-accent: #C2F141;
+            --color-border: #454A56;
+            --spacing-xs: 2px;
+            --spacing-sm: 4px;
+            --spacing-md: 8px;
+            --spacing-lg: 12px;
+            --spacing-xl: 16px;
+            --spacing-2xl: 20px;
+            --spacing-3xl: 24px;
+            --spacing-4xl: 32px;
+            --spacing-5xl: 48px;
+            --font-family: 'JUST Sans Variable', system-ui, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+            font-weight: 350;
+        }
+
+        .app-container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 280px;
+            background-color: var(--color-bg-secondary);
+            border-right: 1px solid var(--color-border);
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        .sidebar-header {
+            padding: var(--spacing-3xl);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 550;
+            color: var(--color-accent);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .logo-subtitle {
+            font-size: 14px;
+            color: var(--color-text-muted);
+            font-weight: 200;
+        }
+
+        .nav-section {
+            padding: var(--spacing-xl) 0;
+        }
+
+        .nav-section-title {
+            padding: var(--spacing-md) var(--spacing-3xl);
+            font-size: 11px;
+            font-weight: 550;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--color-text-muted);
+        }
+
+        .nav-item {
+            padding: var(--spacing-lg) var(--spacing-3xl);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-left: 2px solid transparent;
+            font-size: 14px;
+        }
+
+        .nav-item:hover {
+            background-color: var(--color-bg-tertiary);
+        }
+
+        .nav-item.active {
+            background-color: var(--color-bg-tertiary);
+            border-left-color: var(--color-accent);
+            color: var(--color-accent);
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: var(--spacing-5xl);
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            margin-bottom: var(--spacing-4xl);
+        }
+
+        .section-title {
+            font-size: 41px;
+            font-weight: 550;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .section-description {
+            font-size: 19px;
+            color: var(--color-text-secondary);
+            font-weight: 200;
+            max-width: 800px;
+        }
+
+        /* Token Cards */
+        .token-grid {
+            display: grid;
+            gap: var(--spacing-3xl);
+            margin-bottom: var(--spacing-5xl);
+        }
+
+        .token-category {
+            background-color: var(--color-bg-secondary);
+            border-radius: 16px;
+            padding: var(--spacing-3xl);
+            border: 1px solid var(--color-border);
+        }
+
+        .token-category-title {
+            font-size: 23px;
+            font-weight: 550;
+            margin-bottom: var(--spacing-xl);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-lg);
+        }
+
+        .token-category-badge {
+            background-color: var(--color-bg-tertiary);
+            color: var(--color-text-primary);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 550;
+        }
+
+        .token-list {
+            display: grid;
+            gap: var(--spacing-lg);
+        }
+
+        .token-item {
+            background-color: var(--color-bg-tertiary);
+            border-radius: 8px;
+            padding: var(--spacing-xl);
+            display: grid;
+            grid-template-columns: 200px 1fr auto;
+            align-items: center;
+            gap: var(--spacing-xl);
+            transition: all 0.2s ease;
+        }
+
+        .token-item:hover {
+            transform: translateX(4px);
+        }
+
+        .token-name {
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            color: var(--color-text-secondary);
+        }
+
+        .token-value {
+            color: var(--color-text-secondary);
+            font-size: 14px;
+        }
+
+        .copy-button {
+            background-color: var(--color-bg-primary);
+            border: 1px solid var(--color-border);
+            color: var(--color-text-secondary);
+            padding: var(--spacing-md) var(--spacing-xl);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 550;
+            transition: all 0.2s ease;
+            font-family: var(--font-family);
+        }
+
+        .copy-button:hover {
+            background-color: var(--color-bg-tertiary);
+            color: var(--color-text-primary);
+            border-color: var(--color-border);
+        }
+
+        .copy-button.copied {
+            background-color: #378726;
+            color: white;
+            border-color: #378726;
+        }
+
+        /* Color Swatches */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--spacing-3xl);
+        }
+
+        .color-scale-group {
+            background-color: var(--color-bg-secondary);
+            border-radius: 12px;
+            padding: var(--spacing-3xl);
+            border: 1px solid var(--color-border);
+        }
+
+        .color-scale-header {
+            margin-bottom: var(--spacing-3xl);
+        }
+
+        .color-scale-title {
+            font-size: 23px;
+            font-weight: 550;
+            margin-bottom: var(--spacing-md);
+            color: var(--color-text-primary);
+        }
+
+        .color-scale-description {
+            font-size: 14px;
+            color: var(--color-text-muted);
+            line-height: 1.5;
+        }
+
+        .color-swatches-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--color-border);
+        }
+
+        .color-swatch-item {
+            display: grid;
+            grid-template-columns: 80px 1fr auto;
+            align-items: center;
+            gap: var(--spacing-xl);
+            padding: var(--spacing-xl);
+            border-bottom: 1px solid var(--color-border);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .color-swatch-item:last-child {
+            border-bottom: none;
+        }
+
+        .color-swatch-item:hover {
+            background-color: rgba(194, 241, 65, 0.05);
+        }
+
+        .color-swatch-preview {
+            width: 80px;
+            height: 48px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .color-swatch-info {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .color-swatch-name {
+            font-size: 14px;
+            font-weight: 550;
+            color: var(--color-text-primary);
+            font-family: 'Monaco', 'Courier New', monospace;
+        }
+
+        .color-swatch-values {
+            display: flex;
+            gap: var(--spacing-xl);
+            flex-wrap: wrap;
+        }
+
+        .color-value-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .color-value-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            font-weight: 550;
+            color: var(--color-text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        .color-value-hex {
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 12px;
+            color: var(--color-text-secondary);
+        }
+
+        .color-copy-btn {
+            padding: var(--spacing-md) var(--spacing-xl);
+            background-color: var(--color-bg-primary);
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            color: var(--color-text-secondary);
+            font-size: 12px;
+            font-weight: 550;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: var(--font-family);
+            white-space: nowrap;
+        }
+
+        .color-copy-btn:hover {
+            background-color: var(--color-bg-tertiary);
+            color: var(--color-text-primary);
+            border-color: var(--color-border);
+        }
+
+        .color-copy-btn.copied {
+            background-color: #378726;
+            color: white;
+            border-color: #378726;
+        }
+
+        /* Semantic Colors Layout - Card Style */
+        .semantic-colors-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--spacing-3xl);
+            max-width: 100%;
+        }
+
+        .semantic-color-card {
+            background-color: #1D202B;
+            border-radius: 16px;
+            padding: var(--spacing-4xl);
+        }
+
+        .semantic-card-header {
+            margin-bottom: var(--spacing-3xl);
+            padding-bottom: var(--spacing-xl);
+        }
+
+        .semantic-card-title {
+            font-size: 23px;
+            font-weight: 550;
+            margin-bottom: var(--spacing-md);
+            color: var(--color-text-primary);
+        }
+
+        .semantic-card-description {
+            font-size: 14px;
+            color: var(--color-text-muted);
+            line-height: 1.5;
+        }
+
+        .semantic-card-tokens {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .semantic-token-item {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg);
+            padding: var(--spacing-xl);
+            background-color: #000000;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .semantic-token-item.copied::after {
+            content: 'Copiado!';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #378726;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 550;
+            pointer-events: none;
+            animation: fadeOut 1s forwards;
+        }
+
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            70% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        .semantic-token-color {
+            width: 100%;
+            height: 80px;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        .semantic-token-details {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .semantic-token-label {
+            font-size: 16px;
+            font-weight: 550;
+            color: var(--color-text-primary);
+        }
+
+        .semantic-token-path {
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 11px;
+            color: var(--color-text-muted);
+        }
+
+        .semantic-token-hex {
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 12px;
+            color: var(--color-text-muted);
+            margin-top: 4px;
+        }
+
+        .semantic-token-copy-btn {
+            padding: var(--spacing-md) var(--spacing-xl);
+            background-color: transparent;
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            color: var(--color-text-secondary);
+            font-size: 12px;
+            font-weight: 550;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: var(--font-family);
+            white-space: nowrap;
+            margin-top: 8px;
+        }
+
+        .semantic-token-copy-btn:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--color-text-primary);
+            border-color: var(--color-text-muted);
+        }
+
+        .semantic-token-copy-btn.copied {
+            background-color: transparent;
+            color: var(--color-accent);
+            border-color: var(--color-accent);
+        }
+
+        /* Theme Filter Select */
+        .theme-filter-container {
+            margin-bottom: var(--spacing-4xl);
+        }
+
+        .theme-filter-select {
+            max-width: 300px;
+            padding: var(--spacing-lg) 40px var(--spacing-lg) var(--spacing-xl);
+            background-color: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            color: var(--color-text-primary);
+            font-family: var(--font-family);
+            font-size: 14px;
+            font-weight: 550;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%2390939E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right var(--spacing-xl) center;
+        }
+
+        .theme-filter-select:hover {
+            border-color: var(--color-text-muted);
+        }
+
+        .theme-filter-select:focus {
+            outline: none;
+            border-color: var(--color-accent);
+        }
+
+        .theme-filter-select option {
+            background-color: var(--color-bg-secondary);
+            color: var(--color-text-primary);
+        }
+
+        /* Primitive Colors - Simple Row Style */
+        .primitives-section {
+            margin-top: var(--spacing-5xl);
+        }
+
+        .primitives-header {
+            margin-bottom: var(--spacing-3xl);
+            padding-bottom: var(--spacing-xl);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .primitives-title {
+            font-size: 28px;
+            font-weight: 550;
+            margin-bottom: var(--spacing-md);
+            color: var(--color-text-primary);
+        }
+
+        .primitives-description {
+            font-size: 16px;
+            color: var(--color-text-muted);
+        }
+
+        .primitive-scale {
+            margin-bottom: var(--spacing-4xl);
+        }
+
+        .primitive-scale-title {
+            font-size: 19px;
+            font-weight: 550;
+            color: var(--color-text-primary);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .primitive-colors-row {
+            display: grid;
+            gap: var(--spacing-md);
+        }
+
+        .primitive-color-item {
+            display: grid;
+            grid-template-columns: 40px 150px 1fr 1fr auto;
+            align-items: center;
+            gap: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background-color: var(--color-bg-secondary);
+            border-radius: 6px;
+            border: 1px solid var(--color-border);
+            transition: all 0.2s ease;
+        }
+
+        .primitive-color-item:hover {
+            background-color: var(--color-bg-tertiary);
+        }
+
+        .primitive-color-preview {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .primitive-color-name {
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 13px;
+            color: var(--color-text-primary);
+            font-weight: 550;
+        }
+
+        .primitive-color-value {
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 12px;
+            color: var(--color-text-muted);
+        }
+
+        .primitive-copy-btn {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            background-color: transparent;
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            color: var(--color-text-muted);
+            font-size: 11px;
+            font-weight: 550;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: var(--font-family);
+        }
+
+        .primitive-copy-btn:hover {
+            background-color: var(--color-bg-tertiary);
+            color: var(--color-text-primary);
+            border-color: var(--color-border);
+        }
+
+        /* Spacing Preview */
+        .spacing-preview {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xl);
+        }
+
+        .spacing-box {
+            background-color: var(--color-text-secondary);
+            opacity: 0.3;
+        }
+
+        /* Typography Preview */
+        .typography-preview {
+            background-color: var(--color-bg-tertiary);
+            border-radius: 8px;
+            padding: var(--spacing-3xl);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .typography-sample {
+            color: var(--color-text-primary);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .typography-specs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--spacing-lg);
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid var(--color-border);
+            font-size: 12px;
+            color: var(--color-text-muted);
+        }
+
+        .spec-item {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .spec-label {
+            font-weight: 550;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Search Bar */
+        .search-container {
+            margin-bottom: var(--spacing-4xl);
+        }
+
+        .search-input {
+            width: 100%;
+            max-width: 500px;
+            padding: var(--spacing-xl);
+            background-color: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            color: var(--color-text-primary);
+            font-family: var(--font-family);
+            font-size: 16px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--color-border);
+        }
+
+        .search-input::placeholder {
+            color: var(--color-text-muted);
+        }
+
+        /* Welcome Section */
+        .welcome-hero {
+            text-align: center;
+            padding: var(--spacing-5xl) 0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .welcome-title {
+            font-size: 64px;
+            font-weight: 550;
+            margin-bottom: var(--spacing-3xl);
+            color: var(--color-text-primary);
+        }
+
+        .welcome-description {
+            font-size: 19px;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--spacing-4xl);
+            line-height: 1.8;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-3xl);
+            margin-top: var(--spacing-5xl);
+        }
+
+        .stat-card {
+            background-color: var(--color-bg-secondary);
+            border-radius: 16px;
+            padding: var(--spacing-3xl);
+            text-align: center;
+            border: 1px solid var(--color-border);
+        }
+
+        .stat-number {
+            font-size: 41px;
+            font-weight: 550;
+            color: var(--color-text-primary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--color-text-muted);
+        }
+
+        /* Shadow Previews */
+        .shadow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: var(--spacing-3xl);
+        }
+
+        .shadow-preview-card {
+            background-color: var(--color-bg-tertiary);
+            border-radius: 8px;
+            padding: var(--spacing-4xl);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .shadow-box {
+            width: 100px;
+            height: 100px;
+            background-color: var(--color-bg-tertiary);
+            border-radius: 8px;
+        }
+
+        /* Color Tab System */
+        .color-tabs-wrapper {
+            margin-top: 24px;
+        }
+
+        .color-tab-buttons {
+            display: flex;
+            gap: 12px;
+            border-bottom: 2px solid var(--color-border);
+            margin-bottom: 32px;
+        }
+
+        .color-tab-button {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 550;
+            color: var(--color-text-muted);
+            transition: all 0.2s ease;
+            position: relative;
+            top: 2px;
+            font-family: var(--font-family);
+        }
+
+        .color-tab-button:hover {
+            color: var(--color-text-primary);
+        }
+
+        .color-tab-button.active {
+            color: var(--color-accent);
+            border-bottom-color: var(--color-accent);
+        }
+
+        .color-tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .color-tab-content.active {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                max-height: 50vh;
+            }
+
+            .main-content {
+                padding: var(--spacing-3xl);
+            }
+
+            .token-item {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-md);
+            }
+
+            .welcome-title {
+                font-size: 41px;
+            }
+
+            .color-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .color-swatch-item {
+                grid-template-columns: 60px 1fr;
+                gap: var(--spacing-md);
+            }
+
+            .color-swatch-preview {
+                width: 60px;
+                height: 40px;
+            }
+
+            .color-copy-btn {
+                grid-column: 1 / -1;
+                width: 100%;
+            }
+
+            .semantic-token-row {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-md);
+            }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--color-bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-border);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--color-text-muted);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">Royal DS</div>
+                <div class="logo-subtitle">Design System Documentation</div>
+            </div>
+
+            <nav>
+                <div class="nav-section">
+                    <div class="nav-section-title">Getting Started</div>
+                    <div class="nav-item active" data-section="welcome">Visão Geral</div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Foundation</div>
+                    <div class="nav-item" data-section="colors">Colors</div>
+                    <div class="nav-item" data-section="typography">Typography</div>
+                    <div class="nav-item" data-section="spacing">Spacing</div>
+                    <div class="nav-item" data-section="grid">Grid</div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Styles</div>
+                    <div class="nav-item" data-section="shadows">Shadows</div>
+                    <div class="nav-item" data-section="borders">Borders</div>
+                    <div class="nav-item" data-section="opacity">Opacity</div>
+                    <div class="nav-item" data-section="sizes">Sizes</div>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Welcome Section -->
+            <section id="welcome" class="content-section active">
+                <div class="welcome-hero">
+                    <h1 class="welcome-title">Royal DS</h1>
+                    <p class="welcome-description">
+                        Um Design System completo e moderno, desenvolvido para aplicações cross-platform.
+                        Baseado em tokens semânticos que garantem consistência visual e facilidade de manutenção
+                        em projetos React e Flutter.
+                    </p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Design Tokens</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">2</div>
+                        <div class="stat-label">Temas (Bank & Pro)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">Breakpoints</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Token-Based</div>
+                    </div>
+                </div>
+
+                <div class="token-category" style="margin-top: 48px;">
+                    <h2 class="token-category-title">Princípios do Sistema</h2>
+                    <div style="display: grid; gap: 24px; margin-top: 24px;">
+                        <div style="padding: 20px; background: var(--color-bg-tertiary); border-radius: 8px;">
+                            <h3 style="font-size: 19px; margin-bottom: 8px; color: var(--color-text-primary);">Tokens Semânticos</h3>
+                            <p style="color: var(--color-text-secondary); font-size: 14px;">
+                                Todos os tokens referenciam primitivos usando notação de chaves, permitindo mudanças cascateadas em todo o sistema.
+                            </p>
+                        </div>
+                        <div style="padding: 20px; background: var(--color-bg-tertiary); border-radius: 8px;">
+                            <h3 style="font-size: 19px; margin-bottom: 8px; color: var(--color-text-primary);">Cross-Platform</h3>
+                            <p style="color: var(--color-text-secondary); font-size: 14px;">
+                                Estrutura JSON unificada que pode ser consumida por React e Flutter, garantindo consistência entre plataformas.
+                            </p>
+                        </div>
+                        <div style="padding: 20px; background: var(--color-bg-tertiary); border-radius: 8px;">
+                            <h3 style="font-size: 19px; margin-bottom: 8px; color: var(--color-text-primary);">Contexto Adaptável</h3>
+                            <p style="color: var(--color-text-secondary); font-size: 14px;">
+                                Suporte para variações de contexto (Bank/Pro) e dispositivo (Mobile/Tablet/Desktop).
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Colors Section -->
+            <section id="colors" class="content-section">
+                <div class="section-header">
+                    <h1 class="section-title">Colors</h1>
+                    <p class="section-description">
+                        Sistema completo de cores com primitivos e tokens semânticos para surface, border, text e icon.
+                    </p>
+                </div>
+
+                <div id="colorsContent"></div>
+            </section>
+
+            <!-- Typography Section -->
+            <section id="typography" class="content-section">
+                <div class="section-header">
+                    <h1 class="section-title">Typography</h1>
+                    <p class="section-description">
+                        Sistema tipográfico usando JUST Sans Variable com pesos específicos (Light 200, Regular 350, Bold 550).
+                    </p>
+                </div>
+
+                <div id="typographyContent"></div>
+            </section>
+
+            <!-- Spacing Section -->
+            <section id="spacing" class="content-section">
+                <div class="section-header">
+                    <h1 class="section-title">Spacing</h1>
+                    <p class="section-description">
+                        Sistema de espaçamento com primitivos e tokens semânticos para inset, inline e stack.
+                    </p>
+                </div>
+
+                <div id="spacingContent"></div>
+            </section>
+
+            <!-- Grid Section -->
+            <section id="grid" class="content-section">
+                <div class="section-header">
+                    <h1 class="section-title">Grid</h1>
+                    <p class="section-description">
+                        Sistema de grid responsivo com definições para mobile, tablet e desktop.
+                    </p>
+                </div>
+
+                <div id="gridContent"></div>
+            </section>
+
+            <!-- Shadows Section -->
+            <section id="shadows" class="content-section">
+                <div class="section-header">
+                    <h1 class="section-title">Shadows</h1>
+                    <p class="section-description">
+                        Tokens de sombra com controle de distância, blur e spread.
+                    </p>
+                </div>
+
+                <div id="shadowsContent"></div>
+            </section>
+
+            <!-- Borders Section -->
+            <section id="borders" class="content-section">
+                <div class="section-header">
+                    <h1 class="section-title">Borders</h1>
+                    <p class="section-description">
+                        Tokens para border radius e width.
+                    </p>
+                </div>
+
+                <div id="bordersContent"></div>
+            </section>
+
+            <!-- Opacity Section -->
+            <section id="opacity" class="content-section">
+                <div class="section-header">
+                    <h1 class="section-title">Opacity</h1>
+                    <p class="section-description">
+                        Escala de opacidade para transparências e overlays.
+                    </p>
+                </div>
+
+                <div id="opacityContent"></div>
+            </section>
+
+            <!-- Sizes Section -->
+            <section id="sizes" class="content-section">
+                <div class="section-header">
+                    <h1 class="section-title">Sizes</h1>
+                    <p class="section-description">
+                        Tokens de tamanho para ícones, escalas, divisores e thumbs.
+                    </p>
+                </div>
+
+                <div id="sizesContent"></div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Design System Tokens Data
+        const designTokens = {
+  "spacing": {
+    "primitives": {
+      "zero": 0,
+      "2xs": 1,
+      "xs": 2,
+      "sm": 4,
+      "md": 8,
+      "lg": 12,
+      "xl": 16,
+      "2xl": 20,
+      "3xl": 24,
+      "4xl": 32,
+      "5xl": 48,
+      "6xl": 64,
+      "7xl": 96,
+      "8xl": 128,
+      "9xl": 160
+    },
+    "inset": {
+      "none": {
+        "mobile": "{spacing.primitives.zero}",
+        "tablet": "{spacing.primitives.zero}",
+        "desktop": "{spacing.primitives.zero}"
+      },
+      "2xs": {
+        "mobile": "{spacing.primitives.sm}",
+        "tablet": "{spacing.primitives.sm}",
+        "desktop": "{spacing.primitives.sm}"
+      },
+      "xs": {
+        "mobile": "{spacing.primitives.xs}",
+        "tablet": "{spacing.primitives.xs}",
+        "desktop": "{spacing.primitives.xs}"
+      },
+      "sm": {
+        "mobile": "{spacing.primitives.lg}",
+        "tablet": "{spacing.primitives.lg}",
+        "desktop": "{spacing.primitives.lg}"
+      },
+      "md": {
+        "mobile": "{spacing.primitives.xl}",
+        "tablet": "{spacing.primitives.xl}",
+        "desktop": "{spacing.primitives.xl}"
+      },
+      "lg": {
+        "mobile": "{spacing.primitives.3xl}",
+        "tablet": "{spacing.primitives.3xl}",
+        "desktop": "{spacing.primitives.3xl}"
+      },
+      "xl": {
+        "mobile": "{spacing.primitives.4xl}",
+        "tablet": "{spacing.primitives.4xl}",
+        "desktop": "{spacing.primitives.4xl}"
+      },
+      "2xl": {
+        "mobile": "{spacing.primitives.5xl}",
+        "tablet": "{spacing.primitives.5xl}",
+        "desktop": "{spacing.primitives.5xl}"
+      },
+      "3xl": {
+        "mobile": "{spacing.primitives.6xl}",
+        "tablet": "{spacing.primitives.6xl}",
+        "desktop": "{spacing.primitives.6xl}"
+      },
+      "4xl": {
+        "mobile": "{spacing.primitives.7xl}",
+        "tablet": "{spacing.primitives.7xl}",
+        "desktop": "{spacing.primitives.7xl}"
+      }
+    },
+    "inline": {
+      "none": {
+        "mobile": "{spacing.primitives.zero}",
+        "tablet": "{spacing.primitives.zero}",
+        "desktop": "{spacing.primitives.zero}"
+      },
+      "2xs": {
+        "mobile": "{spacing.primitives.xs}",
+        "tablet": "{spacing.primitives.xs}",
+        "desktop": "{spacing.primitives.xs}"
+      },
+      "xs": {
+        "mobile": "{spacing.primitives.sm}",
+        "tablet": "{spacing.primitives.sm}",
+        "desktop": "{spacing.primitives.sm}"
+      },
+      "sm": {
+        "mobile": "{spacing.primitives.md}",
+        "tablet": "{spacing.primitives.md}",
+        "desktop": "{spacing.primitives.md}"
+      },
+      "md": {
+        "mobile": "{spacing.primitives.lg}",
+        "tablet": "{spacing.primitives.lg}",
+        "desktop": "{spacing.primitives.lg}"
+      },
+      "lg": {
+        "mobile": "{spacing.primitives.xl}",
+        "tablet": "{spacing.primitives.xl}",
+        "desktop": "{spacing.primitives.xl}"
+      },
+      "xl": {
+        "mobile": "{spacing.primitives.2xl}",
+        "tablet": "{spacing.primitives.2xl}",
+        "desktop": "{spacing.primitives.2xl}"
+      },
+      "2xl": {
+        "mobile": "{spacing.primitives.3xl}",
+        "tablet": "{spacing.primitives.3xl}",
+        "desktop": "{spacing.primitives.3xl}"
+      },
+      "3xl": {
+        "mobile": "{spacing.primitives.4xl}",
+        "tablet": "{spacing.primitives.4xl}",
+        "desktop": "{spacing.primitives.4xl}"
+      },
+      "4xl": {
+        "mobile": 40,
+        "tablet": 40,
+        "desktop": 40
+      }
+    },
+    "stack": {
+      "none": {
+        "mobile": "{spacing.primitives.zero}",
+        "tablet": "{spacing.primitives.zero}",
+        "desktop": "{spacing.primitives.zero}"
+      },
+      "2xs": {
+        "mobile": "{spacing.primitives.sm}",
+        "tablet": "{spacing.primitives.sm}",
+        "desktop": "{spacing.primitives.sm}"
+      },
+      "xs": {
+        "mobile": "{spacing.primitives.md}",
+        "tablet": "{spacing.primitives.md}",
+        "desktop": "{spacing.primitives.md}"
+      },
+      "sm": {
+        "mobile": "{spacing.primitives.lg}",
+        "tablet": "{spacing.primitives.lg}",
+        "desktop": "{spacing.primitives.lg}"
+      },
+      "md": {
+        "mobile": "{spacing.primitives.xl}",
+        "tablet": "{spacing.primitives.xl}",
+        "desktop": "{spacing.primitives.xl}"
+      },
+      "lg": {
+        "mobile": "{spacing.primitives.3xl}",
+        "tablet": "{spacing.primitives.3xl}",
+        "desktop": "{spacing.primitives.3xl}"
+      },
+      "xl": {
+        "mobile": "{spacing.primitives.4xl}",
+        "tablet": "{spacing.primitives.4xl}",
+        "desktop": "{spacing.primitives.4xl}"
+      },
+      "2xl": {
+        "mobile": 40,
+        "tablet": 40,
+        "desktop": 40
+      },
+      "3xl": {
+        "mobile": "{spacing.primitives.5xl}",
+        "tablet": "{spacing.primitives.5xl}",
+        "desktop": "{spacing.primitives.5xl}"
+      },
+      "4xl": {
+        "mobile": "{spacing.primitives.6xl}",
+        "tablet": "{spacing.primitives.6xl}",
+        "desktop": "{spacing.primitives.6xl}"
+      }
+    }
+  },
+
+  "borderRadius": {
+    "none": {
+      "bank": "{spacing.primitives.zero}",
+      "pro": "{spacing.primitives.zero}"
+    },
+    "xs": {
+      "bank": "{spacing.primitives.sm}",
+      "pro": "{spacing.primitives.sm}"
+    },
+    "sm": {
+      "bank": "{spacing.primitives.xs}",
+      "pro": "{spacing.primitives.xs}"
+    },
+    "md": {
+      "bank": "{spacing.primitives.xl}",
+      "pro": "{spacing.primitives.xl}"
+    },
+    "lg": {
+      "bank": "{spacing.primitives.3xl}",
+      "pro": "{spacing.primitives.3xl}"
+    },
+    "pill": {
+      "bank": "{spacing.primitives.9xl}",
+      "pro": "{spacing.primitives.9xl}"
+    }
+  },
+
+  "color": {
+    "primitives": {
+      "gray": {
+        "0": { "dark": "#0C0F17", "light": "#F4F4F6" },
+        "100": { "dark": "#1D202B", "light": "#E4E4E6" },
+        "200": { "dark": "#383C48", "light": "#DCDCE0" },
+        "300": { "dark": "#454A56", "light": "#BBBCBF" },
+        "400": { "dark": "#707481", "light": "#9FA0A5" },
+        "500": { "dark": "#90939E", "light": "#808287" },
+        "600": { "dark": "#ADAFB8", "light": "#5E6167" },
+        "700": { "dark": "#C8CAD0", "light": "#464850" },
+        "800": { "dark": "#DBDCDE", "light": "#272A32" },
+        "900": { "dark": "#EBECED", "light": "#0C0F17" }
+      },
+      "red": {
+        "100": { "dark": "#750000", "light": "#FFDDD6" },
+        "200": { "dark": "#900000", "light": "#FFD2CA" },
+        "300": { "dark": "#D14031", "light": "#FEA597" },
+        "400": { "dark": "#F36855", "light": "#F77A69" },
+        "500": { "dark": "#FB9586", "light": "#DF4E3E" },
+        "600": { "dark": "#FFBBB0", "light": "#B42116" },
+        "700": { "dark": "#FFD2C9", "light": "#890000" },
+        "800": { "dark": "#FFE6E2", "light": "#510000" },
+        "900": { "dark": "#FFFAFA", "light": "#170D0C" }
+      },
+      "orange": {
+        "100": { "dark": "#682600", "light": "#FFDEC6" },
+        "200": { "dark": "#7D3000", "light": "#FFD4B4" },
+        "300": { "dark": "#C15300", "light": "#FFA76A" },
+        "400": { "dark": "#EB7003", "light": "#F87C22" },
+        "500": { "dark": "#FF954D", "light": "#D25D00" },
+        "600": { "dark": "#FFBD8D", "light": "#A04100" },
+        "700": { "dark": "#FFD3B2", "light": "#7A2F00" },
+        "800": { "dark": "#FFE7D6", "light": "#4A1900" },
+        "900": { "dark": "#FFFAF7", "light": "#17100C" }
+      },
+      "yellow": {
+        "100": { "dark": "#004700", "light": "#D7E9D3" },
+        "200": { "dark": "#005600", "light": "#CBE3C7" },
+        "300": { "dark": "#378726", "light": "#9BC891" },
+        "400": { "dark": "#5CA64D", "light": "#6DAF60" },
+        "500": { "dark": "#89BF7F", "light": "#439233" },
+        "600": { "dark": "#B2D5AB", "light": "#1C6F01" },
+        "700": { "dark": "#CAE3C5", "light": "#005300" },
+        "800": { "dark": "#E2EFDF", "light": "#003100" },
+        "900": { "dark": "#F9FCF9", "light": "#0F170C" }
+      },
+      "green": {
+        "100": { "dark": "#004700", "light": "#D7E9D3" },
+        "200": { "dark": "#005600", "light": "#CBE3C7" },
+        "300": { "dark": "#378726", "light": "#9BC891" },
+        "400": { "dark": "#5CA64D", "light": "#6DAF60" },
+        "500": { "dark": "#89BF7F", "light": "#439233" },
+        "600": { "dark": "#B2D5AB", "light": "#1C6F01" },
+        "700": { "dark": "#CAE3C5", "light": "#005300" },
+        "800": { "dark": "#E2EFDF", "light": "#003100" },
+        "900": { "dark": "#F9FCF9", "light": "#0F170C" }
+      },
+      "blue": {
+        "100": { "dark": "#1F2B9B", "light": "#DAE4FF" },
+        "200": { "dark": "#293DAC", "light": "#CFDCFF" },
+        "300": { "dark": "#506DE0", "light": "#A2BFFF" },
+        "400": { "dark": "#6E8EFF", "light": "#7C9BFF" },
+        "500": { "dark": "#94AFFF", "light": "#5A79EE" },
+        "600": { "dark": "#B7CBFF", "light": "#3C56C7" },
+        "700": { "dark": "#CEDCFF", "light": "#2739A8" },
+        "800": { "dark": "#E4ECFF", "light": "#11057E" },
+        "900": { "dark": "#FABFFF", "light": "#0C0F17" }
+      },
+      "neutral": {
+        "light": { "dark": "{color.primitives.gray.900.dark}", "light": "{color.primitives.gray.0.light}" },
+        "dark": { "dark": "{color.primitives.gray.0.dark}", "light": "{color.primitives.gray.0.dark}" }
+      },
+      "brand": {
+        "green": { "dark": "#C2F141", "light": "#C2F141" }
+      }
+    },
+    "surface": {
+      "neutral": {
+        "default": {
+          "bank": "{color.primitives.gray.0.dark}",
+          "pro": "{color.primitives.gray.0.dark}"
+        },
+        "secondary": {
+          "bank": "{color.primitives.gray.100.dark}",
+          "pro": "{color.primitives.gray.100.dark}"
+        },
+        "tertiary": {
+          "bank": "{color.primitives.gray.200.dark}",
+          "pro": "{color.primitives.gray.200.dark}"
+        },
+        "inverse": {
+          "bank": "{color.primitives.gray.900.dark}",
+          "pro": "{color.primitives.gray.900.dark}"
+        }
+      },
+      "accent": {
+        "soft": {
+          "bank": "{color.primitives.gray.400.dark}",
+          "pro": "{color.primitives.gray.400.dark}"
+        },
+        "default": {
+          "bank": "{color.primitives.gray.600.dark}",
+          "pro": "{color.primitives.gray.600.dark}"
+        },
+        "strong": {
+          "bank": "{color.primitives.gray.700.dark}",
+          "pro": "{color.primitives.gray.700.dark}"
+        },
+        "stronger": {
+          "bank": "{color.primitives.gray.900.dark}",
+          "pro": "{color.primitives.gray.900.dark}"
+        }
+      },
+      "info": {
+        "soft": {
+          "bank": "{color.primitives.blue.100.dark}",
+          "pro": "{color.primitives.blue.100.dark}"
+        },
+        "default": {
+          "bank": "{color.primitives.blue.200.dark}",
+          "pro": "{color.primitives.blue.200.dark}"
+        },
+        "strong": {
+          "bank": "{color.primitives.blue.300.dark}",
+          "pro": "{color.primitives.blue.300.dark}"
+        },
+        "stronger": {
+          "bank": "{color.primitives.blue.600.dark}",
+          "pro": "{color.primitives.blue.600.dark}"
+        }
+      },
+      "success": {
+        "soft": {
+          "bank": "{color.primitives.green.100.dark}",
+          "pro": "{color.primitives.green.100.dark}"
+        },
+        "default": {
+          "bank": "{color.primitives.green.200.dark}",
+          "pro": "{color.primitives.green.200.dark}"
+        },
+        "strong": {
+          "bank": "{color.primitives.green.300.dark}",
+          "pro": "{color.primitives.green.300.dark}"
+        },
+        "stronger": {
+          "bank": "{color.primitives.green.600.dark}",
+          "pro": "{color.primitives.green.600.dark}"
+        }
+      },
+      "warning": {
+        "soft": {
+          "bank": "{color.primitives.orange.100.dark}",
+          "pro": "{color.primitives.orange.100.dark}"
+        },
+        "default": {
+          "bank": "{color.primitives.orange.200.dark}",
+          "pro": "{color.primitives.orange.200.dark}"
+        },
+        "strong": {
+          "bank": "{color.primitives.orange.300.dark}",
+          "pro": "{color.primitives.orange.300.dark}"
+        },
+        "stronger": {
+          "bank": "{color.primitives.orange.800.dark}",
+          "pro": "{color.primitives.orange.800.dark}"
+        }
+      },
+      "danger": {
+        "soft": {
+          "bank": "{color.primitives.red.100.dark}",
+          "pro": "{color.primitives.red.100.dark}"
+        },
+        "default": {
+          "bank": "{color.primitives.red.200.dark}",
+          "pro": "{color.primitives.red.200.dark}"
+        },
+        "strong": {
+          "bank": "{color.primitives.red.300.dark}",
+          "pro": "{color.primitives.red.300.dark}"
+        },
+        "stronger": {
+          "bank": "{color.primitives.red.600.dark}",
+          "pro": "{color.primitives.red.600.dark}"
+        }
+      },
+      "translucent": {
+        "default": {
+          "bank": { "color": "{color.primitives.gray.0.dark}", "opacity": "95%" },
+          "pro": { "color": "{color.primitives.gray.0.dark}", "opacity": "95%" }
+        },
+        "inverse": {
+          "bank": { "color": "{color.primitives.gray.0.light}", "opacity": "95%" },
+          "pro": { "color": "{color.primitives.gray.0.light}", "opacity": "95%" }
+        }
+      }
+    },
+    "border": {
+      "neutral": {
+        "soft": {
+          "bank": "{color.primitives.gray.200.dark}",
+          "pro": "{color.primitives.gray.200.dark}"
+        },
+        "default": {
+          "bank": "{color.primitives.gray.300.dark}",
+          "pro": "{color.primitives.gray.300.dark}"
+        },
+        "strong": {
+          "bank": "{color.primitives.gray.500.dark}",
+          "pro": "{color.primitives.gray.500.dark}"
+        },
+        "inverse": {
+          "bank": "{color.primitives.gray.0.dark}",
+          "pro": "{color.primitives.gray.0.dark}"
+        }
+      },
+      "accent": {
+        "default": {
+          "bank": "{color.primitives.gray.600.dark}",
+          "pro": "{color.primitives.gray.600.dark}"
+        },
+        "strong": {
+          "bank": "{color.primitives.gray.700.dark}",
+          "pro": "{color.primitives.gray.700.dark}"
+        }
+      },
+      "info": {
+        "default": {
+          "bank": "{color.primitives.blue.200.dark}",
+          "pro": "{color.primitives.blue.200.dark}"
+        },
+        "strong": {
+          "bank": "{color.primitives.blue.300.dark}",
+          "pro": "{color.primitives.blue.300.dark}"
+        }
+      },
+      "success": {
+        "default": {
+          "bank": "{color.primitives.green.200.dark}",
+          "pro": "{color.primitives.green.200.dark}"
+        },
+        "strong": {
+          "bank": "{color.primitives.green.300.dark}",
+          "pro": "{color.primitives.green.300.dark}"
+        }
+      },
+      "warning": {
+        "default": {
+          "bank": "{color.primitives.orange.200.dark}",
+          "pro": "{color.primitives.orange.200.dark}"
+        },
+        "strong": {
+          "bank": "{color.primitives.orange.300.dark}",
+          "pro": "{color.primitives.orange.300.dark}"
+        }
+      },
+      "danger": {
+        "default": {
+          "bank": "{color.primitives.red.200.dark}",
+          "pro": "{color.primitives.red.200.dark}"
+        },
+        "strong": {
+          "bank": "{color.primitives.red.300.dark}",
+          "pro": "{color.primitives.red.300.dark}"
+        }
+      }
+    },
+    "text": {
+      "neutral": {
+        "soft": {
+          "bank": "{color.primitives.gray.500.dark}",
+          "pro": "{color.primitives.gray.500.dark}"
+        },
+        "default": {
+          "bank": "{color.primitives.gray.700.dark}",
+          "pro": "{color.primitives.gray.700.dark}"
+        },
+        "strong": {
+          "bank": "{color.primitives.gray.900.dark}",
+          "pro": "{color.primitives.gray.900.dark}"
+        },
+        "inverse": {
+          "bank": "{color.primitives.gray.0.dark}",
+          "pro": "{color.primitives.gray.0.dark}"
+        }
+      },
+      "accent": {
+        "default": {
+          "bank": "{color.primitives.brand.green.dark}",
+          "pro": "{color.primitives.brand.green.dark}"
+        },
+        "strong": {
+          "bank": "{color.primitives.brand.green.dark}",
+          "pro": "{color.primitives.brand.green.dark}"
+        }
+      },
+      "info": {
+        "soft": {
+          "bank": "{color.primitives.blue.400.dark}",
+          "pro": "{color.primitives.blue.400.dark}"
+        },
+        "default": {
+          "bank": "{color.primitives.blue.700.dark}",
+          "pro": "{color.primitives.blue.700.dark}"
+        },
+        "strong": {
+          "bank": "{color.primitives.blue.900.dark}",
+          "pro": "{color.primitives.blue.900.dark}"
+        }
+      },
+      "success": {
+        "soft": {
+          "bank": "{color.primitives.green.400.dark}",
+          "pro": "{color.primitives.green.400.dark}"
+        },
+        "default": {
+          "bank": "{color.primitives.green.700.dark}",
+          "pro": "{color.primitives.green.700.dark}"
+        },
+        "strong": {
+          "bank": "{color.primitives.green.900.dark}",
+          "pro": "{color.primitives.green.900.dark}"
+        }
+      },
+      "warning": {
+        "soft": {
+          "bank": "{color.primitives.orange.500.dark}",
+          "pro": "{color.primitives.orange.500.dark}"
+        },
+        "default": {
+          "bank": "{color.primitives.orange.800.dark}",
+          "pro": "{color.primitives.orange.800.dark}"
+        },
+        "strong": {
+          "bank": "{color.primitives.orange.900.dark}",
+          "pro": "{color.primitives.orange.900.dark}"
+        }
+      },
+      "danger": {
+        "soft": {
+          "bank": "{color.primitives.red.400.dark}",
+          "pro": "{color.primitives.red.400.dark}"
+        },
+        "default": {
+          "bank": "{color.primitives.red.700.dark}",
+          "pro": "{color.primitives.red.700.dark}"
+        },
+        "strong": {
+          "bank": "{color.primitives.red.900.dark}",
+          "pro": "{color.primitives.red.900.dark}"
+        }
+      }
+    },
+    "icon": {
+      "neutral": {
+        "strong": {
+          "bank": "{color.primitives.gray.900.dark}",
+          "pro": "{color.primitives.gray.900.dark}"
+        },
+        "default": {
+          "bank": "{color.primitives.gray.700.dark}",
+          "pro": "{color.primitives.gray.700.dark}"
+        },
+        "soft": {
+          "bank": "{color.primitives.gray.500.dark}",
+          "pro": "{color.primitives.gray.500.dark}"
+        },
+        "softer": {
+          "bank": "{color.primitives.gray.300.dark}",
+          "pro": "{color.primitives.gray.300.dark}"
+        },
+        "inverse": {
+          "bank": "{color.primitives.gray.0.dark}",
+          "pro": "{color.primitives.gray.0.dark}"
+        }
+      },
+      "accent": {
+        "default": {
+          "bank": "{color.primitives.brand.green.dark}",
+          "pro": "{color.primitives.brand.green.dark}"
+        },
+        "strong": {
+          "bank": "{color.primitives.brand.green.dark}",
+          "pro": "{color.primitives.brand.green.dark}"
+        }
+      },
+      "info": {
+        "default": {
+          "bank": "{color.primitives.blue.300.dark}",
+          "pro": "{color.primitives.blue.300.dark}"
+        },
+        "strong": {
+          "bank": "{color.primitives.blue.700.dark}",
+          "pro": "{color.primitives.blue.700.dark}"
+        }
+      },
+      "success": {
+        "default": {
+          "bank": "{color.primitives.green.300.dark}",
+          "pro": "{color.primitives.green.300.dark}"
+        },
+        "strong": {
+          "bank": "{color.primitives.green.700.dark}",
+          "pro": "{color.primitives.green.700.dark}"
+        }
+      },
+      "warning": {
+        "default": {
+          "bank": "{color.primitives.orange.500.dark}",
+          "pro": "{color.primitives.orange.500.dark}"
+        },
+        "strong": {
+          "bank": "{color.primitives.orange.800.dark}",
+          "pro": "{color.primitives.orange.800.dark}"
+        }
+      },
+      "danger": {
+        "default": {
+          "bank": "{color.primitives.red.300.dark}",
+          "pro": "{color.primitives.red.300.dark}"
+        },
+        "strong": {
+          "bank": "{color.primitives.red.700.dark}",
+          "pro": "{color.primitives.red.700.dark}"
+        }
+      }
+    },
+    "utility": {
+      "light": {
+        "bank": "{color.primitives.gray.900.dark}",
+        "pro": "{color.primitives.gray.900.dark}"
+      },
+      "dark": {
+        "bank": "{color.primitives.gray.0.dark}",
+        "pro": "{color.primitives.gray.0.dark}"
+      }
+    },
+    "shadow": {
+      "soft": {
+        "bank": { "color": "{color.primitives.gray.0.dark}", "opacity": "12%" },
+        "pro": { "color": "{color.primitives.gray.0.dark}", "opacity": "12%" }
+      },
+      "medium": {
+        "bank": { "color": "{color.primitives.gray.0.dark}", "opacity": "32%" },
+        "pro": { "color": "{color.primitives.gray.0.dark}", "opacity": "32%" }
+      },
+      "intense": {
+        "bank": { "color": "{color.primitives.gray.0.dark}", "opacity": "64%" },
+        "pro": { "color": "{color.primitives.gray.0.dark}", "opacity": "64%" }
+      }
+    }
+  },
+
+  "shadow": {
+    "distance": {
+      "3xs": {
+        "bank": -16,
+        "pro": -16
+      },
+      "2xs": {
+        "bank": "{spacing.primitives.md}",
+        "pro": "{spacing.primitives.md}"
+      },
+      "xs": {
+        "bank": "{spacing.primitives.sm}",
+        "pro": "{spacing.primitives.sm}"
+      },
+      "sm": {
+        "bank": "{spacing.primitives.2xs}",
+        "pro": "{spacing.primitives.2xs}"
+      },
+      "md": {
+        "bank": "{spacing.primitives.zero}",
+        "pro": "{spacing.primitives.zero}"
+      },
+      "lg": {
+        "bank": "{spacing.primitives.2xs}",
+        "pro": "{spacing.primitives.2xs}"
+      },
+      "xl": {
+        "bank": "{spacing.primitives.xs}",
+        "pro": "{spacing.primitives.xs}"
+      },
+      "2xl": {
+        "bank": "{spacing.primitives.sm}",
+        "pro": "{spacing.primitives.sm}"
+      },
+      "3xl": {
+        "bank": "{spacing.primitives.md}",
+        "pro": "{spacing.primitives.md}"
+      },
+      "4xl": {
+        "bank": "{spacing.primitives.xl}",
+        "pro": "{spacing.primitives.xl}"
+      }
+    },
+    "blur": {
+      "none": {
+        "bank": "{spacing.primitives.zero}",
+        "pro": "{spacing.primitives.zero}"
+      },
+      "sm": {
+        "bank": "{spacing.primitives.xs}",
+        "pro": "{spacing.primitives.xs}"
+      },
+      "md": {
+        "bank": "{spacing.primitives.sm}",
+        "pro": "{spacing.primitives.sm}"
+      },
+      "lg": {
+        "bank": "{spacing.primitives.md}",
+        "pro": "{spacing.primitives.md}"
+      },
+      "xl": {
+        "bank": "{spacing.primitives.xl}",
+        "pro": "{spacing.primitives.xl}"
+      },
+      "2xl": {
+        "bank": "{spacing.primitives.4xl}",
+        "pro": "{spacing.primitives.4xl}"
+      }
+    },
+    "spread": {
+      "xs": {
+        "bank": "{spacing.primitives.md}",
+        "pro": "{spacing.primitives.md}"
+      },
+      "sm": {
+        "bank": "{spacing.primitives.sm}",
+        "pro": "{spacing.primitives.sm}"
+      },
+      "md": {
+        "bank": "{spacing.primitives.zero}",
+        "pro": "{spacing.primitives.zero}"
+      }
+    }
+  },
+
+  "borderWidth": {
+    "none": {
+      "bank": "{spacing.primitives.zero}",
+      "pro": "{spacing.primitives.zero}"
+    },
+    "thin": {
+      "bank": "{spacing.primitives.2xs}",
+      "pro": "{spacing.primitives.2xs}"
+    },
+    "thick": {
+      "bank": "{spacing.primitives.xs}",
+      "pro": "{spacing.primitives.xs}"
+    },
+    "thicker": {
+      "bank": "{spacing.primitives.sm}",
+      "pro": "{spacing.primitives.sm}"
+    }
+  },
+
+  "opacity": {
+    "transparent": {
+      "bank": 0,
+      "pro": 0
+    },
+    "low": {
+      "bank": 12,
+      "pro": 12
+    },
+    "medium": {
+      "bank": 32,
+      "pro": 32
+    },
+    "high": {
+      "bank": 64,
+      "pro": 64
+    },
+    "higher": {
+      "bank": 95,
+      "pro": 95
+    },
+    "opaque": {
+      "bank": 100,
+      "pro": 100
+    }
+  },
+
+  "size": {
+    "icon": {
+      "xs": {
+        "bank": "{spacing.primitives.xl}",
+        "pro": "{spacing.primitives.xl}"
+      },
+      "sm": {
+        "bank": "{spacing.primitives.2xl}",
+        "pro": "{spacing.primitives.2xl}"
+      },
+      "md": {
+        "bank": "{spacing.primitives.3xl}",
+        "pro": "{spacing.primitives.3xl}"
+      },
+      "lg": {
+        "bank": "{spacing.primitives.4xl}",
+        "pro": "{spacing.primitives.4xl}"
+      },
+      "xl": {
+        "bank": "{spacing.primitives.5xl}",
+        "pro": "{spacing.primitives.5xl}"
+      }
+    },
+    "scale": {
+      "shrink": {
+        "bank": 0.95,
+        "pro": 0.95
+      },
+      "normal": {
+        "bank": 1,
+        "pro": 1
+      },
+      "grow": {
+        "bank": 1.05,
+        "pro": 1.05
+      }
+    },
+    "divider": {
+      "default": {
+        "bank": "{spacing.primitives.2xs}",
+        "pro": "{spacing.primitives.2xs}"
+      },
+      "thick": {
+        "bank": "{spacing.primitives.md}",
+        "pro": "{spacing.primitives.md}"
+      },
+      "thicker": {
+        "bank": "{spacing.primitives.xl}",
+        "pro": "{spacing.primitives.xl}"
+      }
+    },
+    "thumb": {
+      "sm": {
+        "bank": "{spacing.primitives.4xl}",
+        "pro": "{spacing.primitives.4xl}"
+      },
+      "md": {
+        "bank": "{spacing.primitives.5xl}",
+        "pro": "{spacing.primitives.5xl}"
+      },
+      "lg": {
+        "bank": "{spacing.primitives.6xl}",
+        "pro": "{spacing.primitives.6xl}"
+      },
+      "xl": {
+        "bank": "{spacing.primitives.7xl}",
+        "pro": "{spacing.primitives.7xl}"
+      }
+    }
+  },
+
+  "font": {
+    "primitives": {
+      "style": {
+        "normal": "normal",
+        "italic": "italic"
+      },
+      "scale": {
+        "major2nd": 1.13,
+        "minor3rd": 1.2,
+        "major3rd": 1.25,
+        "perfect4th": 1.33
+      },
+      "letterspacing": {
+        "3xs": -1,
+        "2xs": -0.5,
+        "xs": -0.25,
+        "sm": -0.13,
+        "md": 0,
+        "lg": 0.13,
+        "xl": 0.25,
+        "2xl": 0.5,
+        "3xl": 1
+      }
+    },
+    "scale": {
+      "mobile": 1,
+      "tablet": 1,
+      "desktop": 1
+    },
+    "lineheight": {
+      "2xs": { "mobile": "{spacing.primitives.lg}", "tablet": "{spacing.primitives.lg}", "desktop": "{spacing.primitives.lg}" },
+      "xs": { "mobile": "{spacing.primitives.xl}", "tablet": "{spacing.primitives.xl}", "desktop": "{spacing.primitives.xl}" },
+      "sm": { "mobile": "{spacing.primitives.2xl}", "tablet": "{spacing.primitives.2xl}", "desktop": "{spacing.primitives.2xl}" },
+      "md": { "mobile": "{spacing.primitives.3xl}", "tablet": "{spacing.primitives.3xl}", "desktop": "{spacing.primitives.3xl}" },
+      "lg": { "mobile": 28, "tablet": 28, "desktop": 28 },
+      "xl": { "mobile": 36, "tablet": 36, "desktop": 36 },
+      "2xl": { "mobile": 44, "tablet": 44, "desktop": 44 }
+    },
+    "size": {
+      "base": "{spacing.primitives.xl}",
+      "2xs": { "mobile": 11, "tablet": 11, "desktop": 11 },
+      "xs": { "mobile": "{spacing.primitives.lg}", "tablet": "{spacing.primitives.lg}", "desktop": "{spacing.primitives.lg}" },
+      "sm": { "mobile": 14, "tablet": 14, "desktop": 14 },
+      "md": { "mobile": "{spacing.primitives.xl}", "tablet": "{spacing.primitives.xl}", "desktop": "{spacing.primitives.xl}" },
+      "lg": { "mobile": 19, "tablet": 19, "desktop": 19 },
+      "xl": { "mobile": 23, "tablet": 23, "desktop": 23 },
+      "2xl": { "mobile": 28, "tablet": 28, "desktop": 28 },
+      "3xl": { "mobile": 34, "tablet": 34, "desktop": 34 },
+      "4xl": { "mobile": 41, "tablet": 41, "desktop": 41 }
+    },
+    "weight": {
+      "light": { "mobile": 200, "tablet": 200, "desktop": 200 },
+      "regular": { "mobile": 350, "tablet": 350, "desktop": 350 },
+      "bold": { "mobile": 550, "tablet": 550, "desktop": 550 }
+    },
+    "letterspacing": {
+      "tighter": {
+        "mobile": "{font.primitives.letterspacing.3xs}",
+        "tablet": "{font.primitives.letterspacing.3xs}",
+        "desktop": "{font.primitives.letterspacing.3xs}"
+      },
+      "tight": {
+        "mobile": "{font.primitives.letterspacing.2xs}",
+        "tablet": "{font.primitives.letterspacing.2xs}",
+        "desktop": "{font.primitives.letterspacing.2xs}"
+      },
+      "normal": {
+        "mobile": "{font.primitives.letterspacing.md}",
+        "tablet": "{font.primitives.letterspacing.md}",
+        "desktop": "{font.primitives.letterspacing.md}"
+      },
+      "loose": {
+        "mobile": "{font.primitives.letterspacing.lg}",
+        "tablet": "{font.primitives.letterspacing.lg}",
+        "desktop": "{font.primitives.letterspacing.lg}"
+      },
+      "comfortable": {
+        "mobile": "{font.primitives.letterspacing.xl}",
+        "tablet": "{font.primitives.letterspacing.xl}",
+        "desktop": "{font.primitives.letterspacing.xl}"
+      }
+    }
+  },
+
+  "fontTheme": {
+    "face": {
+      "brand": {
+        "bank": "JUST Sans Variable",
+        "pro": "JUST Sans Variable"
+      },
+      "body": {
+        "bank": "JUST Sans Variable",
+        "pro": "JUST Sans Variable"
+      },
+      "fallback": {
+        "bank": "system-ui",
+        "pro": "system-ui"
+      },
+      "family": {
+        "bank": "sans-serif",
+        "pro": "sans-serif"
+      }
+    },
+    "weight": {
+      "heading": {
+        "bank": "{font.weight.bold.mobile}",
+        "pro": "{font.weight.bold.mobile}"
+      },
+      "subtitle": {
+        "bank": "{font.weight.light.mobile}",
+        "pro": "{font.weight.light.mobile}"
+      },
+      "overline": {
+        "bank": "{font.weight.bold.mobile}",
+        "pro": "{font.weight.bold.mobile}"
+      },
+      "body": {
+        "bank": "{font.weight.regular.mobile}",
+        "pro": "{font.weight.regular.mobile}"
+      },
+      "ui": {
+        "bank": "{font.weight.bold.mobile}",
+        "pro": "{font.weight.bold.mobile}"
+      },
+      "number": {
+        "bank": "{font.weight.bold.mobile}",
+        "pro": "{font.weight.bold.mobile}"
+      }
+    },
+    "size": {
+      "base": {
+        "bank": "{font.size.base}",
+        "pro": "{font.size.base}"
+      }
+    },
+    "scale": {
+      "mobile": {
+        "bank": "{font.primitives.scale.minor3rd}",
+        "pro": "{font.primitives.scale.minor3rd}"
+      },
+      "tablet": {
+        "bank": "{font.scale.tablet}",
+        "pro": "{font.scale.tablet}"
+      },
+      "desktop": {
+        "bank": "{font.scale.desktop}",
+        "pro": "{font.scale.desktop}"
+      }
+    }
+  },
+
+  "grid": {
+    "column": {
+      "count": {
+        "mobile": 5,
+        "tablet": 6,
+        "desktop": 12
+      }
+    },
+    "size": {
+      "vw": {
+        "mobile": 393,
+        "tablet": 744,
+        "desktop": 1440
+      },
+      "vh": {
+        "mobile": 852,
+        "tablet": 1133,
+        "desktop": 1024
+      },
+      "container": {
+        "mobile": 852,
+        "tablet": 648,
+        "desktop": 1280
+      }
+    },
+    "space": {
+      "gap": {
+        "mobile": "{spacing.primitives.xl}",
+        "tablet": "{spacing.primitives.3xl}",
+        "desktop": "{spacing.primitives.3xl}"
+      },
+      "margin": {
+        "mobile": "{spacing.primitives.3xl}",
+        "tablet": "{spacing.primitives.5xl}",
+        "desktop": 80
+      }
+    }
+  }
+};
+
+        // Color Mode State - Global variable
+        let currentColorMode = 'dark'; // Default is dark mode
+
+        // Utility functions
+        function resolveToken(tokenPath, mode = 'dark') {
+            const match = tokenPath.match(/\{([^}]+)\}/);
+            if (!match) return tokenPath;
+
+            const path = match[1].split('.');
+            let value = designTokens;
+
+            for (const key of path) {
+                value = value?.[key];
+            }
+
+            // If value is an object with dark/light, return the appropriate mode
+            if (value && typeof value === 'object' && value.hasOwnProperty('dark') && value.hasOwnProperty('light')) {
+                return value[mode];
+            }
+
+            return value !== undefined ? resolveToken(String(value), mode) : tokenPath;
+        }
+
+        function formatValue(value) {
+            if (typeof value === 'string' && value.includes('{')) {
+                const resolved = resolveToken(value);
+                return `${value} → ${resolved}`;
+            }
+            return value;
+        }
+
+        function copyToClipboard(text, button) {
+            navigator.clipboard.writeText(text).then(() => {
+                button.textContent = 'Copiado!';
+                button.classList.add('copied');
+                setTimeout(() => {
+                    button.textContent = 'Copiar';
+                    button.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        function copyColorWithFeedback(color, element) {
+            navigator.clipboard.writeText(color).then(() => {
+                element.classList.add('copied');
+                setTimeout(() => {
+                    element.classList.remove('copied');
+                }, 1000);
+            });
+        }
+
+        // Color Tab Switching
+        function switchColorTab(event, tabId) {
+            // Remove active class from all tab buttons and contents
+            const buttons = document.querySelectorAll('.color-tab-button');
+            const contents = document.querySelectorAll('.color-tab-content');
+
+            buttons.forEach(button => button.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+
+            // Add active class to clicked button and corresponding content
+            event.target.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        // Make switchColorTab function global
+        window.switchColorTab = switchColorTab;
+
+        // Copy Semantic Color Function
+        function copySemanticColor(color, button) {
+            navigator.clipboard.writeText(color).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Copiado!';
+                button.classList.add('copied');
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        // Filter Theme Function
+        function filterTheme(theme) {
+            const cards = document.querySelectorAll('.semantic-color-card');
+            cards.forEach(card => {
+                if (theme === 'all') {
+                    card.style.display = 'block';
+                } else {
+                    const cardTheme = card.getAttribute('data-theme');
+                    card.style.display = cardTheme === theme ? 'block' : 'none';
+                }
+            });
+        }
+
+        // Make functions global
+        window.copySemanticColor = copySemanticColor;
+        window.filterTheme = filterTheme;
+
+        // Navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const section = item.dataset.section;
+
+                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+                item.classList.add('active');
+
+                document.querySelectorAll('.content-section').forEach(el => el.classList.remove('active'));
+                document.getElementById(section).classList.add('active');
+
+                // Load content if needed
+                loadSectionContent(section);
+            });
+        });
+
+        // Load section content
+        function loadSectionContent(section) {
+            const container = document.getElementById(section + 'Content');
+            if (!container || container.innerHTML) return;
+
+            switch(section) {
+                case 'colors':
+                    renderColors(container);
+                    break;
+                case 'typography':
+                    renderTypography(container);
+                    break;
+                case 'spacing':
+                    renderSpacing(container);
+                    break;
+                case 'grid':
+                    renderGrid(container);
+                    break;
+                case 'shadows':
+                    renderShadows(container);
+                    break;
+                case 'borders':
+                    renderBorders(container);
+                    break;
+                case 'opacity':
+                    renderOpacity(container);
+                    break;
+                case 'sizes':
+                    renderSizes(container);
+                    break;
+            }
+        }
+
+        // Render functions
+        function renderColors(container) {
+    const primitives = designTokens.color.primitives;
+    const semantic = designTokens.color;
+    let html = '';
+
+    // Tab System
+    html += `
+        <div class="color-tabs-wrapper">
+            <div class="color-tab-buttons">
+                <button class="color-tab-button active" onclick="switchColorTab(event, 'semantic-colors-tab')">
+                    Cores Semânticas
+                </button>
+                <button class="color-tab-button" onclick="switchColorTab(event, 'primitive-colors-tab')">
+                    Cores Primitivas
+                </button>
+            </div>
+
+            <!-- Semantic Colors Tab Content -->
+            <div id="semantic-colors-tab" class="color-tab-content active">
+    `;
+
+    // Section 1: SEMANTIC COLORS (Cards) - Priority Display
+    html += '<div style="margin-bottom: 64px;"><h2 style="font-size: 34px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">Semantic Colors</h2>';
+    html += '<p style="font-size: 16px; color: var(--color-text-muted); margin-bottom: 32px;">Tokens semânticos prontos para uso em componentes e interfaces</p>';
+
+    // Theme Filter Select
+    html += `
+        <div class="theme-filter-container">
+            <select id="themeFilter" class="theme-filter-select" onchange="filterTheme(this.value)">
+                <option value="all">Todos</option>
+                <option value="surface">Surface</option>
+                <option value="text">Text</option>
+                <option value="border">Border</option>
+                <option value="icon">Icon</option>
+                <option value="utility">Utility</option>
+                <option value="shadow">Shadow</option>
+            </select>
+        </div>
+    `;
+
+    html += '<div class="semantic-colors-grid">';
+
+    // Surface Card
+    html += `
+        <div class="semantic-color-card" data-theme="surface">
+            <div class="semantic-card-header">
+                <h3 class="semantic-card-title">Surface</h3>
+                <p class="semantic-card-description">Cores de background e superfícies</p>
+            </div>
+            <div class="semantic-card-tokens">
+    `;
+
+    const surfaceTokens = [
+        { name: 'Default', path: 'surface.neutral.default', token: semantic.surface.neutral.default.bank },
+        { name: 'Secondary', path: 'surface.neutral.secondary', token: semantic.surface.neutral.secondary.bank },
+        { name: 'Tertiary', path: 'surface.neutral.tertiary', token: semantic.surface.neutral.tertiary.bank },
+        { name: 'Inverse', path: 'surface.neutral.inverse', token: semantic.surface.neutral.inverse.bank },
+        { name: 'Accent Soft', path: 'surface.accent.soft', token: semantic.surface.accent.soft.bank },
+        { name: 'Accent Default', path: 'surface.accent.default', token: semantic.surface.accent.default.bank },
+        { name: 'Info', path: 'surface.info.default', token: semantic.surface.info.default.bank },
+        { name: 'Success', path: 'surface.success.default', token: semantic.surface.success.default.bank },
+        { name: 'Warning', path: 'surface.warning.default', token: semantic.surface.warning.default.bank },
+        { name: 'Danger', path: 'surface.danger.default', token: semantic.surface.danger.default.bank }
+    ];
+
+    surfaceTokens.forEach(item => {
+        const color = resolveToken(item.token, currentColorMode);
+        html += `
+            <div class="semantic-token-item">
+                <div class="semantic-token-color" style="background-color: ${color}"></div>
+                <div class="semantic-token-details">
+                    <div class="semantic-token-label">${item.name}</div>
+                    <div class="semantic-token-path">${item.path}</div>
+                    <div class="semantic-token-hex">${color}</div>
+                    <button class="semantic-token-copy-btn" onclick="copySemanticColor('${color}', this)">Copiar</button>
+                </div>
+            </div>
+        `;
+    });
+
+    html += '</div></div>';
+
+    // Text Card
+    html += `
+        <div class="semantic-color-card" data-theme="text">
+            <div class="semantic-card-header">
+                <h3 class="semantic-card-title">Text</h3>
+                <p class="semantic-card-description">Cores para textos e tipografia</p>
+            </div>
+            <div class="semantic-card-tokens">
+    `;
+
+    const textTokens = [
+        { name: 'Soft', path: 'text.neutral.soft', token: semantic.text.neutral.soft.bank },
+        { name: 'Default', path: 'text.neutral.default', token: semantic.text.neutral.default.bank },
+        { name: 'Strong', path: 'text.neutral.strong', token: semantic.text.neutral.strong.bank },
+        { name: 'Inverse', path: 'text.neutral.inverse', token: semantic.text.neutral.inverse.bank },
+        { name: 'Accent', path: 'text.accent.default', token: semantic.text.accent.default.bank },
+        { name: 'Info', path: 'text.info.default', token: semantic.text.info.default.bank },
+        { name: 'Success', path: 'text.success.default', token: semantic.text.success.default.bank },
+        { name: 'Warning', path: 'text.warning.default', token: semantic.text.warning.default.bank },
+        { name: 'Danger', path: 'text.danger.default', token: semantic.text.danger.default.bank }
+    ];
+
+    textTokens.forEach(item => {
+        const color = resolveToken(item.token, currentColorMode);
+        html += `
+            <div class="semantic-token-item">
+                <div class="semantic-token-color" style="background-color: ${color}"></div>
+                <div class="semantic-token-details">
+                    <div class="semantic-token-label">${item.name}</div>
+                    <div class="semantic-token-path">${item.path}</div>
+                    <div class="semantic-token-hex">${color}</div>
+                    <button class="semantic-token-copy-btn" onclick="copySemanticColor('${color}', this)">Copiar</button>
+                </div>
+            </div>
+        `;
+    });
+
+    html += '</div></div>';
+
+    // Border Card
+    html += `
+        <div class="semantic-color-card" data-theme="border">
+            <div class="semantic-card-header">
+                <h3 class="semantic-card-title">Border</h3>
+                <p class="semantic-card-description">Cores para bordas e divisores</p>
+            </div>
+            <div class="semantic-card-tokens">
+    `;
+
+    const borderTokens = [
+        { name: 'Soft', path: 'border.neutral.soft', token: semantic.border.neutral.soft.bank },
+        { name: 'Default', path: 'border.neutral.default', token: semantic.border.neutral.default.bank },
+        { name: 'Strong', path: 'border.neutral.strong', token: semantic.border.neutral.strong.bank },
+        { name: 'Accent', path: 'border.accent.default', token: semantic.border.accent.default.bank },
+        { name: 'Info', path: 'border.info.default', token: semantic.border.info.default.bank },
+        { name: 'Success', path: 'border.success.default', token: semantic.border.success.default.bank },
+        { name: 'Warning', path: 'border.warning.default', token: semantic.border.warning.default.bank },
+        { name: 'Danger', path: 'border.danger.default', token: semantic.border.danger.default.bank }
+    ];
+
+    borderTokens.forEach(item => {
+        const color = resolveToken(item.token, currentColorMode);
+        html += `
+            <div class="semantic-token-item">
+                <div class="semantic-token-color" style="background-color: ${color}"></div>
+                <div class="semantic-token-details">
+                    <div class="semantic-token-label">${item.name}</div>
+                    <div class="semantic-token-path">${item.path}</div>
+                    <div class="semantic-token-hex">${color}</div>
+                    <button class="semantic-token-copy-btn" onclick="copySemanticColor('${color}', this)">Copiar</button>
+                </div>
+            </div>
+        `;
+    });
+
+    html += '</div></div>';
+
+    // Icon Card
+    html += `
+        <div class="semantic-color-card" data-theme="icon">
+            <div class="semantic-card-header">
+                <h3 class="semantic-card-title">Icon</h3>
+                <p class="semantic-card-description">Cores para ícones e elementos gráficos</p>
+            </div>
+            <div class="semantic-card-tokens">
+    `;
+
+    const iconTokens = [
+        { name: 'Strong', path: 'icon.neutral.strong', token: semantic.icon.neutral.strong.bank },
+        { name: 'Default', path: 'icon.neutral.default', token: semantic.icon.neutral.default.bank },
+        { name: 'Soft', path: 'icon.neutral.soft', token: semantic.icon.neutral.soft.bank },
+        { name: 'Softer', path: 'icon.neutral.softer', token: semantic.icon.neutral.softer.bank },
+        { name: 'Accent', path: 'icon.accent.default', token: semantic.icon.accent.default.bank },
+        { name: 'Info', path: 'icon.info.default', token: semantic.icon.info.default.bank },
+        { name: 'Success', path: 'icon.success.default', token: semantic.icon.success.default.bank },
+        { name: 'Warning', path: 'icon.warning.default', token: semantic.icon.warning.default.bank },
+        { name: 'Danger', path: 'icon.danger.default', token: semantic.icon.danger.default.bank }
+    ];
+
+    iconTokens.forEach(item => {
+        const color = resolveToken(item.token, currentColorMode);
+        html += `
+            <div class="semantic-token-item">
+                <div class="semantic-token-color" style="background-color: ${color}"></div>
+                <div class="semantic-token-details">
+                    <div class="semantic-token-label">${item.name}</div>
+                    <div class="semantic-token-path">${item.path}</div>
+                    <div class="semantic-token-hex">${color}</div>
+                    <button class="semantic-token-copy-btn" onclick="copySemanticColor('${color}', this)">Copiar</button>
+                </div>
+            </div>
+        `;
+    });
+
+    html += '</div></div>';
+
+    // Utility Card
+    html += `
+        <div class="semantic-color-card" data-theme="utility">
+            <div class="semantic-card-header">
+                <h3 class="semantic-card-title">Utility</h3>
+                <p class="semantic-card-description">Cores utilitárias para casos de uso específicos</p>
+            </div>
+            <div class="semantic-card-tokens">
+    `;
+
+    const utilityTokens = [
+        { name: 'Light', path: 'utility.light', token: semantic.utility.light.bank },
+        { name: 'Dark', path: 'utility.dark', token: semantic.utility.dark.bank }
+    ];
+
+    utilityTokens.forEach(item => {
+        const color = resolveToken(item.token, currentColorMode);
+        html += `
+            <div class="semantic-token-item">
+                <div class="semantic-token-color" style="background-color: ${color}"></div>
+                <div class="semantic-token-details">
+                    <div class="semantic-token-label">${item.name}</div>
+                    <div class="semantic-token-path">${item.path}</div>
+                    <div class="semantic-token-hex">${color}</div>
+                    <button class="semantic-token-copy-btn" onclick="copySemanticColor('${color}', this)">Copiar</button>
+                </div>
+            </div>
+        `;
+    });
+
+    html += '</div></div>';
+
+    // Shadow Card
+    html += `
+        <div class="semantic-color-card" data-theme="shadow">
+            <div class="semantic-card-header">
+                <h3 class="semantic-card-title">Shadow</h3>
+                <p class="semantic-card-description">Cores de sombra com diferentes opacidades</p>
+            </div>
+            <div class="semantic-card-tokens">
+    `;
+
+    const shadowTokens = [
+        { name: 'Soft', path: 'shadow.soft', token: semantic.shadow.soft.bank.color, opacity: semantic.shadow.soft.bank.opacity },
+        { name: 'Medium', path: 'shadow.medium', token: semantic.shadow.medium.bank.color, opacity: semantic.shadow.medium.bank.opacity },
+        { name: 'Intense', path: 'shadow.intense', token: semantic.shadow.intense.bank.color, opacity: semantic.shadow.intense.bank.opacity }
+    ];
+
+    shadowTokens.forEach(item => {
+        const color = resolveToken(item.token, currentColorMode);
+        const displayColor = color + ' @ ' + item.opacity;
+        html += `
+            <div class="semantic-token-item">
+                <div class="semantic-token-color" style="background-color: ${color}; opacity: ${parseInt(item.opacity) / 100}"></div>
+                <div class="semantic-token-details">
+                    <div class="semantic-token-label">${item.name}</div>
+                    <div class="semantic-token-path">${item.path}</div>
+                    <div class="semantic-token-hex">${displayColor}</div>
+                    <button class="semantic-token-copy-btn" onclick="copySemanticColor('${color}', this)">Copiar</button>
+                </div>
+            </div>
+        `;
+    });
+
+    html += '</div></div>';
+
+    html += '</div></div>';
+
+    // Close Semantic Colors Tab
+    html += '</div>'; // Close semantic-colors-tab
+
+    // Section 2: PRIMITIVE COLORS TAB
+    html += `
+            <!-- Primitive Colors Tab Content -->
+            <div id="primitive-colors-tab" class="color-tab-content">
+                <div class="primitives-section">
+                    <div class="primitives-header">
+                        <h2 class="primitives-title">Color Primitives</h2>
+                        <p class="primitives-description">Paleta base de cores do sistema - use os tokens semânticos acima sempre que possível</p>
+                    </div>
+    `;
+
+    // Gray
+    html += '<div class="primitive-scale"><h3 class="primitive-scale-title">Gray</h3><div class="primitive-colors-row">';
+    Object.entries(primitives.gray).forEach(([key, value]) => {
+        html += `
+            <div class="primitive-color-item">
+                <div class="primitive-color-preview" style="background-color: ${value.dark}"></div>
+                <div class="primitive-color-name">gray.${key}</div>
+                <div class="primitive-color-value">Dark: ${value.dark}</div>
+                <div class="primitive-color-value">Light: ${value.light}</div>
+                <button class="primitive-copy-btn" onclick="copyToClipboard('${value.dark}', this)">Copiar</button>
+            </div>
+        `;
+    });
+    html += '</div></div>';
+
+    // Red
+    html += '<div class="primitive-scale"><h3 class="primitive-scale-title">Red</h3><div class="primitive-colors-row">';
+    Object.entries(primitives.red).forEach(([key, value]) => {
+        html += `
+            <div class="primitive-color-item">
+                <div class="primitive-color-preview" style="background-color: ${value.dark}"></div>
+                <div class="primitive-color-name">red.${key}</div>
+                <div class="primitive-color-value">Dark: ${value.dark}</div>
+                <div class="primitive-color-value">Light: ${value.light}</div>
+                <button class="primitive-copy-btn" onclick="copyToClipboard('${value.dark}', this)">Copiar</button>
+            </div>
+        `;
+    });
+    html += '</div></div>';
+
+    // Orange
+    html += '<div class="primitive-scale"><h3 class="primitive-scale-title">Orange</h3><div class="primitive-colors-row">';
+    Object.entries(primitives.orange).forEach(([key, value]) => {
+        html += `
+            <div class="primitive-color-item">
+                <div class="primitive-color-preview" style="background-color: ${value.dark}"></div>
+                <div class="primitive-color-name">orange.${key}</div>
+                <div class="primitive-color-value">Dark: ${value.dark}</div>
+                <div class="primitive-color-value">Light: ${value.light}</div>
+                <button class="primitive-copy-btn" onclick="copyToClipboard('${value.dark}', this)">Copiar</button>
+            </div>
+        `;
+    });
+    html += '</div></div>';
+
+    // Green
+    html += '<div class="primitive-scale"><h3 class="primitive-scale-title">Green</h3><div class="primitive-colors-row">';
+    Object.entries(primitives.green).forEach(([key, value]) => {
+        html += `
+            <div class="primitive-color-item">
+                <div class="primitive-color-preview" style="background-color: ${value.dark}"></div>
+                <div class="primitive-color-name">green.${key}</div>
+                <div class="primitive-color-value">Dark: ${value.dark}</div>
+                <div class="primitive-color-value">Light: ${value.light}</div>
+                <button class="primitive-copy-btn" onclick="copyToClipboard('${value.dark}', this)">Copiar</button>
+            </div>
+        `;
+    });
+    html += '</div></div>';
+
+    // Blue
+    html += '<div class="primitive-scale"><h3 class="primitive-scale-title">Blue</h3><div class="primitive-colors-row">';
+    Object.entries(primitives.blue).forEach(([key, value]) => {
+        html += `
+            <div class="primitive-color-item">
+                <div class="primitive-color-preview" style="background-color: ${value.dark}"></div>
+                <div class="primitive-color-name">blue.${key}</div>
+                <div class="primitive-color-value">Dark: ${value.dark}</div>
+                <div class="primitive-color-value">Light: ${value.light}</div>
+                <button class="primitive-copy-btn" onclick="copyToClipboard('${value.dark}', this)">Copiar</button>
+            </div>
+        `;
+    });
+    html += '</div></div>';
+
+    // Brand
+    html += '<div class="primitive-scale"><h3 class="primitive-scale-title">Brand</h3><div class="primitive-colors-row">';
+    Object.entries(primitives.brand).forEach(([key, value]) => {
+        const color = typeof value === 'object' ? value.dark : value;
+        html += `
+            <div class="primitive-color-item">
+                <div class="primitive-color-preview" style="background-color: ${color}"></div>
+                <div class="primitive-color-name">brand.${key}</div>
+                <div class="primitive-color-value">${color}</div>
+                <div class="primitive-color-value"></div>
+                <button class="primitive-copy-btn" onclick="copyToClipboard('${color}', this)">Copiar</button>
+            </div>
+        `;
+    });
+    html += '</div></div>';
+
+    html += '</div>'; // Close primitives-section
+    html += '</div>'; // Close primitive-colors-tab
+    html += '</div>'; // Close color-tabs-wrapper
+
+    container.innerHTML = html;
+}
+        function renderTypography(container) {
+            const font = designTokens.font;
+            const fontTheme = designTokens.fontTheme;
+
+            let html = '';
+
+            // Font samples
+            html += `<div class="token-category"><h2 class="token-category-title">Type Scale</h2>`;
+
+            Object.entries(font.size).forEach(([key, value]) => {
+                if (key === 'base') return;
+                const size = typeof value === 'object' ? value.mobile : value;
+                const weight = font.weight.regular.mobile;
+
+                html += `
+                    <div class="typography-preview">
+                        <div class="typography-sample" style="font-size: ${size}px; font-weight: ${weight}">
+                            The quick brown fox jumps over the lazy dog
+                        </div>
+                        <div class="typography-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">Token</span>
+                                <span>font.size.${key}</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Size</span>
+                                <span>${size}px</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Weight</span>
+                                <span>${weight}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+
+            // Font weights
+            html += `<div class="token-category"><h2 class="token-category-title">Font Weights</h2><div class="token-list">`;
+            Object.entries(font.weight).forEach(([key, value]) => {
+                html += `
+                    <div class="token-item">
+                        <div class="token-name">font.weight.${key}</div>
+                        <div class="token-value" style="font-weight: ${value.mobile}">${value.mobile}</div>
+                        <button class="copy-button" onclick="copyToClipboard('${value.mobile}', this)">Copiar</button>
+                    </div>
+                `;
+            });
+            html += '</div></div>';
+
+            container.innerHTML = html;
+        }
+
+        function renderSpacing(container) {
+            const spacing = designTokens.spacing;
+
+            let html = '<div class="token-category"><h2 class="token-category-title">Spacing Primitives</h2><div class="token-list">';
+
+            Object.entries(spacing.primitives).forEach(([key, value]) => {
+                html += `
+                    <div class="token-item">
+                        <div class="token-name">spacing.primitives.${key}</div>
+                        <div class="spacing-preview">
+                            <div class="spacing-box" style="width: ${value}px; height: 40px"></div>
+                            <span class="token-value">${value}px</span>
+                        </div>
+                        <button class="copy-button" onclick="copyToClipboard('${value}', this)">Copiar</button>
+                    </div>
+                `;
+            });
+            html += '</div></div>';
+
+            // Semantic spacing
+            ['inset', 'inline', 'stack'].forEach(type => {
+                html += `<div class="token-category"><h2 class="token-category-title">Spacing - ${type.charAt(0).toUpperCase() + type.slice(1)}</h2><div class="token-list">`;
+
+                Object.entries(spacing[type]).forEach(([key, value]) => {
+                    const resolved = resolveToken(value.mobile);
+                    html += `
+                        <div class="token-item">
+                            <div class="token-name">spacing.${type}.${key}</div>
+                            <div class="spacing-preview">
+                                <div class="spacing-box" style="width: ${resolved}px; height: 40px"></div>
+                                <span class="token-value">${value.mobile} → ${resolved}px</span>
+                            </div>
+                            <button class="copy-button" onclick="copyToClipboard('${resolved}', this)">Copiar</button>
+                        </div>
+                    `;
+                });
+                html += '</div></div>';
+            });
+
+            container.innerHTML = html;
+        }
+
+        function renderGrid(container) {
+            const grid = designTokens.grid;
+
+            let html = '';
+
+            Object.entries(grid).forEach(([category, values]) => {
+                html += `<div class="token-category"><h2 class="token-category-title">Grid - ${category.charAt(0).toUpperCase() + category.slice(1)}</h2><div class="token-list">`;
+
+                function renderGridTokens(obj, prefix = '') {
+                    Object.entries(obj).forEach(([key, value]) => {
+                        const tokenName = prefix ? `${prefix}.${key}` : key;
+                        if (typeof value === 'object' && (value.mobile !== undefined || value.bank !== undefined)) {
+                            const displayValue = value.mobile !== undefined ?
+                                `Mobile: ${value.mobile}, Tablet: ${value.tablet}, Desktop: ${value.desktop}` :
+                                `Bank: ${value.bank}, Pro: ${value.pro}`;
+                            html += `
+                                <div class="token-item">
+                                    <div class="token-name">grid.${category}.${tokenName}</div>
+                                    <div class="token-value">${displayValue}</div>
+                                    <button class="copy-button" onclick="copyToClipboard('${JSON.stringify(value)}', this)">Copiar</button>
+                                </div>
+                            `;
+                        } else if (typeof value === 'object') {
+                            renderGridTokens(value, tokenName);
+                        }
+                    });
+                }
+
+                renderGridTokens(values);
+                html += '</div></div>';
+            });
+
+            container.innerHTML = html;
+        }
+
+        function renderShadows(container) {
+            const shadow = designTokens.shadow;
+
+            let html = '';
+
+            Object.entries(shadow).forEach(([category, values]) => {
+                html += `<div class="token-category"><h2 class="token-category-title">Shadow - ${category.charAt(0).toUpperCase() + category.slice(1)}</h2><div class="token-list">`;
+
+                Object.entries(values).forEach(([key, value]) => {
+                    const displayValue = typeof value === 'object' ?
+                        `Bank: ${formatValue(value.bank)}, Pro: ${formatValue(value.pro)}` :
+                        formatValue(value);
+                    html += `
+                        <div class="token-item">
+                            <div class="token-name">shadow.${category}.${key}</div>
+                            <div class="token-value">${displayValue}</div>
+                            <button class="copy-button" onclick="copyToClipboard('${JSON.stringify(value)}', this)">Copiar</button>
+                        </div>
+                    `;
+                });
+                html += '</div></div>';
+            });
+
+            container.innerHTML = html;
+        }
+
+        function renderBorders(container) {
+            let html = '';
+
+            // Border Radius
+            html += '<div class="token-category"><h2 class="token-category-title">Border Radius</h2><div class="token-list">';
+            Object.entries(designTokens.borderRadius).forEach(([key, value]) => {
+                const resolved = resolveToken(value.bank);
+                html += `
+                    <div class="token-item">
+                        <div class="token-name">borderRadius.${key}</div>
+                        <div class="token-value">${value.bank} → ${resolved}px</div>
+                        <button class="copy-button" onclick="copyToClipboard('${resolved}', this)">Copiar</button>
+                    </div>
+                `;
+            });
+            html += '</div></div>';
+
+            // Border Width
+            html += '<div class="token-category"><h2 class="token-category-title">Border Width</h2><div class="token-list">';
+            Object.entries(designTokens.borderWidth).forEach(([key, value]) => {
+                const resolved = resolveToken(value.bank);
+                html += `
+                    <div class="token-item">
+                        <div class="token-name">borderWidth.${key}</div>
+                        <div class="token-value">${value.bank} → ${resolved}px</div>
+                        <button class="copy-button" onclick="copyToClipboard('${resolved}', this)">Copiar</button>
+                    </div>
+                `;
+            });
+            html += '</div></div>';
+
+            container.innerHTML = html;
+        }
+
+        function renderOpacity(container) {
+            let html = '<div class="token-category"><h2 class="token-category-title">Opacity Scale</h2><div class="token-list">';
+
+            Object.entries(designTokens.opacity).forEach(([key, value]) => {
+                html += `
+                    <div class="token-item">
+                        <div class="token-name">opacity.${key}</div>
+                        <div class="token-value">${value.bank}%</div>
+                        <button class="copy-button" onclick="copyToClipboard('${value.bank / 100}', this)">Copiar</button>
+                    </div>
+                `;
+            });
+            html += '</div></div>';
+
+            container.innerHTML = html;
+        }
+
+        function renderSizes(container) {
+            const size = designTokens.size;
+
+            let html = '';
+
+            Object.entries(size).forEach(([category, values]) => {
+                html += `<div class="token-category"><h2 class="token-category-title">Size - ${category.charAt(0).toUpperCase() + category.slice(1)}</h2><div class="token-list">`;
+
+                Object.entries(values).forEach(([key, value]) => {
+                    const displayValue = typeof value === 'object' ?
+                        `Bank: ${formatValue(value.bank)}, Pro: ${formatValue(value.pro)}` :
+                        formatValue(value);
+                    html += `
+                        <div class="token-item">
+                            <div class="token-name">size.${category}.${key}</div>
+                            <div class="token-value">${displayValue}</div>
+                            <button class="copy-button" onclick="copyToClipboard('${JSON.stringify(value)}', this)">Copiar</button>
+                        </div>
+                    `;
+                });
+                html += '</div></div>';
+            });
+
+            container.innerHTML = html;
+        }
+
+        // Make copy function global
+        window.copyToClipboard = copyToClipboard;
+    </script>
+</body>
+</html>
