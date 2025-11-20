@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +9,7 @@
     <style>
         @font-face {
             font-family: 'JUST Sans Variable';
-            src: url('https://cdn.jsdelivr.net/gh/jussee/just-sans@latest/fonts/JUSTSans-Variable.woff2') format('woff2');
+            src: url('https://bullet-assets-pub.s3.us-east-1.amazonaws.com/fonts/JUSTSansVariable.ttf') format('truetype');
             font-weight: 100 900;
             font-display: swap;
         }
@@ -21,14 +21,6 @@
         }
 
         :root {
-            --color-bg-primary: #0C0F17;
-            --color-bg-secondary: #1D202B;
-            --color-bg-tertiary: #383C48;
-            --color-text-primary: #EBECED;
-            --color-text-secondary: #C8CAD0;
-            --color-text-muted: #90939E;
-            --color-accent: #C2F141;
-            --color-border: #454A56;
             --spacing-xs: 2px;
             --spacing-sm: 4px;
             --spacing-md: 8px;
@@ -39,6 +31,30 @@
             --spacing-4xl: 32px;
             --spacing-5xl: 48px;
             --font-family: 'JUST Sans Variable', system-ui, sans-serif;
+        }
+
+        /* Dark Theme */
+        [data-theme="dark"] {
+            --color-bg-primary: #0C0F17;
+            --color-bg-secondary: #1D202B;
+            --color-bg-tertiary: #383C48;
+            --color-text-primary: #EBECED;
+            --color-text-secondary: #C8CAD0;
+            --color-text-muted: #90939E;
+            --color-accent: #C2F141;
+            --color-border: #454A56;
+        }
+
+        /* Light Theme */
+        [data-theme="light"] {
+            --color-bg-primary: #F4F4F6;
+            --color-bg-secondary: #E4E4E6;
+            --color-bg-tertiary: #DCDCE0;
+            --color-text-primary: #0C0F17;
+            --color-text-secondary: #464850;
+            --color-text-muted: #808287;
+            --color-accent: #C2F141;
+            --color-border: #BBBCBF;
         }
 
         body {
@@ -83,6 +99,41 @@
             font-weight: 200;
         }
 
+        /* Theme Toggle */
+        .theme-toggle-container {
+            margin-top: var(--spacing-xl);
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 6px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+
+        .theme-option {
+            flex: 1;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            text-align: center;
+            color: var(--color-text-muted);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .theme-option.active {
+            background: var(--color-accent);
+            color: #0C0F17;
+        }
+
         .nav-section {
             padding: var(--spacing-xl) 0;
         }
@@ -109,6 +160,39 @@
         }
 
         .nav-item.active {
+            background-color: var(--color-bg-tertiary);
+            border-left-color: var(--color-accent);
+            color: var(--color-accent);
+        }
+
+        .nav-item.has-subitems {
+            font-weight: 500;
+        }
+
+        .nav-subitems {
+            display: none;
+            padding-left: var(--spacing-xl);
+        }
+
+        .nav-subitems.expanded {
+            display: block;
+        }
+
+        .nav-subitem {
+            padding: var(--spacing-md) var(--spacing-3xl);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-left: 2px solid transparent;
+            font-size: 13px;
+            color: var(--color-text-secondary);
+        }
+
+        .nav-subitem:hover {
+            background-color: var(--color-bg-tertiary);
+            color: var(--color-text-primary);
+        }
+
+        .nav-subitem.active {
             background-color: var(--color-bg-tertiary);
             border-left-color: var(--color-accent);
             color: var(--color-accent);
@@ -778,26 +862,27 @@
             border-radius: 8px;
         }
 
-        /* Color Tab System */
-        .color-tabs-wrapper {
+        /* Internal Tabs System */
+        .internal-tabs-wrapper {
             margin-top: 24px;
         }
 
-        .color-tab-buttons {
+        .internal-tab-buttons {
             display: flex;
-            gap: 12px;
+            gap: 8px;
             border-bottom: 2px solid var(--color-border);
             margin-bottom: 32px;
+            flex-wrap: wrap;
         }
 
-        .color-tab-button {
-            padding: 12px 24px;
+        .internal-tab-button {
+            padding: 10px 20px;
             background: none;
             border: none;
             border-bottom: 3px solid transparent;
             cursor: pointer;
-            font-size: 16px;
-            font-weight: 550;
+            font-size: 14px;
+            font-weight: 500;
             color: var(--color-text-muted);
             transition: all 0.2s ease;
             position: relative;
@@ -805,21 +890,22 @@
             font-family: var(--font-family);
         }
 
-        .color-tab-button:hover {
+        .internal-tab-button:hover {
             color: var(--color-text-primary);
+            background-color: var(--color-bg-tertiary);
         }
 
-        .color-tab-button.active {
+        .internal-tab-button.active {
             color: var(--color-accent);
             border-bottom-color: var(--color-accent);
         }
 
-        .color-tab-content {
+        .internal-tab-content {
             display: none;
             animation: fadeIn 0.3s ease;
         }
 
-        .color-tab-content.active {
+        .internal-tab-content.active {
             display: block;
         }
 
@@ -899,6 +985,14 @@
             <div class="sidebar-header">
                 <div class="logo">Royal DS</div>
                 <div class="logo-subtitle">Design System Documentation</div>
+
+                <!-- Theme Toggle -->
+                <div class="theme-toggle-container">
+                    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+                        <span class="theme-option active" data-theme="dark">🌙 Dark</span>
+                        <span class="theme-option" data-theme="light">☀️ Light</span>
+                    </button>
+                </div>
             </div>
 
             <nav>
@@ -909,7 +1003,11 @@
 
                 <div class="nav-section">
                     <div class="nav-section-title">Foundation</div>
-                    <div class="nav-item" data-section="colors">Colors</div>
+                    <div class="nav-item has-subitems" data-section="colors">Colors</div>
+                    <div class="nav-subitems expanded" id="colors-subitems">
+                        <div class="nav-subitem" data-section="semantic-colors">Cores Semânticas</div>
+                        <div class="nav-subitem" data-section="primitive-colors">Cores Primitivas</div>
+                    </div>
                     <div class="nav-item" data-section="typography">Typography</div>
                     <div class="nav-item" data-section="spacing">Spacing</div>
                     <div class="nav-item" data-section="grid">Grid</div>
@@ -982,16 +1080,28 @@
                 </div>
             </section>
 
-            <!-- Colors Section -->
-            <section id="colors" class="content-section">
+            <!-- Semantic Colors Section -->
+            <section id="semantic-colors" class="content-section">
                 <div class="section-header">
-                    <h1 class="section-title">Colors</h1>
+                    <h1 class="section-title">Cores Semânticas</h1>
                     <p class="section-description">
-                        Sistema completo de cores com primitivos e tokens semânticos para surface, border, text e icon.
+                        Tokens semânticos de cores para surface, border, text, icon, utility e shadow.
                     </p>
                 </div>
 
-                <div id="colorsContent"></div>
+                <div id="semanticColorsContent"></div>
+            </section>
+
+            <!-- Primitive Colors Section -->
+            <section id="primitive-colors" class="content-section">
+                <div class="section-header">
+                    <h1 class="section-title">Cores Primitivas</h1>
+                    <p class="section-description">
+                        Paleta de cores primitivas do design system incluindo gray, red, orange, yellow, green, blue, neutral e brand.
+                    </p>
+                </div>
+
+                <div id="primitiveColorsContent"></div>
             </section>
 
             <!-- Typography Section -->
@@ -1015,7 +1125,11 @@
                     </p>
                 </div>
 
-                <div id="spacingContent"></div>
+                <div id="spacingContent">
+                    <div style="padding: 20px; background: #1D202B; border-radius: 8px; text-align: center; color: #90939E;">
+                        Carregando conteúdo...
+                    </div>
+                </div>
             </section>
 
             <!-- Grid Section -->
@@ -1366,38 +1480,38 @@
     "surface": {
       "neutral": {
         "default": {
-          "bank": "{color.primitives.gray.0.dark}",
-          "pro": "{color.primitives.gray.0.dark}"
+          "bank": "{color.primitives.gray.0}",
+          "pro": "{color.primitives.gray.0}"
         },
         "secondary": {
-          "bank": "{color.primitives.gray.100.dark}",
-          "pro": "{color.primitives.gray.100.dark}"
+          "bank": "{color.primitives.gray.100}",
+          "pro": "{color.primitives.gray.100}"
         },
         "tertiary": {
-          "bank": "{color.primitives.gray.200.dark}",
-          "pro": "{color.primitives.gray.200.dark}"
+          "bank": "{color.primitives.gray.200}",
+          "pro": "{color.primitives.gray.200}"
         },
         "inverse": {
-          "bank": "{color.primitives.gray.900.dark}",
-          "pro": "{color.primitives.gray.900.dark}"
+          "bank": "{color.primitives.gray.900}",
+          "pro": "{color.primitives.gray.900}"
         }
       },
       "accent": {
         "soft": {
-          "bank": "{color.primitives.gray.400.dark}",
-          "pro": "{color.primitives.gray.400.dark}"
+          "bank": "{color.primitives.gray.400}",
+          "pro": "{color.primitives.gray.400}"
         },
         "default": {
-          "bank": "{color.primitives.gray.600.dark}",
-          "pro": "{color.primitives.gray.600.dark}"
+          "bank": "{color.primitives.gray.600}",
+          "pro": "{color.primitives.gray.600}"
         },
         "strong": {
-          "bank": "{color.primitives.gray.700.dark}",
-          "pro": "{color.primitives.gray.700.dark}"
+          "bank": "{color.primitives.gray.700}",
+          "pro": "{color.primitives.gray.700}"
         },
         "stronger": {
-          "bank": "{color.primitives.gray.900.dark}",
-          "pro": "{color.primitives.gray.900.dark}"
+          "bank": "{color.primitives.gray.900}",
+          "pro": "{color.primitives.gray.900}"
         }
       },
       "info": {
@@ -2136,7 +2250,15 @@
         let currentColorMode = 'dark'; // Default is dark mode
 
         // Utility functions
-        function resolveToken(tokenPath, mode = 'dark') {
+        function resolveToken(tokenPath, mode = null) {
+            // Use currentColorMode if mode is not provided
+            const effectiveMode = mode !== null ? mode : currentColorMode;
+
+            // Se não for string, retornar o valor diretamente
+            if (typeof tokenPath !== 'string') {
+                return tokenPath;
+            }
+
             const match = tokenPath.match(/\{([^}]+)\}/);
             if (!match) return tokenPath;
 
@@ -2149,10 +2271,10 @@
 
             // If value is an object with dark/light, return the appropriate mode
             if (value && typeof value === 'object' && value.hasOwnProperty('dark') && value.hasOwnProperty('light')) {
-                return value[mode];
+                return value[effectiveMode];
             }
 
-            return value !== undefined ? resolveToken(String(value), mode) : tokenPath;
+            return value !== undefined ? resolveToken(String(value), effectiveMode) : tokenPath;
         }
 
         function formatValue(value) {
@@ -2183,12 +2305,42 @@
             });
         }
 
-        // Color Tab Switching
-        function switchColorTab(event, tabId) {
-            // Remove active class from all tab buttons and contents
-            const buttons = document.querySelectorAll('.color-tab-button');
-            const contents = document.querySelectorAll('.color-tab-content');
+        // Theme Toggle Function
+        function toggleTheme() {
+            // Toggle between dark and light
+            currentColorMode = currentColorMode === 'dark' ? 'light' : 'dark';
 
+            // Update data-theme attribute on HTML element
+            document.documentElement.setAttribute('data-theme', currentColorMode);
+
+            // Update UI
+            const themeOptions = document.querySelectorAll('.theme-option');
+            themeOptions.forEach(option => {
+                if (option.dataset.theme === currentColorMode) {
+                    option.classList.add('active');
+                } else {
+                    option.classList.remove('active');
+                }
+            });
+
+            // Reload semantic colors if we're on that section
+            const currentSection = document.querySelector('.content-section.active');
+            if (currentSection && currentSection.id === 'semantic-colors') {
+                const container = document.getElementById('semanticColorsContent');
+                if (container) {
+                    renderSemanticColors(container);
+                }
+            }
+        }
+
+        // Internal Tab Switching Function
+        function switchInternalTab(event, tabId) {
+            // Get all buttons and contents within the same parent container
+            const wrapper = event.target.closest('.internal-tabs-wrapper');
+            const buttons = wrapper.querySelectorAll('.internal-tab-button');
+            const contents = wrapper.querySelectorAll('.internal-tab-content');
+
+            // Remove active class from all buttons and contents
             buttons.forEach(button => button.classList.remove('active'));
             contents.forEach(content => content.classList.remove('active'));
 
@@ -2196,9 +2348,6 @@
             event.target.classList.add('active');
             document.getElementById(tabId).classList.add('active');
         }
-
-        // Make switchColorTab function global
-        window.switchColorTab = switchColorTab;
 
         // Copy Semantic Color Function
         function copySemanticColor(color, button) {
@@ -2226,54 +2375,110 @@
             });
         }
 
+        // Filter Spacing Type Function
+        function filterSpacingType(type) {
+            const cards = document.querySelectorAll('[data-spacing-type]');
+            cards.forEach(card => {
+                if (type === 'all') {
+                    card.style.display = 'block';
+                } else {
+                    const spacingType = card.getAttribute('data-spacing-type');
+                    card.style.display = spacingType === type ? 'block' : 'none';
+                }
+            });
+        }
+
         // Make functions global
+        window.toggleTheme = toggleTheme;
+        window.switchInternalTab = switchInternalTab;
         window.copySemanticColor = copySemanticColor;
         window.filterTheme = filterTheme;
+        window.filterSpacingType = filterSpacingType;
 
         // Navigation
         document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', () => {
                 const section = item.dataset.section;
 
+                // Se o item tiver subitens, apenas toggle
+                if (item.classList.contains('has-subitems')) {
+                    const subitems = document.getElementById(section + '-subitems');
+                    if (subitems) {
+                        subitems.classList.toggle('expanded');
+                    }
+                    return;
+                }
+
                 document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+                document.querySelectorAll('.nav-subitem').forEach(el => el.classList.remove('active'));
                 item.classList.add('active');
 
                 document.querySelectorAll('.content-section').forEach(el => el.classList.remove('active'));
                 document.getElementById(section).classList.add('active');
 
                 // Load content if needed
-                loadSectionContent(section);
+                try {
+                    loadSectionContent(section);
+                } catch (error) {
+                    console.error('Error loading section:', section, error);
+                    const container = document.getElementById(section + 'Content');
+                    if (container) {
+                        container.innerHTML = '<div style="padding:20px;color:red;">Erro ao carregar conteúdo: ' + error.message + '</div>';
+                    }
+                }
+            });
+        });
+
+        // Navigation for subitems
+        document.querySelectorAll('.nav-subitem').forEach(item => {
+            item.addEventListener('click', () => {
+                const section = item.dataset.section;
+
+                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+                document.querySelectorAll('.nav-subitem').forEach(el => el.classList.remove('active'));
+                item.classList.add('active');
+
+                document.querySelectorAll('.content-section').forEach(el => el.classList.remove('active'));
+                document.getElementById(section).classList.add('active');
+
+                // Load content if needed
+                try {
+                    loadSectionContent(section);
+                } catch (error) {
+                    console.error('Error loading section:', section, error);
+                    const container = document.getElementById(section + 'Content');
+                    if (container) {
+                        container.innerHTML = '<div style="padding:20px;color:red;">Erro ao carregar conteúdo: ' + error.message + '</div>';
+                    }
+                }
             });
         });
 
         // Load section content
         function loadSectionContent(section) {
-            console.log('loadSectionContent called for:', section);
-            const container = document.getElementById(section + 'Content');
-            console.log('Container found:', container);
-            console.log('Container innerHTML:', container ? container.innerHTML : 'null');
+            // Convert kebab-case to camelCase for container ID
+            const containerIdSection = section.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+            const container = document.getElementById(containerIdSection + 'Content');
 
             if (!container) {
-                console.log('Container not found!');
+                console.error('Container not found for section:', section, 'Looking for ID:', containerIdSection + 'Content');
                 return;
             }
 
-            if (container.innerHTML.trim()) {
-                console.log('Container already has content, skipping');
-                return;
-            }
+            // Limpar conteúdo anterior e sempre recarregar
+            container.innerHTML = '';
 
             switch(section) {
-                case 'colors':
-                    console.log('Calling renderColors');
-                    renderColors(container);
+                case 'semantic-colors':
+                    renderSemanticColors(container);
+                    break;
+                case 'primitive-colors':
+                    renderPrimitiveColors(container);
                     break;
                 case 'typography':
-                    console.log('Calling renderTypography');
                     renderTypography(container);
                     break;
                 case 'spacing':
-                    console.log('Calling renderSpacing');
                     renderSpacing(container);
                     break;
                 case 'grid':
@@ -2295,470 +2500,1028 @@
         }
 
         // Render functions
-        function renderColors(container) {
-    const primitives = designTokens.color.primitives;
+        function renderSemanticColors(container) {
+    console.log('renderSemanticColors called', container);
     const semantic = designTokens.color;
     let html = '';
 
     // Tab System
     html += `
-        <div class="color-tabs-wrapper">
-            <div class="color-tab-buttons">
-                <button class="color-tab-button active" onclick="switchColorTab(event, 'semantic-colors-tab')">
-                    Cores Semânticas
-                </button>
-                <button class="color-tab-button" onclick="switchColorTab(event, 'primitive-colors-tab')">
-                    Cores Primitivas
-                </button>
+        <div class="internal-tabs-wrapper">
+            <div class="internal-tab-buttons">
+                <button class="internal-tab-button active" onclick="switchInternalTab(event, 'surface-tab')">Surface</button>
+                <button class="internal-tab-button" onclick="switchInternalTab(event, 'border-tab')">Border</button>
+                <button class="internal-tab-button" onclick="switchInternalTab(event, 'text-tab')">Text</button>
+                <button class="internal-tab-button" onclick="switchInternalTab(event, 'icon-tab')">Icon</button>
+                <button class="internal-tab-button" onclick="switchInternalTab(event, 'utility-tab')">Utility</button>
+                <button class="internal-tab-button" onclick="switchInternalTab(event, 'shadow-tab')">Shadow</button>
             </div>
-
-            <!-- Semantic Colors Tab Content -->
-            <div id="semantic-colors-tab" class="color-tab-content active">
     `;
 
-    // Section 1: SEMANTIC COLORS (Cards) - Priority Display
-    html += '<div style="margin-bottom: 64px;"><h2 style="font-size: 34px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">Semantic Colors</h2>';
-    html += '<p style="font-size: 16px; color: var(--color-text-muted); margin-bottom: 32px;">Tokens semânticos prontos para uso em componentes e interfaces</p>';
+    // Helper function to extract primitive color name from token
+    const getPrimitiveName = (token) => {
+        // Extract from pattern like {color.primitives.gray.900.dark}
+        const match = token.match(/\{color\.primitives\.(\w+)\.(\w+)\.(\w+)\}/);
+        if (match) {
+            const [, colorFamily, shade, mode] = match;
+            return `${colorFamily}-${shade}`;
+        }
+        return '';
+    };
 
-    // Theme Filter Select
+    // Function to render semantic color table
+    const renderSemanticTable = (category, subcategory, items) => {
+        let tableHtml = `
+            <div style="margin-bottom: 48px;">
+                <h3 style="font-size: 16px; font-weight: 350; color: var(--color-text-muted); margin-bottom: 16px;">color / ${category} / ${subcategory}</h3>
+                <table style="width: 100%; border-collapse: collapse; background: var(--color-bg-secondary); border-radius: 8px; overflow: hidden;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid var(--color-border);">
+                            <th style="padding: 16px; text-align: left; font-weight: 550; font-size: 14px; color: var(--color-text-primary); width: 200px;">Nome</th>
+                            <th style="padding: 16px; text-align: left; font-weight: 550; font-size: 14px; color: var(--color-text-primary);">bank</th>
+                            <th style="padding: 16px; text-align: left; font-weight: 550; font-size: 14px; color: var(--color-text-primary);">pro</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+
+        items.forEach(item => {
+            const bankToken = item.bank;
+            const proToken = item.pro;
+            const semanticPath = `color.${category}.${subcategory}.${item.name}`;
+            const bankHex = resolveToken(bankToken);
+            const proHex = resolveToken(proToken);
+            const bankPrimitive = getPrimitiveName(bankToken);
+            const proPrimitive = getPrimitiveName(proToken);
+
+            tableHtml += `
+                <tr style="border-bottom: 1px solid var(--color-border);">
+                    <td style="padding: 16px; color: var(--color-text-secondary); font-size: 14px;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0;">
+                                <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.2"/>
+                                <circle cx="12" cy="12" r="6" fill="currentColor"/>
+                            </svg>
+                            <span style="font-family: 'Courier New', monospace; font-size: 13px;">${semanticPath}</span>
+                        </div>
+                    </td>
+                    <td style="padding: 16px;">
+                        <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('${bankHex}', this)">
+                            <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${bankHex}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
+                            <div style="display: flex; flex-direction: column; gap: 4px;">
+                                <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace; font-weight: 600;">${bankHex.toUpperCase()}</span>
+                                <span style="color: var(--color-text-muted); font-size: 12px; font-family: 'Courier New', monospace;">${bankPrimitive}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="padding: 16px;">
+                        <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('${proHex}', this)">
+                            <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${proHex}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
+                            <div style="display: flex; flex-direction: column; gap: 4px;">
+                                <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace; font-weight: 600;">${proHex.toUpperCase()}</span>
+                                <span style="color: var(--color-text-muted); font-size: 12px; font-family: 'Courier New', monospace;">${proPrimitive}</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        });
+
+        tableHtml += `
+                    </tbody>
+                </table>
+            </div>
+        `;
+
+        return tableHtml;
+    };
+
+    // ========== SURFACE TAB ==========
+    html += `<div id="surface-tab" class="internal-tab-content active">`;
+
+    // Surface / Neutral
+    html += renderSemanticTable('surface', 'neutral', [
+        { name: 'default', bank: semantic.surface.neutral.default.bank, pro: semantic.surface.neutral.default.pro },
+        { name: 'secondary', bank: semantic.surface.neutral.secondary.bank, pro: semantic.surface.neutral.secondary.pro },
+        { name: 'tertiary', bank: semantic.surface.neutral.tertiary.bank, pro: semantic.surface.neutral.tertiary.pro },
+        { name: 'inverse', bank: semantic.surface.neutral.inverse.bank, pro: semantic.surface.neutral.inverse.pro }
+    ]);
+
+    // Surface / Accent
+    html += renderSemanticTable('surface', 'accent', [
+        { name: 'soft', bank: semantic.surface.accent.soft.bank, pro: semantic.surface.accent.soft.pro },
+        { name: 'default', bank: semantic.surface.accent.default.bank, pro: semantic.surface.accent.default.pro },
+        { name: 'strong', bank: semantic.surface.accent.strong.bank, pro: semantic.surface.accent.strong.pro },
+        { name: 'stronger', bank: semantic.surface.accent.stronger.bank, pro: semantic.surface.accent.stronger.pro }
+    ]);
+
+    // Surface / Info
+    html += renderSemanticTable('surface', 'info', [
+        { name: 'soft', bank: semantic.surface.info.soft.bank, pro: semantic.surface.info.soft.pro },
+        { name: 'default', bank: semantic.surface.info.default.bank, pro: semantic.surface.info.default.pro },
+        { name: 'strong', bank: semantic.surface.info.strong.bank, pro: semantic.surface.info.strong.pro },
+        { name: 'stronger', bank: semantic.surface.info.stronger.bank, pro: semantic.surface.info.stronger.pro }
+    ]);
+
+    // Surface / Success
+    html += renderSemanticTable('surface', 'success', [
+        { name: 'soft', bank: semantic.surface.success.soft.bank, pro: semantic.surface.success.soft.pro },
+        { name: 'default', bank: semantic.surface.success.default.bank, pro: semantic.surface.success.default.pro },
+        { name: 'strong', bank: semantic.surface.success.strong.bank, pro: semantic.surface.success.strong.pro },
+        { name: 'stronger', bank: semantic.surface.success.stronger.bank, pro: semantic.surface.success.stronger.pro }
+    ]);
+
+    // Surface / Warning
+    html += renderSemanticTable('surface', 'warning', [
+        { name: 'soft', bank: semantic.surface.warning.soft.bank, pro: semantic.surface.warning.soft.pro },
+        { name: 'default', bank: semantic.surface.warning.default.bank, pro: semantic.surface.warning.default.pro },
+        { name: 'strong', bank: semantic.surface.warning.strong.bank, pro: semantic.surface.warning.strong.pro },
+        { name: 'stronger', bank: semantic.surface.warning.stronger.bank, pro: semantic.surface.warning.stronger.pro }
+    ]);
+
+    // Surface / Danger
+    html += renderSemanticTable('surface', 'danger', [
+        { name: 'soft', bank: semantic.surface.danger.soft.bank, pro: semantic.surface.danger.soft.pro },
+        { name: 'default', bank: semantic.surface.danger.default.bank, pro: semantic.surface.danger.default.pro },
+        { name: 'strong', bank: semantic.surface.danger.strong.bank, pro: semantic.surface.danger.strong.pro },
+        { name: 'stronger', bank: semantic.surface.danger.stronger.bank, pro: semantic.surface.danger.stronger.pro }
+    ]);
+
+    // Surface / Translucent (special case with opacity)
     html += `
-        <div class="theme-filter-container">
-            <select id="themeFilter" class="theme-filter-select" onchange="filterTheme(this.value)">
-                <option value="all">Todos</option>
-                <option value="surface">Surface</option>
-                <option value="text">Text</option>
-                <option value="border">Border</option>
-                <option value="icon">Icon</option>
-                <option value="utility">Utility</option>
-                <option value="shadow">Shadow</option>
-            </select>
+        <div style="margin-bottom: 48px;">
+            <h3 style="font-size: 16px; font-weight: 350; color: var(--color-text-muted); margin-bottom: 16px;">color / surface / translucent</h3>
+            <table style="width: 100%; border-collapse: collapse; background: var(--color-bg-secondary); border-radius: 8px; overflow: hidden;">
+                <thead>
+                    <tr style="border-bottom: 1px solid var(--color-border);">
+                        <th style="padding: 16px; text-align: left; font-weight: 550; font-size: 14px; color: var(--color-text-primary); width: 200px;">Nome</th>
+                        <th style="padding: 16px; text-align: left; font-weight: 550; font-size: 14px; color: var(--color-text-primary);">bank</th>
+                        <th style="padding: 16px; text-align: left; font-weight: 550; font-size: 14px; color: var(--color-text-primary);">pro</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid var(--color-border);">
+                        <td style="padding: 16px; color: var(--color-text-secondary); font-size: 14px;">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0;">
+                                    <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.2"/>
+                                    <circle cx="12" cy="12" r="6" fill="currentColor"/>
+                                </svg>
+                                <span style="font-family: 'Courier New', monospace; font-size: 13px;">color.surface.translucent.default</span>
+                            </div>
+                        </td>
+                        <td style="padding: 16px;">
+                            <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('${resolveToken(semantic.surface.translucent.default.bank.color)}', this)">
+                                <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${resolveToken(semantic.surface.translucent.default.bank.color)}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
+                                <div style="display: flex; flex-direction: column; gap: 4px;">
+                                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace; font-weight: 600;">${resolveToken(semantic.surface.translucent.default.bank.color).toUpperCase()}</span>
+                                    <span style="color: var(--color-text-muted); font-size: 12px; font-family: 'Courier New', monospace;">${getPrimitiveName(semantic.surface.translucent.default.bank.color)} • ${semantic.surface.translucent.default.bank.opacity}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="padding: 16px;">
+                            <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('${resolveToken(semantic.surface.translucent.default.pro.color)}', this)">
+                                <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${resolveToken(semantic.surface.translucent.default.pro.color)}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
+                                <div style="display: flex; flex-direction: column; gap: 4px;">
+                                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace; font-weight: 600;">${resolveToken(semantic.surface.translucent.default.pro.color).toUpperCase()}</span>
+                                    <span style="color: var(--color-text-muted); font-size: 12px; font-family: 'Courier New', monospace;">${getPrimitiveName(semantic.surface.translucent.default.pro.color)} • ${semantic.surface.translucent.default.pro.opacity}</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--color-border);">
+                        <td style="padding: 16px; color: var(--color-text-secondary); font-size: 14px;">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0;">
+                                    <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.2"/>
+                                    <circle cx="12" cy="12" r="6" fill="currentColor"/>
+                                </svg>
+                                <span style="font-family: 'Courier New', monospace; font-size: 13px;">color.surface.translucent.inverse</span>
+                            </div>
+                        </td>
+                        <td style="padding: 16px;">
+                            <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('${resolveToken(semantic.surface.translucent.inverse.bank.color)}', this)">
+                                <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${resolveToken(semantic.surface.translucent.inverse.bank.color)}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
+                                <div style="display: flex; flex-direction: column; gap: 4px;">
+                                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace; font-weight: 600;">${resolveToken(semantic.surface.translucent.inverse.bank.color).toUpperCase()}</span>
+                                    <span style="color: var(--color-text-muted); font-size: 12px; font-family: 'Courier New', monospace;">${getPrimitiveName(semantic.surface.translucent.inverse.bank.color)} • ${semantic.surface.translucent.inverse.bank.opacity}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="padding: 16px;">
+                            <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('${resolveToken(semantic.surface.translucent.inverse.pro.color)}', this)">
+                                <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${resolveToken(semantic.surface.translucent.inverse.pro.color)}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
+                                <div style="display: flex; flex-direction: column; gap: 4px;">
+                                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace; font-weight: 600;">${resolveToken(semantic.surface.translucent.inverse.pro.color).toUpperCase()}</span>
+                                    <span style="color: var(--color-text-muted); font-size: 12px; font-family: 'Courier New', monospace;">${getPrimitiveName(semantic.surface.translucent.inverse.pro.color)} • ${semantic.surface.translucent.inverse.pro.opacity}</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     `;
 
-    html += '<div class="semantic-colors-grid">';
+    html += `</div>`; // Close surface-tab
 
-    // Surface Card
+    // ========== BORDER TAB ==========
+    html += `<div id="border-tab" class="internal-tab-content">`;
+
+    // Border / Neutral
+    html += renderSemanticTable('border', 'neutral', [
+        { name: 'soft', bank: semantic.border.neutral.soft.bank, pro: semantic.border.neutral.soft.pro },
+        { name: 'default', bank: semantic.border.neutral.default.bank, pro: semantic.border.neutral.default.pro },
+        { name: 'strong', bank: semantic.border.neutral.strong.bank, pro: semantic.border.neutral.strong.pro },
+        { name: 'inverse', bank: semantic.border.neutral.inverse.bank, pro: semantic.border.neutral.inverse.pro }
+    ]);
+
+    // Border / Accent
+    html += renderSemanticTable('border', 'accent', [
+        { name: 'default', bank: semantic.border.accent.default.bank, pro: semantic.border.accent.default.pro },
+        { name: 'strong', bank: semantic.border.accent.strong.bank, pro: semantic.border.accent.strong.pro }
+    ]);
+
+    // Border / Info
+    html += renderSemanticTable('border', 'info', [
+        { name: 'default', bank: semantic.border.info.default.bank, pro: semantic.border.info.default.pro },
+        { name: 'strong', bank: semantic.border.info.strong.bank, pro: semantic.border.info.strong.pro }
+    ]);
+
+    // Border / Success
+    html += renderSemanticTable('border', 'success', [
+        { name: 'default', bank: semantic.border.success.default.bank, pro: semantic.border.success.default.pro },
+        { name: 'strong', bank: semantic.border.success.strong.bank, pro: semantic.border.success.strong.pro }
+    ]);
+
+    // Border / Warning
+    html += renderSemanticTable('border', 'warning', [
+        { name: 'default', bank: semantic.border.warning.default.bank, pro: semantic.border.warning.default.pro },
+        { name: 'strong', bank: semantic.border.warning.strong.bank, pro: semantic.border.warning.strong.pro }
+    ]);
+
+    // Border / Danger
+    html += renderSemanticTable('border', 'danger', [
+        { name: 'default', bank: semantic.border.danger.default.bank, pro: semantic.border.danger.default.pro },
+        { name: 'strong', bank: semantic.border.danger.strong.bank, pro: semantic.border.danger.strong.pro }
+    ]);
+
+    html += `</div>`; // Close border-tab
+
+    // ========== TEXT TAB ==========
+    html += `<div id="text-tab" class="internal-tab-content">`;
+
+    // Text / Neutral
+    html += renderSemanticTable('text', 'neutral', [
+        { name: 'soft', bank: semantic.text.neutral.soft.bank, pro: semantic.text.neutral.soft.pro },
+        { name: 'default', bank: semantic.text.neutral.default.bank, pro: semantic.text.neutral.default.pro },
+        { name: 'strong', bank: semantic.text.neutral.strong.bank, pro: semantic.text.neutral.strong.pro },
+        { name: 'inverse', bank: semantic.text.neutral.inverse.bank, pro: semantic.text.neutral.inverse.pro }
+    ]);
+
+    // Text / Accent
+    html += renderSemanticTable('text', 'accent', [
+        { name: 'default', bank: semantic.text.accent.default.bank, pro: semantic.text.accent.default.pro },
+        { name: 'strong', bank: semantic.text.accent.strong.bank, pro: semantic.text.accent.strong.pro }
+    ]);
+
+    // Text / Info
+    html += renderSemanticTable('text', 'info', [
+        { name: 'soft', bank: semantic.text.info.soft.bank, pro: semantic.text.info.soft.pro },
+        { name: 'default', bank: semantic.text.info.default.bank, pro: semantic.text.info.default.pro },
+        { name: 'strong', bank: semantic.text.info.strong.bank, pro: semantic.text.info.strong.pro }
+    ]);
+
+    // Text / Success
+    html += renderSemanticTable('text', 'success', [
+        { name: 'soft', bank: semantic.text.success.soft.bank, pro: semantic.text.success.soft.pro },
+        { name: 'default', bank: semantic.text.success.default.bank, pro: semantic.text.success.default.pro },
+        { name: 'strong', bank: semantic.text.success.strong.bank, pro: semantic.text.success.strong.pro }
+    ]);
+
+    // Text / Warning
+    html += renderSemanticTable('text', 'warning', [
+        { name: 'soft', bank: semantic.text.warning.soft.bank, pro: semantic.text.warning.soft.pro },
+        { name: 'default', bank: semantic.text.warning.default.bank, pro: semantic.text.warning.default.pro },
+        { name: 'strong', bank: semantic.text.warning.strong.bank, pro: semantic.text.warning.strong.pro }
+    ]);
+
+    // Text / Danger
+    html += renderSemanticTable('text', 'danger', [
+        { name: 'soft', bank: semantic.text.danger.soft.bank, pro: semantic.text.danger.soft.pro },
+        { name: 'default', bank: semantic.text.danger.default.bank, pro: semantic.text.danger.default.pro },
+        { name: 'strong', bank: semantic.text.danger.strong.bank, pro: semantic.text.danger.strong.pro }
+    ]);
+
+    html += `</div>`; // Close text-tab
+
+    // ========== ICON TAB ==========
+    html += `<div id="icon-tab" class="internal-tab-content">`;
+
+    // Icon / Neutral
+    html += renderSemanticTable('icon', 'neutral', [
+        { name: 'strong', bank: semantic.icon.neutral.strong.bank, pro: semantic.icon.neutral.strong.pro },
+        { name: 'default', bank: semantic.icon.neutral.default.bank, pro: semantic.icon.neutral.default.pro },
+        { name: 'soft', bank: semantic.icon.neutral.soft.bank, pro: semantic.icon.neutral.soft.pro },
+        { name: 'softer', bank: semantic.icon.neutral.softer.bank, pro: semantic.icon.neutral.softer.pro },
+        { name: 'inverse', bank: semantic.icon.neutral.inverse.bank, pro: semantic.icon.neutral.inverse.pro }
+    ]);
+
+    // Icon / Accent
+    html += renderSemanticTable('icon', 'accent', [
+        { name: 'default', bank: semantic.icon.accent.default.bank, pro: semantic.icon.accent.default.pro },
+        { name: 'strong', bank: semantic.icon.accent.strong.bank, pro: semantic.icon.accent.strong.pro }
+    ]);
+
+    // Icon / Info
+    html += renderSemanticTable('icon', 'info', [
+        { name: 'default', bank: semantic.icon.info.default.bank, pro: semantic.icon.info.default.pro },
+        { name: 'strong', bank: semantic.icon.info.strong.bank, pro: semantic.icon.info.strong.pro }
+    ]);
+
+    // Icon / Success
+    html += renderSemanticTable('icon', 'success', [
+        { name: 'default', bank: semantic.icon.success.default.bank, pro: semantic.icon.success.default.pro },
+        { name: 'strong', bank: semantic.icon.success.strong.bank, pro: semantic.icon.success.strong.pro }
+    ]);
+
+    // Icon / Warning
+    html += renderSemanticTable('icon', 'warning', [
+        { name: 'default', bank: semantic.icon.warning.default.bank, pro: semantic.icon.warning.default.pro },
+        { name: 'strong', bank: semantic.icon.warning.strong.bank, pro: semantic.icon.warning.strong.pro }
+    ]);
+
+    // Icon / Danger
+    html += renderSemanticTable('icon', 'danger', [
+        { name: 'default', bank: semantic.icon.danger.default.bank, pro: semantic.icon.danger.default.pro },
+        { name: 'strong', bank: semantic.icon.danger.strong.bank, pro: semantic.icon.danger.strong.pro }
+    ]);
+
+    html += `</div>`; // Close icon-tab
+
+    // ========== UTILITY TAB ==========
+    html += `<div id="utility-tab" class="internal-tab-content">`;
+
+    // Utility table (simple 2-row table)
     html += `
-        <div class="semantic-color-card" data-theme="surface">
-            <div class="semantic-card-header">
-                <h3 class="semantic-card-title">Surface</h3>
-                <p class="semantic-card-description">Cores de background e superfícies</p>
-            </div>
-            <div class="semantic-card-tokens">
+        <table style="width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 32px; background: var(--color-surface); border-radius: 12px; overflow: hidden; border: 1px solid var(--color-border);">
+            <thead>
+                <tr style="background: var(--color-surface-secondary);">
+                    <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 600; font-size: 14px; width: 200px; border-bottom: 1px solid var(--color-border);">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                            </svg>
+                            Nome
+                        </div>
+                    </th>
+                    <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 600; font-size: 14px; border-bottom: 1px solid var(--color-border);">bank</th>
+                    <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 600; font-size: 14px; border-bottom: 1px solid var(--color-border);">pro</th>
+                </tr>
+            </thead>
+            <tbody>
     `;
 
-    const surfaceTokens = [
-        { name: 'Default', path: 'surface.neutral.default', token: semantic.surface.neutral.default.bank },
-        { name: 'Secondary', path: 'surface.neutral.secondary', token: semantic.surface.neutral.secondary.bank },
-        { name: 'Tertiary', path: 'surface.neutral.tertiary', token: semantic.surface.neutral.tertiary.bank },
-        { name: 'Inverse', path: 'surface.neutral.inverse', token: semantic.surface.neutral.inverse.bank },
-        { name: 'Accent Soft', path: 'surface.accent.soft', token: semantic.surface.accent.soft.bank },
-        { name: 'Accent Default', path: 'surface.accent.default', token: semantic.surface.accent.default.bank },
-        { name: 'Info', path: 'surface.info.default', token: semantic.surface.info.default.bank },
-        { name: 'Success', path: 'surface.success.default', token: semantic.surface.success.default.bank },
-        { name: 'Warning', path: 'surface.warning.default', token: semantic.surface.warning.default.bank },
-        { name: 'Danger', path: 'surface.danger.default', token: semantic.surface.danger.default.bank }
-    ];
-
-    surfaceTokens.forEach(item => {
-        const color = resolveToken(item.token, currentColorMode);
-        html += `
-            <div class="semantic-token-item">
-                <div class="semantic-token-color" style="background-color: ${color}"></div>
-                <div class="semantic-token-details">
-                    <div class="semantic-token-label">${item.name}</div>
-                    <div class="semantic-token-path">${item.path}</div>
-                    <div class="semantic-token-hex">${color}</div>
-                    <button class="semantic-token-copy-btn" onclick="copySemanticColor('${color}', this)">Copiar</button>
-                </div>
-            </div>
-        `;
-    });
-
-    html += '</div></div>';
-
-    // Text Card
+    // Utility / light
+    const lightBank = semantic.utility.light.bank;
+    const lightPro = semantic.utility.light.pro;
     html += `
-        <div class="semantic-color-card" data-theme="text">
-            <div class="semantic-card-header">
-                <h3 class="semantic-card-title">Text</h3>
-                <p class="semantic-card-description">Cores para textos e tipografia</p>
-            </div>
-            <div class="semantic-card-tokens">
+        <tr style="border-bottom: 1px solid var(--color-border);">
+            <td style="padding: 16px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                    <span style="color: var(--color-text-primary); font-weight: 500;">light</span>
+                </div>
+            </td>
+            <td style="padding: 16px;">
+                <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('color.utility.light', this)">
+                    <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${resolveToken(lightBank)}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
+                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">color/neutral/light</span>
+                </div>
+            </td>
+            <td style="padding: 16px;">
+                <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('color.utility.light', this)">
+                    <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${resolveToken(lightPro)}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
+                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">color/neutral/light</span>
+                </div>
+            </td>
+        </tr>
     `;
 
-    const textTokens = [
-        { name: 'Soft', path: 'text.neutral.soft', token: semantic.text.neutral.soft.bank },
-        { name: 'Default', path: 'text.neutral.default', token: semantic.text.neutral.default.bank },
-        { name: 'Strong', path: 'text.neutral.strong', token: semantic.text.neutral.strong.bank },
-        { name: 'Inverse', path: 'text.neutral.inverse', token: semantic.text.neutral.inverse.bank },
-        { name: 'Accent', path: 'text.accent.default', token: semantic.text.accent.default.bank },
-        { name: 'Info', path: 'text.info.default', token: semantic.text.info.default.bank },
-        { name: 'Success', path: 'text.success.default', token: semantic.text.success.default.bank },
-        { name: 'Warning', path: 'text.warning.default', token: semantic.text.warning.default.bank },
-        { name: 'Danger', path: 'text.danger.default', token: semantic.text.danger.default.bank }
-    ];
-
-    textTokens.forEach(item => {
-        const color = resolveToken(item.token, currentColorMode);
-        html += `
-            <div class="semantic-token-item">
-                <div class="semantic-token-color" style="background-color: ${color}"></div>
-                <div class="semantic-token-details">
-                    <div class="semantic-token-label">${item.name}</div>
-                    <div class="semantic-token-path">${item.path}</div>
-                    <div class="semantic-token-hex">${color}</div>
-                    <button class="semantic-token-copy-btn" onclick="copySemanticColor('${color}', this)">Copiar</button>
-                </div>
-            </div>
-        `;
-    });
-
-    html += '</div></div>';
-
-    // Border Card
+    // Utility / dark
+    const darkBank = semantic.utility.dark.bank;
+    const darkPro = semantic.utility.dark.pro;
     html += `
-        <div class="semantic-color-card" data-theme="border">
-            <div class="semantic-card-header">
-                <h3 class="semantic-card-title">Border</h3>
-                <p class="semantic-card-description">Cores para bordas e divisores</p>
-            </div>
-            <div class="semantic-card-tokens">
+        <tr>
+            <td style="padding: 16px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                    <span style="color: var(--color-text-primary); font-weight: 500;">dark</span>
+                </div>
+            </td>
+            <td style="padding: 16px;">
+                <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('color.utility.dark', this)">
+                    <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${resolveToken(darkBank)}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
+                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">color/neutral/dark</span>
+                </div>
+            </td>
+            <td style="padding: 16px;">
+                <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('color.utility.dark', this)">
+                    <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${resolveToken(darkPro)}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
+                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">color/neutral/dark</span>
+                </div>
+            </td>
+        </tr>
     `;
 
-    const borderTokens = [
-        { name: 'Soft', path: 'border.neutral.soft', token: semantic.border.neutral.soft.bank },
-        { name: 'Default', path: 'border.neutral.default', token: semantic.border.neutral.default.bank },
-        { name: 'Strong', path: 'border.neutral.strong', token: semantic.border.neutral.strong.bank },
-        { name: 'Accent', path: 'border.accent.default', token: semantic.border.accent.default.bank },
-        { name: 'Info', path: 'border.info.default', token: semantic.border.info.default.bank },
-        { name: 'Success', path: 'border.success.default', token: semantic.border.success.default.bank },
-        { name: 'Warning', path: 'border.warning.default', token: semantic.border.warning.default.bank },
-        { name: 'Danger', path: 'border.danger.default', token: semantic.border.danger.default.bank }
-    ];
+    html += '</tbody></table>';
 
-    borderTokens.forEach(item => {
-        const color = resolveToken(item.token, currentColorMode);
-        html += `
-            <div class="semantic-token-item">
-                <div class="semantic-token-color" style="background-color: ${color}"></div>
-                <div class="semantic-token-details">
-                    <div class="semantic-token-label">${item.name}</div>
-                    <div class="semantic-token-path">${item.path}</div>
-                    <div class="semantic-token-hex">${color}</div>
-                    <button class="semantic-token-copy-btn" onclick="copySemanticColor('${color}', this)">Copiar</button>
-                </div>
-            </div>
-        `;
-    });
+    html += `</div>`; // Close utility-tab
 
-    html += '</div></div>';
+    // ========== SHADOW TAB ==========
+    html += `<div id="shadow-tab" class="internal-tab-content">`;
 
-    // Icon Card
+    // Shadow table (with opacity)
     html += `
-        <div class="semantic-color-card" data-theme="icon">
-            <div class="semantic-card-header">
-                <h3 class="semantic-card-title">Icon</h3>
-                <p class="semantic-card-description">Cores para ícones e elementos gráficos</p>
-            </div>
-            <div class="semantic-card-tokens">
+        <table style="width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 32px; background: var(--color-surface); border-radius: 12px; overflow: hidden; border: 1px solid var(--color-border);">
+            <thead>
+                <tr style="background: var(--color-surface-secondary);">
+                    <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 600; font-size: 14px; width: 200px; border-bottom: 1px solid var(--color-border);">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                            </svg>
+                            Nome
+                        </div>
+                    </th>
+                    <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 600; font-size: 14px; border-bottom: 1px solid var(--color-border);">bank</th>
+                    <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 600; font-size: 14px; border-bottom: 1px solid var(--color-border);">pro</th>
+                </tr>
+            </thead>
+            <tbody>
     `;
 
-    const iconTokens = [
-        { name: 'Strong', path: 'icon.neutral.strong', token: semantic.icon.neutral.strong.bank },
-        { name: 'Default', path: 'icon.neutral.default', token: semantic.icon.neutral.default.bank },
-        { name: 'Soft', path: 'icon.neutral.soft', token: semantic.icon.neutral.soft.bank },
-        { name: 'Softer', path: 'icon.neutral.softer', token: semantic.icon.neutral.softer.bank },
-        { name: 'Accent', path: 'icon.accent.default', token: semantic.icon.accent.default.bank },
-        { name: 'Info', path: 'icon.info.default', token: semantic.icon.info.default.bank },
-        { name: 'Success', path: 'icon.success.default', token: semantic.icon.success.default.bank },
-        { name: 'Warning', path: 'icon.warning.default', token: semantic.icon.warning.default.bank },
-        { name: 'Danger', path: 'icon.danger.default', token: semantic.icon.danger.default.bank }
-    ];
-
-    iconTokens.forEach(item => {
-        const color = resolveToken(item.token, currentColorMode);
-        html += `
-            <div class="semantic-token-item">
-                <div class="semantic-token-color" style="background-color: ${color}"></div>
-                <div class="semantic-token-details">
-                    <div class="semantic-token-label">${item.name}</div>
-                    <div class="semantic-token-path">${item.path}</div>
-                    <div class="semantic-token-hex">${color}</div>
-                    <button class="semantic-token-copy-btn" onclick="copySemanticColor('${color}', this)">Copiar</button>
-                </div>
-            </div>
-        `;
-    });
-
-    html += '</div></div>';
-
-    // Utility Card
+    // Shadow / soft
+    const softBankColor = resolveToken(semantic.shadow.soft.bank.color);
+    const softBankOpacity = semantic.shadow.soft.bank.opacity;
+    const softProColor = resolveToken(semantic.shadow.soft.pro.color);
+    const softProOpacity = semantic.shadow.soft.pro.opacity;
     html += `
-        <div class="semantic-color-card" data-theme="utility">
-            <div class="semantic-card-header">
-                <h3 class="semantic-card-title">Utility</h3>
-                <p class="semantic-card-description">Cores utilitárias para casos de uso específicos</p>
-            </div>
-            <div class="semantic-card-tokens">
+        <tr style="border-bottom: 1px solid var(--color-border);">
+            <td style="padding: 16px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    </svg>
+                    <span style="color: var(--color-text-primary); font-weight: 500;">soft</span>
+                </div>
+            </td>
+            <td style="padding: 16px;">
+                <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('color.shadow.soft', this)">
+                    <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${softBankColor}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
+                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">${softBankColor.toUpperCase()}</span>
+                    <span style="color: var(--color-text-secondary); font-size: 14px; margin-left: 8px;">${softBankOpacity}</span>
+                </div>
+            </td>
+            <td style="padding: 16px;">
+                <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('color.shadow.soft', this)">
+                    <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${softProColor}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
+                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">${softProColor.toUpperCase()}</span>
+                    <span style="color: var(--color-text-secondary); font-size: 14px; margin-left: 8px;">${softProOpacity}</span>
+                </div>
+            </td>
+        </tr>
     `;
 
-    const utilityTokens = [
-        { name: 'Light', path: 'utility.light', token: semantic.utility.light.bank },
-        { name: 'Dark', path: 'utility.dark', token: semantic.utility.dark.bank }
-    ];
-
-    utilityTokens.forEach(item => {
-        const color = resolveToken(item.token, currentColorMode);
-        html += `
-            <div class="semantic-token-item">
-                <div class="semantic-token-color" style="background-color: ${color}"></div>
-                <div class="semantic-token-details">
-                    <div class="semantic-token-label">${item.name}</div>
-                    <div class="semantic-token-path">${item.path}</div>
-                    <div class="semantic-token-hex">${color}</div>
-                    <button class="semantic-token-copy-btn" onclick="copySemanticColor('${color}', this)">Copiar</button>
-                </div>
-            </div>
-        `;
-    });
-
-    html += '</div></div>';
-
-    // Shadow Card
+    // Shadow / medium
+    const mediumBankColor = resolveToken(semantic.shadow.medium.bank.color);
+    const mediumBankOpacity = semantic.shadow.medium.bank.opacity;
+    const mediumProColor = resolveToken(semantic.shadow.medium.pro.color);
+    const mediumProOpacity = semantic.shadow.medium.pro.opacity;
     html += `
-        <div class="semantic-color-card" data-theme="shadow">
-            <div class="semantic-card-header">
-                <h3 class="semantic-card-title">Shadow</h3>
-                <p class="semantic-card-description">Cores de sombra com diferentes opacidades</p>
-            </div>
-            <div class="semantic-card-tokens">
+        <tr style="border-bottom: 1px solid var(--color-border);">
+            <td style="padding: 16px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    </svg>
+                    <span style="color: var(--color-text-primary); font-weight: 500;">medium</span>
+                </div>
+            </td>
+            <td style="padding: 16px;">
+                <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('color.shadow.medium', this)">
+                    <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${mediumBankColor}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
+                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">${mediumBankColor.toUpperCase()}</span>
+                    <span style="color: var(--color-text-secondary); font-size: 14px; margin-left: 8px;">${mediumBankOpacity}</span>
+                </div>
+            </td>
+            <td style="padding: 16px;">
+                <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('color.shadow.medium', this)">
+                    <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${mediumProColor}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
+                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">${mediumProColor.toUpperCase()}</span>
+                    <span style="color: var(--color-text-secondary); font-size: 14px; margin-left: 8px;">${mediumProOpacity}</span>
+                </div>
+            </td>
+        </tr>
     `;
 
-    const shadowTokens = [
-        { name: 'Soft', path: 'shadow.soft', token: semantic.shadow.soft.bank.color, opacity: semantic.shadow.soft.bank.opacity },
-        { name: 'Medium', path: 'shadow.medium', token: semantic.shadow.medium.bank.color, opacity: semantic.shadow.medium.bank.opacity },
-        { name: 'Intense', path: 'shadow.intense', token: semantic.shadow.intense.bank.color, opacity: semantic.shadow.intense.bank.opacity }
-    ];
-
-    shadowTokens.forEach(item => {
-        const color = resolveToken(item.token, currentColorMode);
-        const displayColor = color + ' @ ' + item.opacity;
-        html += `
-            <div class="semantic-token-item">
-                <div class="semantic-token-color" style="background-color: ${color}; opacity: ${parseInt(item.opacity) / 100}"></div>
-                <div class="semantic-token-details">
-                    <div class="semantic-token-label">${item.name}</div>
-                    <div class="semantic-token-path">${item.path}</div>
-                    <div class="semantic-token-hex">${displayColor}</div>
-                    <button class="semantic-token-copy-btn" onclick="copySemanticColor('${color}', this)">Copiar</button>
+    // Shadow / intense
+    const intenseBankColor = resolveToken(semantic.shadow.intense.bank.color);
+    const intenseBankOpacity = semantic.shadow.intense.bank.opacity;
+    const intenseProColor = resolveToken(semantic.shadow.intense.pro.color);
+    const intenseProOpacity = semantic.shadow.intense.pro.opacity;
+    html += `
+        <tr>
+            <td style="padding: 16px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    </svg>
+                    <span style="color: var(--color-text-primary); font-weight: 500;">intense</span>
                 </div>
+            </td>
+            <td style="padding: 16px;">
+                <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('color.shadow.intense', this)">
+                    <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${intenseBankColor}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
+                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">${intenseBankColor.toUpperCase()}</span>
+                    <span style="color: var(--color-text-secondary); font-size: 14px; margin-left: 8px;">${intenseBankOpacity}</span>
+                </div>
+            </td>
+            <td style="padding: 16px;">
+                <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('color.shadow.intense', this)">
+                    <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${intenseProColor}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
+                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">${intenseProColor.toUpperCase()}</span>
+                    <span style="color: var(--color-text-secondary); font-size: 14px; margin-left: 8px;">${intenseProOpacity}</span>
+                </div>
+            </td>
+        </tr>
+    `;
+
+    html += '</tbody></table>';
+
+    html += `</div>`; // Close shadow-tab
+    html += `</div>`; // Close internal-tabs-wrapper
+
+    container.innerHTML = html;
+}
+
+        function renderPrimitiveColors(container) {
+    console.log('renderPrimitiveColors called', container);
+    const primitives = designTokens.color.primitives;
+    let html = '';
+
+    // Tab System
+    html += `
+        <div class="internal-tabs-wrapper">
+            <div class="internal-tab-buttons">
+                <button class="internal-tab-button active" onclick="switchInternalTab(event, 'gray-tab')">Gray</button>
+                <button class="internal-tab-button" onclick="switchInternalTab(event, 'red-tab')">Red</button>
+                <button class="internal-tab-button" onclick="switchInternalTab(event, 'orange-tab')">Orange</button>
+                <button class="internal-tab-button" onclick="switchInternalTab(event, 'green-tab')">Green</button>
+                <button class="internal-tab-button" onclick="switchInternalTab(event, 'blue-tab')">Blue</button>
+                <button class="internal-tab-button" onclick="switchInternalTab(event, 'neutral-tab')">Neutral</button>
+                <button class="internal-tab-button" onclick="switchInternalTab(event, 'brand-tab')">Brand</button>
+            </div>
+    `;
+
+    // Function to render primitive color table
+    const renderPrimitiveTable = (colorName, colorObject) => {
+        let tableHtml = `
+            <div style="margin-bottom: 48px;">
+                <h3 style="font-size: 16px; font-weight: 350; color: var(--color-text-muted); margin-bottom: 16px;">color / ${colorName}</h3>
+                <table style="width: 100%; border-collapse: collapse; background: var(--color-bg-secondary); border-radius: 8px; overflow: hidden;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid var(--color-border);">
+                            <th style="padding: 16px; text-align: left; font-weight: 550; font-size: 14px; color: var(--color-text-primary); width: 200px;">Nome</th>
+                            <th style="padding: 16px; text-align: left; font-weight: 550; font-size: 14px; color: var(--color-text-primary);">dark</th>
+                            <th style="padding: 16px; text-align: left; font-weight: 550; font-size: 14px; color: var(--color-text-primary);">light</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+
+        Object.entries(colorObject).forEach(([key, value]) => {
+            const darkColor = value.dark;
+            const lightColor = value.light;
+
+            tableHtml += `
+                <tr style="border-bottom: 1px solid var(--color-border);">
+                    <td style="padding: 16px; color: var(--color-text-secondary); font-size: 14px;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0;">
+                                <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.2"/>
+                                <circle cx="12" cy="12" r="6" fill="currentColor"/>
+                            </svg>
+                            ${key}
+                        </div>
+                    </td>
+                    <td style="padding: 16px;">
+                        <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('${darkColor}', this)">
+                            <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${darkColor}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
+                            <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">${darkColor.toUpperCase()}</span>
+                        </div>
+                    </td>
+                    <td style="padding: 16px;">
+                        <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('${lightColor}', this)">
+                            <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${lightColor}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
+                            <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">${lightColor.toUpperCase()}</span>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        });
+
+        tableHtml += `
+                    </tbody>
+                </table>
             </div>
         `;
-    });
 
-    html += '</div></div>';
+        return tableHtml;
+    };
 
-    html += '</div></div>';
+    // Gray Tab
+    html += `<div id="gray-tab" class="internal-tab-content active">`;
+    html += renderPrimitiveTable('gray', primitives.gray);
+    html += `</div>`;
 
-    // Close Semantic Colors Tab
-    html += '</div>'; // Close semantic-colors-tab
+    // Red Tab
+    html += `<div id="red-tab" class="internal-tab-content">`;
+    html += renderPrimitiveTable('red', primitives.red);
+    html += `</div>`;
 
-    // Section 2: PRIMITIVE COLORS TAB
+    // Orange Tab
+    html += `<div id="orange-tab" class="internal-tab-content">`;
+    html += renderPrimitiveTable('orange', primitives.orange);
+    html += `</div>`;
+
+    // Green Tab
+    html += `<div id="green-tab" class="internal-tab-content">`;
+    html += renderPrimitiveTable('green', primitives.green);
+    html += `</div>`;
+
+    // Blue Tab
+    html += `<div id="blue-tab" class="internal-tab-content">`;
+    html += renderPrimitiveTable('blue', primitives.blue);
+    html += `</div>`;
+
+    // Neutral Tab
+    html += `<div id="neutral-tab" class="internal-tab-content">`;
     html += `
-            <!-- Primitive Colors Tab Content -->
-            <div id="primitive-colors-tab" class="color-tab-content">
-                <div class="primitives-section">
-                    <div class="primitives-header">
-                        <h2 class="primitives-title">Color Primitives</h2>
-                        <p class="primitives-description">Paleta base de cores do sistema - use os tokens semânticos acima sempre que possível</p>
+        <div style="margin-bottom: 48px;">
+            <h3 style="font-size: 16px; font-weight: 350; color: var(--color-text-muted); margin-bottom: 16px;">color / neutral</h3>
+            <table style="width: 100%; border-collapse: collapse; background: var(--color-bg-secondary); border-radius: 8px; overflow: hidden;">
+                <thead>
+                    <tr style="border-bottom: 1px solid var(--color-border);">
+                        <th style="padding: 16px; text-align: left; font-weight: 550; font-size: 14px; color: var(--color-text-primary); width: 200px;">Nome</th>
+                        <th style="padding: 16px; text-align: left; font-weight: 550; font-size: 14px; color: var(--color-text-primary);">dark</th>
+                        <th style="padding: 16px; text-align: left; font-weight: 550; font-size: 14px; color: var(--color-text-primary);">light</th>
+                    </tr>
+                </thead>
+                <tbody>
+    `;
+
+    Object.entries(primitives.neutral).forEach(([key, value]) => {
+        const darkColor = value.dark;
+        const lightColor = value.light;
+
+        html += `
+            <tr style="border-bottom: 1px solid var(--color-border);">
+                <td style="padding: 16px; color: var(--color-text-secondary); font-size: 14px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0;">
+                            <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.2"/>
+                            <circle cx="12" cy="12" r="6" fill="currentColor"/>
+                        </svg>
+                        ${key}
                     </div>
+                </td>
+                <td style="padding: 16px;">
+                    <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('${darkColor}', this)">
+                        <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${darkColor}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
+                        <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">${darkColor.toUpperCase()}</span>
+                    </div>
+                </td>
+                <td style="padding: 16px;">
+                    <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('${lightColor}', this)">
+                        <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${lightColor}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
+                        <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">${lightColor.toUpperCase()}</span>
+                    </div>
+                </td>
+            </tr>
+        `;
+    });
+
+    html += `
+                </tbody>
+            </table>
+        </div>
+    `;
+    html += `</div>`; // Close neutral-tab
+
+    // Brand Tab
+    html += `<div id="brand-tab" class="internal-tab-content">`;
+    html += `
+        <div style="margin-bottom: 48px;">
+            <h3 style="font-size: 16px; font-weight: 350; color: var(--color-text-muted); margin-bottom: 16px;">color / brand</h3>
+            <table style="width: 100%; border-collapse: collapse; background: var(--color-bg-secondary); border-radius: 8px; overflow: hidden;">
+                <thead>
+                    <tr style="border-bottom: 1px solid var(--color-border);">
+                        <th style="padding: 16px; text-align: left; font-weight: 550; font-size: 14px; color: var(--color-text-primary); width: 200px;">Nome</th>
+                        <th style="padding: 16px; text-align: left; font-weight: 550; font-size: 14px; color: var(--color-text-primary);">dark</th>
+                        <th style="padding: 16px; text-align: left; font-weight: 550; font-size: 14px; color: var(--color-text-primary);">light</th>
+                    </tr>
+                </thead>
+                <tbody>
     `;
 
-    // Gray
-    html += '<div class="primitive-scale"><h3 class="primitive-scale-title">Gray</h3><div class="primitive-colors-row">';
-    Object.entries(primitives.gray).forEach(([key, value]) => {
-        html += `
-            <div class="primitive-color-item">
-                <div class="primitive-color-preview" style="background-color: ${value.dark}"></div>
-                <div class="primitive-color-name">gray.${key}</div>
-                <div class="primitive-color-value">Dark: ${value.dark}</div>
-                <div class="primitive-color-value">Light: ${value.light}</div>
-                <button class="primitive-copy-btn" onclick="copyToClipboard('${value.dark}', this)">Copiar</button>
-            </div>
-        `;
-    });
-    html += '</div></div>';
-
-    // Red
-    html += '<div class="primitive-scale"><h3 class="primitive-scale-title">Red</h3><div class="primitive-colors-row">';
-    Object.entries(primitives.red).forEach(([key, value]) => {
-        html += `
-            <div class="primitive-color-item">
-                <div class="primitive-color-preview" style="background-color: ${value.dark}"></div>
-                <div class="primitive-color-name">red.${key}</div>
-                <div class="primitive-color-value">Dark: ${value.dark}</div>
-                <div class="primitive-color-value">Light: ${value.light}</div>
-                <button class="primitive-copy-btn" onclick="copyToClipboard('${value.dark}', this)">Copiar</button>
-            </div>
-        `;
-    });
-    html += '</div></div>';
-
-    // Orange
-    html += '<div class="primitive-scale"><h3 class="primitive-scale-title">Orange</h3><div class="primitive-colors-row">';
-    Object.entries(primitives.orange).forEach(([key, value]) => {
-        html += `
-            <div class="primitive-color-item">
-                <div class="primitive-color-preview" style="background-color: ${value.dark}"></div>
-                <div class="primitive-color-name">orange.${key}</div>
-                <div class="primitive-color-value">Dark: ${value.dark}</div>
-                <div class="primitive-color-value">Light: ${value.light}</div>
-                <button class="primitive-copy-btn" onclick="copyToClipboard('${value.dark}', this)">Copiar</button>
-            </div>
-        `;
-    });
-    html += '</div></div>';
-
-    // Green
-    html += '<div class="primitive-scale"><h3 class="primitive-scale-title">Green</h3><div class="primitive-colors-row">';
-    Object.entries(primitives.green).forEach(([key, value]) => {
-        html += `
-            <div class="primitive-color-item">
-                <div class="primitive-color-preview" style="background-color: ${value.dark}"></div>
-                <div class="primitive-color-name">green.${key}</div>
-                <div class="primitive-color-value">Dark: ${value.dark}</div>
-                <div class="primitive-color-value">Light: ${value.light}</div>
-                <button class="primitive-copy-btn" onclick="copyToClipboard('${value.dark}', this)">Copiar</button>
-            </div>
-        `;
-    });
-    html += '</div></div>';
-
-    // Blue
-    html += '<div class="primitive-scale"><h3 class="primitive-scale-title">Blue</h3><div class="primitive-colors-row">';
-    Object.entries(primitives.blue).forEach(([key, value]) => {
-        html += `
-            <div class="primitive-color-item">
-                <div class="primitive-color-preview" style="background-color: ${value.dark}"></div>
-                <div class="primitive-color-name">blue.${key}</div>
-                <div class="primitive-color-value">Dark: ${value.dark}</div>
-                <div class="primitive-color-value">Light: ${value.light}</div>
-                <button class="primitive-copy-btn" onclick="copyToClipboard('${value.dark}', this)">Copiar</button>
-            </div>
-        `;
-    });
-    html += '</div></div>';
-
-    // Brand
-    html += '<div class="primitive-scale"><h3 class="primitive-scale-title">Brand</h3><div class="primitive-colors-row">';
     Object.entries(primitives.brand).forEach(([key, value]) => {
-        const color = typeof value === 'object' ? value.dark : value;
+        const color = value.dark;
+
         html += `
-            <div class="primitive-color-item">
-                <div class="primitive-color-preview" style="background-color: ${color}"></div>
-                <div class="primitive-color-name">brand.${key}</div>
-                <div class="primitive-color-value">${color}</div>
-                <div class="primitive-color-value"></div>
-                <button class="primitive-copy-btn" onclick="copyToClipboard('${color}', this)">Copiar</button>
-            </div>
+            <tr style="border-bottom: 1px solid var(--color-border);">
+                <td style="padding: 16px; color: var(--color-text-secondary); font-size: 14px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0;">
+                            <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.2"/>
+                            <circle cx="12" cy="12" r="6" fill="currentColor"/>
+                        </svg>
+                        ${key}
+                    </div>
+                </td>
+                <td style="padding: 16px;">
+                    <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('${color}', this)">
+                        <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${color}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
+                        <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">${color.toUpperCase()}</span>
+                    </div>
+                </td>
+                <td style="padding: 16px;">
+                    <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('${color}', this)">
+                        <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${color}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
+                        <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">${color.toUpperCase()}</span>
+                    </div>
+                </td>
+            </tr>
         `;
     });
-    html += '</div></div>';
 
-    html += '</div>'; // Close primitives-section
-    html += '</div>'; // Close primitive-colors-tab
-    html += '</div>'; // Close color-tabs-wrapper
+    html += `
+                </tbody>
+            </table>
+        </div>
+    `;
+    html += `</div>`; // Close brand-tab
+    html += `</div>`; // Close internal-tabs-wrapper
 
     container.innerHTML = html;
 }
         function renderTypography(container) {
             const font = designTokens.font;
             const fontTheme = designTokens.fontTheme;
-
             let html = '';
 
-            // Font samples
-            html += `<div class="token-category"><h2 class="token-category-title">Type Scale</h2>`;
+            // Tab System
+            html += `
+                <div class="color-tabs-wrapper">
+                    <div class="color-tab-buttons">
+                        <button class="color-tab-button active" onclick="switchColorTab(event, 'font-tokens-tab')">
+                            Font Tokens
+                        </button>
+                        <button class="color-tab-button" onclick="switchColorTab(event, 'font-primitives-tab')">
+                            Font Primitives
+                        </button>
+                    </div>
+
+                    <!-- Font Tokens Tab Content -->
+                    <div id="font-tokens-tab" class="color-tab-content active">
+            `;
+
+            // Type Scale Section
+            html += `
+                <div style="margin-bottom: 64px;">
+                    <h2 style="font-size: 34px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">Type Scale</h2>
+                    <p style="font-size: 16px; color: var(--color-text-muted); margin-bottom: 32px;">
+                        Escala tipográfica com tamanhos responsivos para mobile, tablet e desktop
+                    </p>
+                    <div style="display: flex; flex-direction: column; gap: 24px;">
+            `;
 
             Object.entries(font.size).forEach(([key, value]) => {
                 if (key === 'base') return;
                 const size = typeof value === 'object' ? value.mobile : value;
-                const weight = font.weight.regular.mobile;
 
                 html += `
-                    <div class="typography-preview">
-                        <div class="typography-sample" style="font-size: ${size}px; font-weight: ${weight}">
+                    <div style="background: var(--color-bg-secondary); border-radius: 12px; padding: 24px; border: 1px solid var(--color-border);">
+                        <div style="font-size: ${size}px; font-weight: 350; margin-bottom: 16px; color: var(--color-text-primary);">
                             The quick brown fox jumps over the lazy dog
                         </div>
-                        <div class="typography-specs">
-                            <div class="spec-item">
-                                <span class="spec-label">Token</span>
-                                <span>font.size.${key}</span>
-                            </div>
-                            <div class="spec-item">
-                                <span class="spec-label">Size</span>
-                                <span>${size}px</span>
-                            </div>
-                            <div class="spec-item">
-                                <span class="spec-label">Weight</span>
-                                <span>${weight}</span>
-                            </div>
+                        <div style="display: flex; gap: 32px; font-size: 13px; color: var(--color-text-muted);">
+                            <div><strong style="color: var(--color-text-secondary);">Token:</strong> font.size.${key}</div>
+                            <div><strong style="color: var(--color-text-secondary);">Size:</strong> ${size}px</div>
+                            ${typeof value === 'object' ? `<div><strong style="color: var(--color-text-secondary);">Responsive:</strong> M:${value.mobile}px / T:${value.tablet}px / D:${value.desktop}px</div>` : ''}
                         </div>
                     </div>
                 `;
             });
-            html += '</div>';
 
-            // Font weights
-            html += `<div class="token-category"><h2 class="token-category-title">Font Weights</h2><div class="token-list">`;
-            Object.entries(font.weight).forEach(([key, value]) => {
-                html += `
-                    <div class="token-item">
-                        <div class="token-name">font.weight.${key}</div>
-                        <div class="token-value" style="font-weight: ${value.mobile}">${value.mobile}</div>
-                        <button class="copy-button" onclick="copyToClipboard('${value.mobile}', this)">Copiar</button>
-                    </div>
-                `;
-            });
             html += '</div></div>';
 
-            container.innerHTML = html;
-        }
-
-        function renderSpacing(container) {
-            console.log('renderSpacing called', container);
-            const spacing = designTokens.spacing;
-            console.log('Spacing data:', spacing);
-            let html = '';
-
-            // Spacing Primitives Section
+            // Font Weights Section
             html += `
                 <div style="margin-bottom: 64px;">
-                    <h2 style="font-size: 34px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">Spacing Primitives</h2>
+                    <h2 style="font-size: 34px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">Font Weights</h2>
                     <p style="font-size: 16px; color: var(--color-text-muted); margin-bottom: 32px;">
-                        Tokens primitivos de espaçamento que servem como base para todo o sistema
+                        Pesos da fonte JUST Sans Variable (Light 200, Regular 350, Bold 550)
                     </p>
-
                     <div class="semantic-colors-grid">
                         <div class="semantic-color-card">
                             <div class="semantic-card-header">
-                                <h3 class="semantic-card-title">Primitivos</h3>
-                                <p class="semantic-card-description">Valores base em pixels para espaçamento</p>
+                                <h3 class="semantic-card-title">Weights</h3>
+                                <p class="semantic-card-description">Pesos disponíveis na fonte variável</p>
                             </div>
                             <div class="semantic-card-tokens">
             `;
 
-            // Render primitive spacing tokens
-            Object.entries(spacing.primitives).forEach(([key, value]) => {
+            Object.entries(font.weight).forEach(([key, value]) => {
+                const weightValue = value.mobile;
                 html += `
-                    <div class="semantic-token-item" style="cursor: pointer;" onclick="copyColorWithFeedback('${value}', this)">
-                        <div style="display: flex; align-items: center; justify-content: center; width: 100%; height: 80px; border-radius: 8px; background-color: var(--color-bg-tertiary); position: relative;">
-                            <div class="spacing-box" style="width: ${Math.min(value, 160)}px; height: ${Math.min(value, 60)}px; background-color: var(--color-accent); opacity: 0.6; border-radius: 4px;"></div>
+                    <div class="semantic-token-item" style="cursor: pointer;" onclick="copyColorWithFeedback('${weightValue}', this)">
+                        <div style="display: flex; align-items: center; justify-content: center; width: 100%; height: 80px; border-radius: 8px; background-color: var(--color-bg-tertiary);">
+                            <span style="font-size: 32px; font-weight: ${weightValue}; color: var(--color-text-primary);">Aa</span>
                         </div>
                         <div class="semantic-token-details">
                             <div class="semantic-token-label">${key}</div>
-                            <div class="semantic-token-path">spacing.primitives.${key}</div>
+                            <div class="semantic-token-path">font.weight.${key}</div>
+                            <div class="semantic-token-hex">${weightValue}</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Line Height Section
+            html += `
+                <div style="margin-bottom: 64px;">
+                    <h2 style="font-size: 34px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">Line Height</h2>
+                    <p style="font-size: 16px; color: var(--color-text-muted); margin-bottom: 32px;">
+                        Alturas de linha para diferentes tamanhos de texto
+                    </p>
+                    <div class="semantic-colors-grid">
+                        <div class="semantic-color-card">
+                            <div class="semantic-card-header">
+                                <h3 class="semantic-card-title">Line Heights</h3>
+                                <p class="semantic-card-description">Valores em pixels para espaçamento entre linhas</p>
+                            </div>
+                            <div class="semantic-card-tokens">
+            `;
+
+            Object.entries(font.lineheight).forEach(([key, value]) => {
+                const lineHeight = typeof value === 'object' ? resolveToken(value.mobile) : value;
+                html += `
+                    <div class="semantic-token-item" style="cursor: pointer;" onclick="copyColorWithFeedback('${lineHeight}', this)">
+                        <div style="display: flex; align-items: center; justify-content: center; width: 100%; height: 80px; border-radius: 8px; background-color: var(--color-bg-tertiary); position: relative;">
+                            <div style="width: 120px; display: flex; flex-direction: column; gap: 4px;">
+                                <div style="height: 2px; background: var(--color-accent); opacity: 0.6;"></div>
+                                <div style="height: ${Math.min(lineHeight, 40)}px; background: var(--color-accent); opacity: 0.3; border-radius: 2px;"></div>
+                                <div style="height: 2px; background: var(--color-accent); opacity: 0.6;"></div>
+                            </div>
+                        </div>
+                        <div class="semantic-token-details">
+                            <div class="semantic-token-label">${key}</div>
+                            <div class="semantic-token-path">font.lineheight.${key}</div>
+                            <div class="semantic-token-hex">${lineHeight}px</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Letter Spacing Section
+            html += `
+                <div style="margin-bottom: 64px;">
+                    <h2 style="font-size: 34px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">Letter Spacing</h2>
+                    <p style="font-size: 16px; color: var(--color-text-muted); margin-bottom: 32px;">
+                        Espaçamento entre caracteres (tracking)
+                    </p>
+                    <div class="semantic-colors-grid">
+                        <div class="semantic-color-card">
+                            <div class="semantic-card-header">
+                                <h3 class="semantic-card-title">Tracking</h3>
+                                <p class="semantic-card-description">Valores de letter-spacing em pixels</p>
+                            </div>
+                            <div class="semantic-card-tokens">
+            `;
+
+            Object.entries(font.letterspacing).forEach(([key, value]) => {
+                const letterSpacing = typeof value === 'object' ? resolveToken(value.mobile) : value;
+                html += `
+                    <div class="semantic-token-item" style="cursor: pointer;" onclick="copyColorWithFeedback('${letterSpacing}', this)">
+                        <div style="display: flex; align-items: center; justify-content: center; width: 100%; height: 80px; border-radius: 8px; background-color: var(--color-bg-tertiary);">
+                            <span style="font-size: 24px; font-weight: 350; letter-spacing: ${letterSpacing}px; color: var(--color-text-primary);">Aa</span>
+                        </div>
+                        <div class="semantic-token-details">
+                            <div class="semantic-token-label">${key}</div>
+                            <div class="semantic-token-path">font.letterspacing.${key}</div>
+                            <div class="semantic-token-hex">${letterSpacing}px</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Close Font Tokens Tab
+            html += '</div>';
+
+            // Font Primitives Tab Content
+            html += `
+                <div id="font-primitives-tab" class="color-tab-content">
+                    <div style="margin-bottom: 64px;">
+                        <h2 style="font-size: 34px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">Font Primitives</h2>
+                        <p style="font-size: 16px; color: var(--color-text-muted); margin-bottom: 32px;">
+                            Tokens primitivos de tipografia (scales, letterspacing e style)
+                        </p>
+                        <div class="semantic-colors-grid">
+            `;
+
+            // Scale primitives
+            html += `
+                <div class="semantic-color-card">
+                    <div class="semantic-card-header">
+                        <h3 class="semantic-card-title">Type Scale Ratios</h3>
+                        <p class="semantic-card-description">Proporções de escala tipográfica</p>
+                    </div>
+                    <div class="semantic-card-tokens">
+            `;
+
+            Object.entries(font.primitives.scale).forEach(([key, value]) => {
+                html += `
+                    <div class="semantic-token-item" style="cursor: pointer;" onclick="copyColorWithFeedback('${value}', this)">
+                        <div style="display: flex; align-items: center; justify-content: center; width: 100%; height: 80px; border-radius: 8px; background-color: var(--color-bg-tertiary);">
+                            <span style="font-size: 20px; font-weight: 550; color: var(--color-accent);">${value}</span>
+                        </div>
+                        <div class="semantic-token-details">
+                            <div class="semantic-token-label">${key}</div>
+                            <div class="semantic-token-path">font.primitives.scale.${key}</div>
+                            <div class="semantic-token-hex">${value}</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `
+                    </div>
+                </div>
+            `;
+
+            // Letter spacing primitives
+            html += `
+                <div class="semantic-color-card">
+                    <div class="semantic-card-header">
+                        <h3 class="semantic-card-title">Letter Spacing Primitives</h3>
+                        <p class="semantic-card-description">Valores base de letter-spacing</p>
+                    </div>
+                    <div class="semantic-card-tokens">
+            `;
+
+            Object.entries(font.primitives.letterspacing).forEach(([key, value]) => {
+                html += `
+                    <div class="semantic-token-item" style="cursor: pointer;" onclick="copyColorWithFeedback('${value}', this)">
+                        <div style="display: flex; align-items: center; justify-content: center; width: 100%; height: 80px; border-radius: 8px; background-color: var(--color-bg-tertiary);">
+                            <span style="font-size: 28px; font-weight: 350; letter-spacing: ${value}px; color: var(--color-text-primary);">Aa</span>
+                        </div>
+                        <div class="semantic-token-details">
+                            <div class="semantic-token-label">${key}</div>
+                            <div class="semantic-token-path">font.primitives.letterspacing.${key}</div>
                             <div class="semantic-token-hex">${value}px</div>
                         </div>
                     </div>
@@ -2766,13 +3529,91 @@
             });
 
             html += `
-                            </div>
+                    </div>
+                </div>
+            `;
+
+            // Font Style primitives
+            html += `
+                <div class="semantic-color-card">
+                    <div class="semantic-card-header">
+                        <h3 class="semantic-card-title">Font Style</h3>
+                        <p class="semantic-card-description">Estilos de fonte disponíveis</p>
+                    </div>
+                    <div class="semantic-card-tokens">
+            `;
+
+            Object.entries(font.primitives.style).forEach(([key, value]) => {
+                html += `
+                    <div class="semantic-token-item" style="cursor: pointer;" onclick="copyColorWithFeedback('${value}', this)">
+                        <div style="display: flex; align-items: center; justify-content: center; width: 100%; height: 80px; border-radius: 8px; background-color: var(--color-bg-tertiary);">
+                            <span style="font-size: 28px; font-weight: 350; font-style: ${value}; color: var(--color-text-primary);">Aa</span>
+                        </div>
+                        <div class="semantic-token-details">
+                            <div class="semantic-token-label">${key}</div>
+                            <div class="semantic-token-path">font.primitives.style.${key}</div>
+                            <div class="semantic-token-hex">${value}</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `
+                    </div>
+                </div>
+            `;
+
+            html += `
                         </div>
                     </div>
                 </div>
             `;
 
-            // Semantic Spacing Sections
+            // Close tabs wrapper
+            html += '</div>';
+
+            container.innerHTML = html;
+        }
+
+        function renderSpacing(container) {
+            const spacing = designTokens.spacing;
+            let html = '';
+
+            // Tab System
+            html += `
+                <div class="color-tabs-wrapper">
+                    <div class="color-tab-buttons">
+                        <button class="color-tab-button active" onclick="switchColorTab(event, 'semantic-spacing-tab')">
+                            Spacing Semânticos
+                        </button>
+                        <button class="color-tab-button" onclick="switchColorTab(event, 'primitive-spacing-tab')">
+                            Spacing Primitivos
+                        </button>
+                    </div>
+
+                    <!-- Semantic Spacing Tab Content -->
+                    <div id="semantic-spacing-tab" class="color-tab-content active">
+            `;
+
+            // Semantic Spacing Section
+            html += '<div style="margin-bottom: 64px;"><h2 style="font-size: 34px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">Semantic Spacing</h2>';
+            html += '<p style="font-size: 16px; color: var(--color-text-muted); margin-bottom: 32px;">Tokens semânticos de espaçamento para inset, inline e stack</p>';
+
+            // Spacing Type Filter Select
+            html += `
+                <div class="theme-filter-container">
+                    <select id="spacingTypeFilter" class="theme-filter-select" onchange="filterSpacingType(this.value)">
+                        <option value="all">Todos</option>
+                        <option value="inset">Inset</option>
+                        <option value="inline">Inline</option>
+                        <option value="stack">Stack</option>
+                    </select>
+                </div>
+            `;
+
+            html += '<div class="semantic-colors-grid">';
+
+            // Spacing Types
             const spacingTypes = [
                 {
                     key: 'inset',
@@ -2793,19 +3634,12 @@
 
             spacingTypes.forEach(({ key, title, description }) => {
                 html += `
-                    <div style="margin-bottom: 64px;">
-                        <h2 style="font-size: 34px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">Spacing ${title}</h2>
-                        <p style="font-size: 16px; color: var(--color-text-muted); margin-bottom: 32px;">
-                            ${description}
-                        </p>
-
-                        <div class="semantic-colors-grid">
-                            <div class="semantic-color-card">
-                                <div class="semantic-card-header">
-                                    <h3 class="semantic-card-title">${title} Tokens</h3>
-                                    <p class="semantic-card-description">Valores semânticos com suporte responsivo</p>
-                                </div>
-                                <div class="semantic-card-tokens">
+                    <div class="semantic-color-card" data-spacing-type="${key}">
+                        <div class="semantic-card-header">
+                            <h3 class="semantic-card-title">${title}</h3>
+                            <p class="semantic-card-description">${description}</p>
+                        </div>
+                        <div class="semantic-card-tokens">
                 `;
 
                 Object.entries(spacing[key]).forEach(([tokenKey, value]) => {
@@ -2832,49 +3666,261 @@
                 });
 
                 html += `
-                                </div>
-                            </div>
                         </div>
                     </div>
                 `;
             });
 
-            console.log('About to set innerHTML, html length:', html.length);
+            html += '</div></div>';
+
+            // Close Semantic Tab
+            html += '</div>';
+
+            // Primitive Spacing Tab Content
+            html += `
+                <div id="primitive-spacing-tab" class="color-tab-content">
+                    <div style="margin-bottom: 64px;">
+                        <h2 style="font-size: 34px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">Spacing Primitives</h2>
+                        <p style="font-size: 16px; color: var(--color-text-muted); margin-bottom: 32px;">
+                            Tokens primitivos de espaçamento que servem como base para todo o sistema
+                        </p>
+
+                        <div class="semantic-colors-grid">
+                            <div class="semantic-color-card">
+                                <div class="semantic-card-header">
+                                    <h3 class="semantic-card-title">Primitivos</h3>
+                                    <p class="semantic-card-description">Valores base em pixels para espaçamento</p>
+                                </div>
+                                <div class="semantic-card-tokens">
+            `;
+
+            // Render primitive spacing tokens
+            Object.entries(spacing.primitives).forEach(([key, value]) => {
+                html += `
+                    <div class="semantic-token-item" style="cursor: pointer;" onclick="copyColorWithFeedback('${value}', this)">
+                        <div style="display: flex; align-items: center; justify-content: center; width: 100%; height: 80px; border-radius: 8px; background-color: var(--color-bg-tertiary); position: relative;">
+                            <div class="spacing-box" style="width: ${Math.min(value, 160)}px; height: ${Math.min(value, 60)}px; background-color: var(--color-accent); opacity: 0.6; border-radius: 4px;"></div>
+                        </div>
+                        <div class="semantic-token-details">
+                            <div class="semantic-token-label">${key}</div>
+                            <div class="semantic-token-path">spacing.primitives.${key}</div>
+                            <div class="semantic-token-hex">${value}px</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Close tabs wrapper
+            html += '</div>';
+
             container.innerHTML = html;
-            console.log('innerHTML set successfully');
         }
 
         function renderGrid(container) {
             const grid = designTokens.grid;
-
             let html = '';
 
-            Object.entries(grid).forEach(([category, values]) => {
-                html += `<div class="token-category"><h2 class="token-category-title">Grid - ${category.charAt(0).toUpperCase() + category.slice(1)}</h2><div class="token-list">`;
+            // Column Count Section
+            html += `
+                <div style="margin-bottom: 64px;">
+                    <h2 style="font-size: 34px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">Column Count</h2>
+                    <p style="font-size: 16px; color: var(--color-text-muted); margin-bottom: 32px;">
+                        Número de colunas do grid para cada breakpoint
+                    </p>
 
-                function renderGridTokens(obj, prefix = '') {
-                    Object.entries(obj).forEach(([key, value]) => {
-                        const tokenName = prefix ? `${prefix}.${key}` : key;
-                        if (typeof value === 'object' && (value.mobile !== undefined || value.bank !== undefined)) {
-                            const displayValue = value.mobile !== undefined ?
-                                `Mobile: ${value.mobile}, Tablet: ${value.tablet}, Desktop: ${value.desktop}` :
-                                `Bank: ${value.bank}, Pro: ${value.pro}`;
-                            html += `
-                                <div class="token-item">
-                                    <div class="token-name">grid.${category}.${tokenName}</div>
-                                    <div class="token-value">${displayValue}</div>
-                                    <button class="copy-button" onclick="copyToClipboard('${JSON.stringify(value)}', this)">Copiar</button>
-                                </div>
-                            `;
-                        } else if (typeof value === 'object') {
-                            renderGridTokens(value, tokenName);
-                        }
-                    });
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+            `;
+
+            // Render Column Count Cards
+            const devices = ['mobile', 'tablet', 'desktop'];
+            devices.forEach(device => {
+                const count = grid.column.count[device];
+                const deviceLabel = device.charAt(0).toUpperCase() + device.slice(1);
+
+                html += `
+                    <div style="background: #1D202B; border-radius: 16px; padding: 32px; border: 1px solid #454A56;">
+                        <div style="display: flex; gap: 4px; margin-bottom: 20px; justify-content: center;">
+                `;
+
+                // Visual columns
+                for (let i = 0; i < count; i++) {
+                    html += `<div style="background: var(--color-accent); height: 60px; flex: 1; border-radius: 4px; min-width: ${280 / count - 4}px;"></div>`;
                 }
 
-                renderGridTokens(values);
-                html += '</div></div>';
+                html += `
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 24px; font-weight: 550; color: var(--color-text-primary); margin-bottom: 8px;">${deviceLabel}</div>
+                            <div style="font-size: 14px; color: var(--color-text-muted);">${count} columns</div>
+                        </div>
+                    </div>
+                `;
             });
+
+            html += `
+                    </div>
+                </div>
+            `;
+
+            // Viewport Sizes Section
+            html += `
+                <div style="margin-bottom: 64px;">
+                    <h2 style="font-size: 34px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">Viewport Sizes</h2>
+                    <p style="font-size: 16px; color: var(--color-text-muted); margin-bottom: 32px;">
+                        Tamanhos de viewport e container para cada dispositivo
+                    </p>
+
+                    <div style="display: grid; gap: 32px;">
+            `;
+
+            // VW Section
+            html += `
+                <div>
+                    <h3 style="font-size: 23px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">VW</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+            `;
+
+            devices.forEach(device => {
+                const vw = grid.size.vw[device];
+                const deviceLabel = device.charAt(0).toUpperCase() + device.slice(1);
+
+                html += `
+                    <div style="background: #1D202B; border-radius: 12px; padding: 24px; border: 1px solid #454A56; display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-size: 16px; font-weight: 550; color: var(--color-text-primary);">${deviceLabel}</div>
+                        <div style="font-size: 23px; font-weight: 550; color: var(--color-text-secondary);">${vw}px</div>
+                    </div>
+                `;
+            });
+
+            html += `
+                    </div>
+                </div>
+            `;
+
+            // VH Section
+            html += `
+                <div>
+                    <h3 style="font-size: 23px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">VH</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+            `;
+
+            devices.forEach(device => {
+                const vh = grid.size.vh[device];
+                const deviceLabel = device.charAt(0).toUpperCase() + device.slice(1);
+
+                html += `
+                    <div style="background: #1D202B; border-radius: 12px; padding: 24px; border: 1px solid #454A56; display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-size: 16px; font-weight: 550; color: var(--color-text-primary);">${deviceLabel}</div>
+                        <div style="font-size: 23px; font-weight: 550; color: var(--color-text-secondary);">${vh}px</div>
+                    </div>
+                `;
+            });
+
+            html += `
+                    </div>
+                </div>
+            `;
+
+            // CONTAINER Section
+            html += `
+                <div>
+                    <h3 style="font-size: 23px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">CONTAINER</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+            `;
+
+            devices.forEach(device => {
+                const container = grid.size.container[device];
+                const deviceLabel = device.charAt(0).toUpperCase() + device.slice(1);
+
+                html += `
+                    <div style="background: #1D202B; border-radius: 12px; padding: 24px; border: 1px solid #454A56; display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-size: 16px; font-weight: 550; color: var(--color-text-primary);">${deviceLabel}</div>
+                        <div style="font-size: 23px; font-weight: 550; color: var(--color-text-secondary);">${container}px</div>
+                    </div>
+                `;
+            });
+
+            html += `
+                    </div>
+                </div>
+            `;
+
+            html += `
+                    </div>
+                </div>
+            `;
+
+            // Grid Spacing Section
+            html += `
+                <div style="margin-bottom: 64px;">
+                    <h2 style="font-size: 34px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">Grid Spacing</h2>
+                    <p style="font-size: 16px; color: var(--color-text-muted); margin-bottom: 32px;">
+                        Espaçamentos entre colunas (gap) e margens externas (margin)
+                    </p>
+
+                    <div style="display: grid; gap: 32px;">
+            `;
+
+            // Gap Section
+            html += `
+                <div>
+                    <h3 style="font-size: 23px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">Gap</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+            `;
+
+            devices.forEach(device => {
+                const gap = resolveToken(grid.space.gap[device]);
+                const deviceLabel = device.charAt(0).toUpperCase() + device.slice(1);
+
+                html += `
+                    <div style="background: #1D202B; border-radius: 12px; padding: 24px; border: 1px solid #454A56; display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-size: 16px; font-weight: 550; color: var(--color-text-primary);">${deviceLabel}</div>
+                        <div style="font-size: 23px; font-weight: 550; color: var(--color-text-secondary);">${gap}px</div>
+                    </div>
+                `;
+            });
+
+            html += `
+                    </div>
+                </div>
+            `;
+
+            // Margin Section
+            html += `
+                <div>
+                    <h3 style="font-size: 23px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">Margin</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+            `;
+
+            devices.forEach(device => {
+                const margin = resolveToken(grid.space.margin[device]);
+                const deviceLabel = device.charAt(0).toUpperCase() + device.slice(1);
+
+                html += `
+                    <div style="background: #1D202B; border-radius: 12px; padding: 24px; border: 1px solid #454A56; display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-size: 16px; font-weight: 550; color: var(--color-text-primary);">${deviceLabel}</div>
+                        <div style="font-size: 23px; font-weight: 550; color: var(--color-text-secondary);">${margin}px</div>
+                    </div>
+                `;
+            });
+
+            html += `
+                    </div>
+                </div>
+            `;
+
+            html += `
+                    </div>
+                </div>
+            `;
 
             container.innerHTML = html;
         }
@@ -2984,6 +4030,14 @@
 
         // Make copy function global
         window.copyToClipboard = copyToClipboard;
+
+        // Test renderSpacing function on load
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log('Page loaded. Testing renderSpacing...');
+            console.log('renderSpacing function exists:', typeof renderSpacing);
+            console.log('designTokens exists:', typeof designTokens);
+            console.log('designTokens.spacing exists:', !!designTokens.spacing);
+        });
     </script>
 </body>
 </html>

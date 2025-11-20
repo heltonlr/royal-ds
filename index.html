@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,14 +21,6 @@
         }
 
         :root {
-            --color-bg-primary: #0C0F17;
-            --color-bg-secondary: #1D202B;
-            --color-bg-tertiary: #383C48;
-            --color-text-primary: #EBECED;
-            --color-text-secondary: #C8CAD0;
-            --color-text-muted: #90939E;
-            --color-accent: #C2F141;
-            --color-border: #454A56;
             --spacing-xs: 2px;
             --spacing-sm: 4px;
             --spacing-md: 8px;
@@ -39,6 +31,30 @@
             --spacing-4xl: 32px;
             --spacing-5xl: 48px;
             --font-family: 'JUST Sans Variable', system-ui, sans-serif;
+        }
+
+        /* Dark Theme */
+        [data-theme="dark"] {
+            --color-bg-primary: #0C0F17;
+            --color-bg-secondary: #1D202B;
+            --color-bg-tertiary: #383C48;
+            --color-text-primary: #EBECED;
+            --color-text-secondary: #C8CAD0;
+            --color-text-muted: #90939E;
+            --color-accent: #C2F141;
+            --color-border: #454A56;
+        }
+
+        /* Light Theme */
+        [data-theme="light"] {
+            --color-bg-primary: #F4F4F6;
+            --color-bg-secondary: #E4E4E6;
+            --color-bg-tertiary: #DCDCE0;
+            --color-text-primary: #0C0F17;
+            --color-text-secondary: #464850;
+            --color-text-muted: #808287;
+            --color-accent: #C2F141;
+            --color-border: #BBBCBF;
         }
 
         body {
@@ -73,7 +89,7 @@
         .logo {
             font-size: 28px;
             font-weight: 550;
-            color: var(--color-accent);
+            color: var(--color-text-primary);
             margin-bottom: var(--spacing-md);
         }
 
@@ -81,6 +97,53 @@
             font-size: 14px;
             color: var(--color-text-muted);
             font-weight: 200;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle-container {
+            margin-top: var(--spacing-xl);
+            padding: 0 4px;
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: transparent;
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            padding: 4px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+
+        .theme-option {
+            flex: 1;
+            padding: 6px;
+            border-radius: 4px;
+            font-size: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-muted);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .theme-option svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .theme-option.active {
+            background: var(--color-bg-tertiary);
+            color: var(--color-text-primary);
         }
 
         .nav-section {
@@ -102,6 +165,10 @@
             transition: all 0.2s ease;
             border-left: 2px solid transparent;
             font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--color-text-primary);
         }
 
         .nav-item:hover {
@@ -110,12 +177,22 @@
 
         .nav-item.active {
             background-color: var(--color-bg-tertiary);
-            border-left-color: var(--color-accent);
-            color: var(--color-accent);
+            border-left-color: var(--color-text-primary);
         }
 
         .nav-item.has-subitems {
             font-weight: 500;
+        }
+
+        .nav-item-icon {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
         }
 
         .nav-subitems {
@@ -934,32 +1011,122 @@
             <div class="sidebar-header">
                 <div class="logo">Royal DS</div>
                 <div class="logo-subtitle">Design System Documentation</div>
+
+                <!-- Theme Toggle -->
+                <div class="theme-toggle-container">
+                    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+                        <span class="theme-option active" data-theme="dark">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                        </span>
+                        <span class="theme-option" data-theme="light">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </span>
+                    </button>
+                </div>
             </div>
 
             <nav>
                 <div class="nav-section">
                     <div class="nav-section-title">Getting Started</div>
-                    <div class="nav-item active" data-section="welcome">Visão Geral</div>
+                    <div class="nav-item active" data-section="welcome">
+                        <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                        <span>Visão Geral</span>
+                    </div>
                 </div>
 
                 <div class="nav-section">
                     <div class="nav-section-title">Foundation</div>
-                    <div class="nav-item has-subitems" data-section="colors">Colors</div>
-                    <div class="nav-subitems expanded" id="colors-subitems">
+                    <div class="nav-item has-subitems" data-section="colors">
+                        <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10"></circle>
+                        </svg>
+                        <span>Colors</span>
+                    </div>
+                    <div class="nav-subitems" id="colors-subitems">
                         <div class="nav-subitem" data-section="semantic-colors">Cores Semânticas</div>
                         <div class="nav-subitem" data-section="primitive-colors">Cores Primitivas</div>
                     </div>
-                    <div class="nav-item" data-section="typography">Typography</div>
-                    <div class="nav-item" data-section="spacing">Spacing</div>
-                    <div class="nav-item" data-section="grid">Grid</div>
+                    <div class="nav-item" data-section="typography">
+                        <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <polyline points="4 7 4 4 20 4 20 7"></polyline>
+                            <line x1="9" y1="20" x2="15" y2="20"></line>
+                            <line x1="12" y1="4" x2="12" y2="20"></line>
+                        </svg>
+                        <span>Typography</span>
+                    </div>
+                    <div class="nav-item has-subitems" data-section="unit">
+                        <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span>Unit</span>
+                    </div>
+                    <div class="nav-subitems" id="unit-subitems">
+                        <div class="nav-subitem" data-section="positive-unit">Positive</div>
+                        <div class="nav-subitem" data-section="negative-unit">Negative</div>
+                    </div>
+                    <div class="nav-item" data-section="grid">
+                        <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                        <span>Grid</span>
+                    </div>
                 </div>
 
                 <div class="nav-section">
                     <div class="nav-section-title">Styles</div>
-                    <div class="nav-item" data-section="shadows">Shadows</div>
-                    <div class="nav-item" data-section="borders">Borders</div>
-                    <div class="nav-item" data-section="opacity">Opacity</div>
-                    <div class="nav-item" data-section="sizes">Sizes</div>
+                    <div class="nav-item" data-section="spacing">
+                        <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <line x1="4" y1="12" x2="20" y2="12"></line>
+                            <polyline points="8 8 4 12 8 16"></polyline>
+                            <polyline points="16 16 20 12 16 8"></polyline>
+                        </svg>
+                        <span>Spacing</span>
+                    </div>
+                    <div class="nav-item" data-section="shadows">
+                        <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                            <path d="M2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                        </svg>
+                        <span>Shadows</span>
+                    </div>
+                    <div class="nav-item" data-section="borders">
+                        <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span>Borders</span>
+                    </div>
+                    <div class="nav-item" data-section="opacity">
+                        <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        <span>Opacity</span>
+                    </div>
+                    <div class="nav-item" data-section="sizes">
+                        <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <polyline points="21 8 21 21 8 21"></polyline>
+                            <rect x="1" y="1" width="12" height="12"></rect>
+                        </svg>
+                        <span>Sizes</span>
+                    </div>
                 </div>
             </nav>
         </aside>
@@ -1043,6 +1210,30 @@
                 </div>
 
                 <div id="primitiveColorsContent"></div>
+            </section>
+
+            <!-- Positive Unit Section -->
+            <section id="positive-unit" class="content-section">
+                <div class="section-header">
+                    <h1 class="section-title">Unit - Positive</h1>
+                    <p class="section-description">
+                        Tokens de unidade positiva do design system. Base unit = 8px.
+                    </p>
+                </div>
+
+                <div id="positiveUnitContent"></div>
+            </section>
+
+            <!-- Negative Unit Section -->
+            <section id="negative-unit" class="content-section">
+                <div class="section-header">
+                    <h1 class="section-title">Unit - Negative</h1>
+                    <p class="section-description">
+                        Tokens de unidade negativa do design system para espaçamentos negativos.
+                    </p>
+                </div>
+
+                <div id="negativeUnitContent"></div>
             </section>
 
             <!-- Typography Section -->
@@ -1138,6 +1329,35 @@
     <script>
         // Design System Tokens Data
         const designTokens = {
+  "unit": {
+    "base": 8,
+    "positive": {
+      "zero": 0,
+      "2xs": 1,
+      "xs": 2,
+      "sm": 4,
+      "md": 8,
+      "lg": 12,
+      "xl": 16,
+      "2xl": 20,
+      "3xl": 24,
+      "4xl": 32,
+      "5xl": 48,
+      "6xl": 64,
+      "7xl": 96,
+      "8xl": 128,
+      "9xl": 160
+    },
+    "negative": {
+      "2xs": -1,
+      "xs": -2,
+      "sm": -4,
+      "md": -8,
+      "lg": -12,
+      "xl": -16,
+      "2xl": -24
+    }
+  },
   "spacing": {
     "primitives": {
       "zero": 0,
@@ -1158,101 +1378,101 @@
     },
     "inset": {
       "none": {
-        "mobile": "{spacing.primitives.zero}",
-        "tablet": "{spacing.primitives.zero}",
-        "desktop": "{spacing.primitives.zero}"
+        "mobile": "{unit.positive.zero}",
+        "tablet": "{unit.positive.zero}",
+        "desktop": "{unit.positive.zero}"
       },
       "2xs": {
-        "mobile": "{spacing.primitives.sm}",
-        "tablet": "{spacing.primitives.sm}",
-        "desktop": "{spacing.primitives.sm}"
+        "mobile": "{unit.positive.sm}",
+        "tablet": "{unit.positive.sm}",
+        "desktop": "{unit.positive.sm}"
       },
       "xs": {
-        "mobile": "{spacing.primitives.xs}",
-        "tablet": "{spacing.primitives.xs}",
-        "desktop": "{spacing.primitives.xs}"
+        "mobile": "{unit.positive.xs}",
+        "tablet": "{unit.positive.xs}",
+        "desktop": "{unit.positive.xs}"
       },
       "sm": {
-        "mobile": "{spacing.primitives.lg}",
-        "tablet": "{spacing.primitives.lg}",
-        "desktop": "{spacing.primitives.lg}"
+        "mobile": "{unit.positive.lg}",
+        "tablet": "{unit.positive.lg}",
+        "desktop": "{unit.positive.lg}"
       },
       "md": {
-        "mobile": "{spacing.primitives.xl}",
-        "tablet": "{spacing.primitives.xl}",
-        "desktop": "{spacing.primitives.xl}"
+        "mobile": "{unit.positive.xl}",
+        "tablet": "{unit.positive.xl}",
+        "desktop": "{unit.positive.xl}"
       },
       "lg": {
-        "mobile": "{spacing.primitives.3xl}",
-        "tablet": "{spacing.primitives.3xl}",
-        "desktop": "{spacing.primitives.3xl}"
+        "mobile": "{unit.positive.3xl}",
+        "tablet": "{unit.positive.3xl}",
+        "desktop": "{unit.positive.3xl}"
       },
       "xl": {
-        "mobile": "{spacing.primitives.4xl}",
-        "tablet": "{spacing.primitives.4xl}",
-        "desktop": "{spacing.primitives.4xl}"
+        "mobile": "{unit.positive.4xl}",
+        "tablet": "{unit.positive.4xl}",
+        "desktop": "{unit.positive.4xl}"
       },
       "2xl": {
-        "mobile": "{spacing.primitives.5xl}",
-        "tablet": "{spacing.primitives.5xl}",
-        "desktop": "{spacing.primitives.5xl}"
+        "mobile": "{unit.positive.5xl}",
+        "tablet": "{unit.positive.5xl}",
+        "desktop": "{unit.positive.5xl}"
       },
       "3xl": {
-        "mobile": "{spacing.primitives.6xl}",
-        "tablet": "{spacing.primitives.6xl}",
-        "desktop": "{spacing.primitives.6xl}"
+        "mobile": "{unit.positive.6xl}",
+        "tablet": "{unit.positive.6xl}",
+        "desktop": "{unit.positive.6xl}"
       },
       "4xl": {
-        "mobile": "{spacing.primitives.7xl}",
-        "tablet": "{spacing.primitives.7xl}",
-        "desktop": "{spacing.primitives.7xl}"
+        "mobile": "{unit.positive.7xl}",
+        "tablet": "{unit.positive.7xl}",
+        "desktop": "{unit.positive.7xl}"
       }
     },
     "inline": {
       "none": {
-        "mobile": "{spacing.primitives.zero}",
-        "tablet": "{spacing.primitives.zero}",
-        "desktop": "{spacing.primitives.zero}"
+        "mobile": "{unit.positive.zero}",
+        "tablet": "{unit.positive.zero}",
+        "desktop": "{unit.positive.zero}"
       },
       "2xs": {
-        "mobile": "{spacing.primitives.xs}",
-        "tablet": "{spacing.primitives.xs}",
-        "desktop": "{spacing.primitives.xs}"
+        "mobile": "{unit.positive.xs}",
+        "tablet": "{unit.positive.xs}",
+        "desktop": "{unit.positive.xs}"
       },
       "xs": {
-        "mobile": "{spacing.primitives.sm}",
-        "tablet": "{spacing.primitives.sm}",
-        "desktop": "{spacing.primitives.sm}"
+        "mobile": "{unit.positive.sm}",
+        "tablet": "{unit.positive.sm}",
+        "desktop": "{unit.positive.sm}"
       },
       "sm": {
-        "mobile": "{spacing.primitives.md}",
-        "tablet": "{spacing.primitives.md}",
-        "desktop": "{spacing.primitives.md}"
+        "mobile": "{unit.positive.md}",
+        "tablet": "{unit.positive.md}",
+        "desktop": "{unit.positive.md}"
       },
       "md": {
-        "mobile": "{spacing.primitives.lg}",
-        "tablet": "{spacing.primitives.lg}",
-        "desktop": "{spacing.primitives.lg}"
+        "mobile": "{unit.positive.lg}",
+        "tablet": "{unit.positive.lg}",
+        "desktop": "{unit.positive.lg}"
       },
       "lg": {
-        "mobile": "{spacing.primitives.xl}",
-        "tablet": "{spacing.primitives.xl}",
-        "desktop": "{spacing.primitives.xl}"
+        "mobile": "{unit.positive.xl}",
+        "tablet": "{unit.positive.xl}",
+        "desktop": "{unit.positive.xl}"
       },
       "xl": {
-        "mobile": "{spacing.primitives.2xl}",
-        "tablet": "{spacing.primitives.2xl}",
-        "desktop": "{spacing.primitives.2xl}"
+        "mobile": "{unit.positive.2xl}",
+        "tablet": "{unit.positive.2xl}",
+        "desktop": "{unit.positive.2xl}"
       },
       "2xl": {
-        "mobile": "{spacing.primitives.3xl}",
-        "tablet": "{spacing.primitives.3xl}",
-        "desktop": "{spacing.primitives.3xl}"
+        "mobile": "{unit.positive.3xl}",
+        "tablet": "{unit.positive.3xl}",
+        "desktop": "{unit.positive.3xl}"
       },
       "3xl": {
-        "mobile": "{spacing.primitives.4xl}",
-        "tablet": "{spacing.primitives.4xl}",
-        "desktop": "{spacing.primitives.4xl}"
+        "mobile": "{unit.positive.4xl}",
+        "tablet": "{unit.positive.4xl}",
+        "desktop": "{unit.positive.4xl}"
       },
       "4xl": {
         "mobile": 40,
@@ -1262,39 +1482,39 @@
     },
     "stack": {
       "none": {
-        "mobile": "{spacing.primitives.zero}",
-        "tablet": "{spacing.primitives.zero}",
-        "desktop": "{spacing.primitives.zero}"
+        "mobile": "{unit.positive.zero}",
+        "tablet": "{unit.positive.zero}",
+        "desktop": "{unit.positive.zero}"
       },
       "2xs": {
-        "mobile": "{spacing.primitives.sm}",
-        "tablet": "{spacing.primitives.sm}",
-        "desktop": "{spacing.primitives.sm}"
+        "mobile": "{unit.positive.sm}",
+        "tablet": "{unit.positive.sm}",
+        "desktop": "{unit.positive.sm}"
       },
       "xs": {
-        "mobile": "{spacing.primitives.md}",
-        "tablet": "{spacing.primitives.md}",
-        "desktop": "{spacing.primitives.md}"
+        "mobile": "{unit.positive.md}",
+        "tablet": "{unit.positive.md}",
+        "desktop": "{unit.positive.md}"
       },
       "sm": {
-        "mobile": "{spacing.primitives.lg}",
-        "tablet": "{spacing.primitives.lg}",
-        "desktop": "{spacing.primitives.lg}"
+        "mobile": "{unit.positive.lg}",
+        "tablet": "{unit.positive.lg}",
+        "desktop": "{unit.positive.lg}"
       },
       "md": {
-        "mobile": "{spacing.primitives.xl}",
-        "tablet": "{spacing.primitives.xl}",
-        "desktop": "{spacing.primitives.xl}"
+        "mobile": "{unit.positive.xl}",
+        "tablet": "{unit.positive.xl}",
+        "desktop": "{unit.positive.xl}"
       },
       "lg": {
-        "mobile": "{spacing.primitives.3xl}",
-        "tablet": "{spacing.primitives.3xl}",
-        "desktop": "{spacing.primitives.3xl}"
+        "mobile": "{unit.positive.3xl}",
+        "tablet": "{unit.positive.3xl}",
+        "desktop": "{unit.positive.3xl}"
       },
       "xl": {
-        "mobile": "{spacing.primitives.4xl}",
-        "tablet": "{spacing.primitives.4xl}",
-        "desktop": "{spacing.primitives.4xl}"
+        "mobile": "{unit.positive.4xl}",
+        "tablet": "{unit.positive.4xl}",
+        "desktop": "{unit.positive.4xl}"
       },
       "2xl": {
         "mobile": 40,
@@ -1302,42 +1522,42 @@
         "desktop": 40
       },
       "3xl": {
-        "mobile": "{spacing.primitives.5xl}",
-        "tablet": "{spacing.primitives.5xl}",
-        "desktop": "{spacing.primitives.5xl}"
+        "mobile": "{unit.positive.5xl}",
+        "tablet": "{unit.positive.5xl}",
+        "desktop": "{unit.positive.5xl}"
       },
       "4xl": {
-        "mobile": "{spacing.primitives.6xl}",
-        "tablet": "{spacing.primitives.6xl}",
-        "desktop": "{spacing.primitives.6xl}"
+        "mobile": "{unit.positive.6xl}",
+        "tablet": "{unit.positive.6xl}",
+        "desktop": "{unit.positive.6xl}"
       }
     }
   },
 
   "borderRadius": {
     "none": {
-      "bank": "{spacing.primitives.zero}",
-      "pro": "{spacing.primitives.zero}"
+      "bank": "{unit.positive.zero}",
+      "pro": "{unit.positive.zero}"
     },
     "xs": {
-      "bank": "{spacing.primitives.sm}",
-      "pro": "{spacing.primitives.sm}"
+      "bank": "{unit.positive.sm}",
+      "pro": "{unit.positive.sm}"
     },
     "sm": {
-      "bank": "{spacing.primitives.xs}",
-      "pro": "{spacing.primitives.xs}"
+      "bank": "{unit.positive.xs}",
+      "pro": "{unit.positive.xs}"
     },
     "md": {
-      "bank": "{spacing.primitives.xl}",
-      "pro": "{spacing.primitives.xl}"
+      "bank": "{unit.positive.xl}",
+      "pro": "{unit.positive.xl}"
     },
     "lg": {
-      "bank": "{spacing.primitives.3xl}",
-      "pro": "{spacing.primitives.3xl}"
+      "bank": "{unit.positive.3xl}",
+      "pro": "{unit.positive.3xl}"
     },
     "pill": {
-      "bank": "{spacing.primitives.9xl}",
-      "pro": "{spacing.primitives.9xl}"
+      "bank": "{unit.positive.9xl}",
+      "pro": "{unit.positive.9xl}"
     }
   },
 
@@ -1378,15 +1598,15 @@
         "900": { "dark": "#FFFAF7", "light": "#17100C" }
       },
       "yellow": {
-        "100": { "dark": "#004700", "light": "#D7E9D3" },
-        "200": { "dark": "#005600", "light": "#CBE3C7" },
-        "300": { "dark": "#378726", "light": "#9BC891" },
-        "400": { "dark": "#5CA64D", "light": "#6DAF60" },
-        "500": { "dark": "#89BF7F", "light": "#439233" },
-        "600": { "dark": "#B2D5AB", "light": "#1C6F01" },
-        "700": { "dark": "#CAE3C5", "light": "#005300" },
-        "800": { "dark": "#E2EFDF", "light": "#003100" },
-        "900": { "dark": "#F9FCF9", "light": "#0F170C" }
+        "100": { "dark": "#543706", "light": "#FFE293" },
+        "200": { "dark": "#664307", "light": "#FFD875" },
+        "300": { "dark": "#A16A0D", "light": "#F9AC28" },
+        "400": { "dark": "#CA8715", "light": "#D79118" },
+        "500": { "dark": "#ECA221", "light": "#B07510" },
+        "600": { "dark": "#FFC141", "light": "#84570A" },
+        "700": { "dark": "#FFD773", "light": "#624107" },
+        "800": { "dark": "#FFEAB2", "light": "#3A2605" },
+        "900": { "dark": "#FFFBF2", "light": "#17130C" }
       },
       "green": {
         "100": { "dark": "#004700", "light": "#D7E9D3" },
@@ -1411,8 +1631,8 @@
         "900": { "dark": "#FABFFF", "light": "#0C0F17" }
       },
       "neutral": {
-        "light": { "dark": "{color.primitives.gray.900.dark}", "light": "{color.primitives.gray.0.light}" },
-        "dark": { "dark": "{color.primitives.gray.0.dark}", "light": "{color.primitives.gray.0.dark}" }
+        "light": { "dark": "{color.primitives.gray.900}", "light": "{color.primitives.gray.0}" },
+        "dark": { "dark": "{color.primitives.gray.0}", "light": "{color.primitives.gray.0}" }
       },
       "brand": {
         "green": { "dark": "#C2F141", "light": "#C2F141" }
@@ -1421,375 +1641,375 @@
     "surface": {
       "neutral": {
         "default": {
-          "bank": "{color.primitives.gray.0.dark}",
-          "pro": "{color.primitives.gray.0.dark}"
+          "bank": "{color.primitives.gray.0}",
+          "pro": "{color.primitives.gray.0}"
         },
         "secondary": {
-          "bank": "{color.primitives.gray.100.dark}",
-          "pro": "{color.primitives.gray.100.dark}"
+          "bank": "{color.primitives.gray.100}",
+          "pro": "{color.primitives.gray.100}"
         },
         "tertiary": {
-          "bank": "{color.primitives.gray.200.dark}",
-          "pro": "{color.primitives.gray.200.dark}"
+          "bank": "{color.primitives.gray.200}",
+          "pro": "{color.primitives.gray.200}"
         },
         "inverse": {
-          "bank": "{color.primitives.gray.900.dark}",
-          "pro": "{color.primitives.gray.900.dark}"
+          "bank": "{color.primitives.gray.900}",
+          "pro": "{color.primitives.gray.900}"
         }
       },
       "accent": {
         "soft": {
-          "bank": "{color.primitives.gray.400.dark}",
-          "pro": "{color.primitives.gray.400.dark}"
+          "bank": "{color.primitives.gray.400}",
+          "pro": "{color.primitives.gray.400}"
         },
         "default": {
-          "bank": "{color.primitives.gray.600.dark}",
-          "pro": "{color.primitives.gray.600.dark}"
+          "bank": "{color.primitives.gray.600}",
+          "pro": "{color.primitives.gray.600}"
         },
         "strong": {
-          "bank": "{color.primitives.gray.700.dark}",
-          "pro": "{color.primitives.gray.700.dark}"
+          "bank": "{color.primitives.gray.700}",
+          "pro": "{color.primitives.gray.700}"
         },
         "stronger": {
-          "bank": "{color.primitives.gray.900.dark}",
-          "pro": "{color.primitives.gray.900.dark}"
+          "bank": "{color.primitives.gray.900}",
+          "pro": "{color.primitives.gray.900}"
         }
       },
       "info": {
         "soft": {
-          "bank": "{color.primitives.blue.100.dark}",
-          "pro": "{color.primitives.blue.100.dark}"
+          "bank": "{color.primitives.blue.100}",
+          "pro": "{color.primitives.blue.100}"
         },
         "default": {
-          "bank": "{color.primitives.blue.200.dark}",
-          "pro": "{color.primitives.blue.200.dark}"
+          "bank": "{color.primitives.blue.200}",
+          "pro": "{color.primitives.blue.200}"
         },
         "strong": {
-          "bank": "{color.primitives.blue.300.dark}",
-          "pro": "{color.primitives.blue.300.dark}"
+          "bank": "{color.primitives.blue.300}",
+          "pro": "{color.primitives.blue.300}"
         },
         "stronger": {
-          "bank": "{color.primitives.blue.600.dark}",
-          "pro": "{color.primitives.blue.600.dark}"
+          "bank": "{color.primitives.blue.600}",
+          "pro": "{color.primitives.blue.600}"
         }
       },
       "success": {
         "soft": {
-          "bank": "{color.primitives.green.100.dark}",
-          "pro": "{color.primitives.green.100.dark}"
+          "bank": "{color.primitives.green.100}",
+          "pro": "{color.primitives.green.100}"
         },
         "default": {
-          "bank": "{color.primitives.green.200.dark}",
-          "pro": "{color.primitives.green.200.dark}"
+          "bank": "{color.primitives.green.200}",
+          "pro": "{color.primitives.green.200}"
         },
         "strong": {
-          "bank": "{color.primitives.green.300.dark}",
-          "pro": "{color.primitives.green.300.dark}"
+          "bank": "{color.primitives.green.300}",
+          "pro": "{color.primitives.green.300}"
         },
         "stronger": {
-          "bank": "{color.primitives.green.600.dark}",
-          "pro": "{color.primitives.green.600.dark}"
+          "bank": "{color.primitives.green.600}",
+          "pro": "{color.primitives.green.600}"
         }
       },
       "warning": {
         "soft": {
-          "bank": "{color.primitives.orange.100.dark}",
-          "pro": "{color.primitives.orange.100.dark}"
+          "bank": "{color.primitives.yellow.100}",
+          "pro": "{color.primitives.yellow.100}"
         },
         "default": {
-          "bank": "{color.primitives.orange.200.dark}",
-          "pro": "{color.primitives.orange.200.dark}"
+          "bank": "{color.primitives.yellow.200}",
+          "pro": "{color.primitives.yellow.200}"
         },
         "strong": {
-          "bank": "{color.primitives.orange.300.dark}",
-          "pro": "{color.primitives.orange.300.dark}"
+          "bank": "{color.primitives.yellow.300}",
+          "pro": "{color.primitives.yellow.300}"
         },
         "stronger": {
-          "bank": "{color.primitives.orange.800.dark}",
-          "pro": "{color.primitives.orange.800.dark}"
+          "bank": "{color.primitives.yellow.800}",
+          "pro": "{color.primitives.yellow.800}"
         }
       },
       "danger": {
         "soft": {
-          "bank": "{color.primitives.red.100.dark}",
-          "pro": "{color.primitives.red.100.dark}"
+          "bank": "{color.primitives.red.100}",
+          "pro": "{color.primitives.red.100}"
         },
         "default": {
-          "bank": "{color.primitives.red.200.dark}",
-          "pro": "{color.primitives.red.200.dark}"
+          "bank": "{color.primitives.red.200}",
+          "pro": "{color.primitives.red.200}"
         },
         "strong": {
-          "bank": "{color.primitives.red.300.dark}",
-          "pro": "{color.primitives.red.300.dark}"
+          "bank": "{color.primitives.red.300}",
+          "pro": "{color.primitives.red.300}"
         },
         "stronger": {
-          "bank": "{color.primitives.red.600.dark}",
-          "pro": "{color.primitives.red.600.dark}"
+          "bank": "{color.primitives.red.600}",
+          "pro": "{color.primitives.red.600}"
         }
       },
       "translucent": {
         "default": {
-          "bank": { "color": "{color.primitives.gray.0.dark}", "opacity": "95%" },
-          "pro": { "color": "{color.primitives.gray.0.dark}", "opacity": "95%" }
+          "bank": { "color": "{color.primitives.gray.0}", "opacity": "95%" },
+          "pro": { "color": "{color.primitives.gray.0}", "opacity": "95%" }
         },
         "inverse": {
-          "bank": { "color": "{color.primitives.gray.0.light}", "opacity": "95%" },
-          "pro": { "color": "{color.primitives.gray.0.light}", "opacity": "95%" }
+          "bank": { "color": "{color.primitives.gray.0}", "opacity": "95%" },
+          "pro": { "color": "{color.primitives.gray.0}", "opacity": "95%" }
         }
       }
     },
     "border": {
       "neutral": {
         "soft": {
-          "bank": "{color.primitives.gray.200.dark}",
-          "pro": "{color.primitives.gray.200.dark}"
+          "bank": "{color.primitives.gray.200}",
+          "pro": "{color.primitives.gray.200}"
         },
         "default": {
-          "bank": "{color.primitives.gray.300.dark}",
-          "pro": "{color.primitives.gray.300.dark}"
+          "bank": "{color.primitives.gray.300}",
+          "pro": "{color.primitives.gray.300}"
         },
         "strong": {
-          "bank": "{color.primitives.gray.500.dark}",
-          "pro": "{color.primitives.gray.500.dark}"
+          "bank": "{color.primitives.gray.500}",
+          "pro": "{color.primitives.gray.500}"
         },
         "inverse": {
-          "bank": "{color.primitives.gray.0.dark}",
-          "pro": "{color.primitives.gray.0.dark}"
+          "bank": "{color.primitives.gray.0}",
+          "pro": "{color.primitives.gray.0}"
         }
       },
       "accent": {
         "default": {
-          "bank": "{color.primitives.gray.600.dark}",
-          "pro": "{color.primitives.gray.600.dark}"
+          "bank": "{color.primitives.gray.600}",
+          "pro": "{color.primitives.gray.600}"
         },
         "strong": {
-          "bank": "{color.primitives.gray.700.dark}",
-          "pro": "{color.primitives.gray.700.dark}"
+          "bank": "{color.primitives.gray.700}",
+          "pro": "{color.primitives.gray.700}"
         }
       },
       "info": {
         "default": {
-          "bank": "{color.primitives.blue.200.dark}",
-          "pro": "{color.primitives.blue.200.dark}"
+          "bank": "{color.primitives.blue.200}",
+          "pro": "{color.primitives.blue.200}"
         },
         "strong": {
-          "bank": "{color.primitives.blue.300.dark}",
-          "pro": "{color.primitives.blue.300.dark}"
+          "bank": "{color.primitives.blue.300}",
+          "pro": "{color.primitives.blue.300}"
         }
       },
       "success": {
         "default": {
-          "bank": "{color.primitives.green.200.dark}",
-          "pro": "{color.primitives.green.200.dark}"
+          "bank": "{color.primitives.green.200}",
+          "pro": "{color.primitives.green.200}"
         },
         "strong": {
-          "bank": "{color.primitives.green.300.dark}",
-          "pro": "{color.primitives.green.300.dark}"
+          "bank": "{color.primitives.green.300}",
+          "pro": "{color.primitives.green.300}"
         }
       },
       "warning": {
         "default": {
-          "bank": "{color.primitives.orange.200.dark}",
-          "pro": "{color.primitives.orange.200.dark}"
+          "bank": "{color.primitives.yellow.200}",
+          "pro": "{color.primitives.yellow.200}"
         },
         "strong": {
-          "bank": "{color.primitives.orange.300.dark}",
-          "pro": "{color.primitives.orange.300.dark}"
+          "bank": "{color.primitives.yellow.300}",
+          "pro": "{color.primitives.yellow.300}"
         }
       },
       "danger": {
         "default": {
-          "bank": "{color.primitives.red.200.dark}",
-          "pro": "{color.primitives.red.200.dark}"
+          "bank": "{color.primitives.red.200}",
+          "pro": "{color.primitives.red.200}"
         },
         "strong": {
-          "bank": "{color.primitives.red.300.dark}",
-          "pro": "{color.primitives.red.300.dark}"
+          "bank": "{color.primitives.red.300}",
+          "pro": "{color.primitives.red.300}"
         }
       }
     },
     "text": {
       "neutral": {
         "soft": {
-          "bank": "{color.primitives.gray.500.dark}",
-          "pro": "{color.primitives.gray.500.dark}"
+          "bank": "{color.primitives.gray.500}",
+          "pro": "{color.primitives.gray.500}"
         },
         "default": {
-          "bank": "{color.primitives.gray.700.dark}",
-          "pro": "{color.primitives.gray.700.dark}"
+          "bank": "{color.primitives.gray.700}",
+          "pro": "{color.primitives.gray.700}"
         },
         "strong": {
-          "bank": "{color.primitives.gray.900.dark}",
-          "pro": "{color.primitives.gray.900.dark}"
+          "bank": "{color.primitives.gray.900}",
+          "pro": "{color.primitives.gray.900}"
         },
         "inverse": {
-          "bank": "{color.primitives.gray.0.dark}",
-          "pro": "{color.primitives.gray.0.dark}"
+          "bank": "{color.primitives.gray.0}",
+          "pro": "{color.primitives.gray.0}"
         }
       },
       "accent": {
         "default": {
-          "bank": "{color.primitives.brand.green.dark}",
-          "pro": "{color.primitives.brand.green.dark}"
+          "bank": "{color.primitives.brand.green}",
+          "pro": "{color.primitives.brand.green}"
         },
         "strong": {
-          "bank": "{color.primitives.brand.green.dark}",
-          "pro": "{color.primitives.brand.green.dark}"
+          "bank": "{color.primitives.brand.green}",
+          "pro": "{color.primitives.brand.green}"
         }
       },
       "info": {
         "soft": {
-          "bank": "{color.primitives.blue.400.dark}",
-          "pro": "{color.primitives.blue.400.dark}"
+          "bank": "{color.primitives.blue.400}",
+          "pro": "{color.primitives.blue.400}"
         },
         "default": {
-          "bank": "{color.primitives.blue.700.dark}",
-          "pro": "{color.primitives.blue.700.dark}"
+          "bank": "{color.primitives.blue.700}",
+          "pro": "{color.primitives.blue.700}"
         },
         "strong": {
-          "bank": "{color.primitives.blue.900.dark}",
-          "pro": "{color.primitives.blue.900.dark}"
+          "bank": "{color.primitives.blue.900}",
+          "pro": "{color.primitives.blue.900}"
         }
       },
       "success": {
         "soft": {
-          "bank": "{color.primitives.green.400.dark}",
-          "pro": "{color.primitives.green.400.dark}"
+          "bank": "{color.primitives.green.400}",
+          "pro": "{color.primitives.green.400}"
         },
         "default": {
-          "bank": "{color.primitives.green.700.dark}",
-          "pro": "{color.primitives.green.700.dark}"
+          "bank": "{color.primitives.green.700}",
+          "pro": "{color.primitives.green.700}"
         },
         "strong": {
-          "bank": "{color.primitives.green.900.dark}",
-          "pro": "{color.primitives.green.900.dark}"
+          "bank": "{color.primitives.green.900}",
+          "pro": "{color.primitives.green.900}"
         }
       },
       "warning": {
         "soft": {
-          "bank": "{color.primitives.orange.500.dark}",
-          "pro": "{color.primitives.orange.500.dark}"
+          "bank": "{color.primitives.yellow.500}",
+          "pro": "{color.primitives.yellow.500}"
         },
         "default": {
-          "bank": "{color.primitives.orange.800.dark}",
-          "pro": "{color.primitives.orange.800.dark}"
+          "bank": "{color.primitives.yellow.800}",
+          "pro": "{color.primitives.yellow.800}"
         },
         "strong": {
-          "bank": "{color.primitives.orange.900.dark}",
-          "pro": "{color.primitives.orange.900.dark}"
+          "bank": "{color.primitives.yellow.900}",
+          "pro": "{color.primitives.yellow.900}"
         }
       },
       "danger": {
         "soft": {
-          "bank": "{color.primitives.red.400.dark}",
-          "pro": "{color.primitives.red.400.dark}"
+          "bank": "{color.primitives.red.400}",
+          "pro": "{color.primitives.red.400}"
         },
         "default": {
-          "bank": "{color.primitives.red.700.dark}",
-          "pro": "{color.primitives.red.700.dark}"
+          "bank": "{color.primitives.red.700}",
+          "pro": "{color.primitives.red.700}"
         },
         "strong": {
-          "bank": "{color.primitives.red.900.dark}",
-          "pro": "{color.primitives.red.900.dark}"
+          "bank": "{color.primitives.red.900}",
+          "pro": "{color.primitives.red.900}"
         }
       }
     },
     "icon": {
       "neutral": {
         "strong": {
-          "bank": "{color.primitives.gray.900.dark}",
-          "pro": "{color.primitives.gray.900.dark}"
+          "bank": "{color.primitives.gray.900}",
+          "pro": "{color.primitives.gray.900}"
         },
         "default": {
-          "bank": "{color.primitives.gray.700.dark}",
-          "pro": "{color.primitives.gray.700.dark}"
+          "bank": "{color.primitives.gray.700}",
+          "pro": "{color.primitives.gray.700}"
         },
         "soft": {
-          "bank": "{color.primitives.gray.500.dark}",
-          "pro": "{color.primitives.gray.500.dark}"
+          "bank": "{color.primitives.gray.500}",
+          "pro": "{color.primitives.gray.500}"
         },
         "softer": {
-          "bank": "{color.primitives.gray.300.dark}",
-          "pro": "{color.primitives.gray.300.dark}"
+          "bank": "{color.primitives.gray.300}",
+          "pro": "{color.primitives.gray.300}"
         },
         "inverse": {
-          "bank": "{color.primitives.gray.0.dark}",
-          "pro": "{color.primitives.gray.0.dark}"
+          "bank": "{color.primitives.gray.0}",
+          "pro": "{color.primitives.gray.0}"
         }
       },
       "accent": {
         "default": {
-          "bank": "{color.primitives.brand.green.dark}",
-          "pro": "{color.primitives.brand.green.dark}"
+          "bank": "{color.primitives.brand.green}",
+          "pro": "{color.primitives.brand.green}"
         },
         "strong": {
-          "bank": "{color.primitives.brand.green.dark}",
-          "pro": "{color.primitives.brand.green.dark}"
+          "bank": "{color.primitives.brand.green}",
+          "pro": "{color.primitives.brand.green}"
         }
       },
       "info": {
         "default": {
-          "bank": "{color.primitives.blue.300.dark}",
-          "pro": "{color.primitives.blue.300.dark}"
+          "bank": "{color.primitives.blue.300}",
+          "pro": "{color.primitives.blue.300}"
         },
         "strong": {
-          "bank": "{color.primitives.blue.700.dark}",
-          "pro": "{color.primitives.blue.700.dark}"
+          "bank": "{color.primitives.blue.700}",
+          "pro": "{color.primitives.blue.700}"
         }
       },
       "success": {
         "default": {
-          "bank": "{color.primitives.green.300.dark}",
-          "pro": "{color.primitives.green.300.dark}"
+          "bank": "{color.primitives.green.300}",
+          "pro": "{color.primitives.green.300}"
         },
         "strong": {
-          "bank": "{color.primitives.green.700.dark}",
-          "pro": "{color.primitives.green.700.dark}"
+          "bank": "{color.primitives.green.700}",
+          "pro": "{color.primitives.green.700}"
         }
       },
       "warning": {
         "default": {
-          "bank": "{color.primitives.orange.500.dark}",
-          "pro": "{color.primitives.orange.500.dark}"
+          "bank": "{color.primitives.yellow.500}",
+          "pro": "{color.primitives.yellow.500}"
         },
         "strong": {
-          "bank": "{color.primitives.orange.800.dark}",
-          "pro": "{color.primitives.orange.800.dark}"
+          "bank": "{color.primitives.yellow.800}",
+          "pro": "{color.primitives.yellow.800}"
         }
       },
       "danger": {
         "default": {
-          "bank": "{color.primitives.red.300.dark}",
-          "pro": "{color.primitives.red.300.dark}"
+          "bank": "{color.primitives.red.300}",
+          "pro": "{color.primitives.red.300}"
         },
         "strong": {
-          "bank": "{color.primitives.red.700.dark}",
-          "pro": "{color.primitives.red.700.dark}"
+          "bank": "{color.primitives.red.700}",
+          "pro": "{color.primitives.red.700}"
         }
       }
     },
     "utility": {
       "light": {
-        "bank": "{color.primitives.gray.900.dark}",
-        "pro": "{color.primitives.gray.900.dark}"
+        "bank": "{color.primitives.gray.900}",
+        "pro": "{color.primitives.gray.900}"
       },
       "dark": {
-        "bank": "{color.primitives.gray.0.dark}",
-        "pro": "{color.primitives.gray.0.dark}"
+        "bank": "{color.primitives.gray.0}",
+        "pro": "{color.primitives.gray.0}"
       }
     },
     "shadow": {
       "soft": {
-        "bank": { "color": "{color.primitives.gray.0.dark}", "opacity": "12%" },
-        "pro": { "color": "{color.primitives.gray.0.dark}", "opacity": "12%" }
+        "bank": { "color": "{color.primitives.gray.0}", "opacity": "12%" },
+        "pro": { "color": "{color.primitives.gray.0}", "opacity": "12%" }
       },
       "medium": {
-        "bank": { "color": "{color.primitives.gray.0.dark}", "opacity": "32%" },
-        "pro": { "color": "{color.primitives.gray.0.dark}", "opacity": "32%" }
+        "bank": { "color": "{color.primitives.gray.0}", "opacity": "32%" },
+        "pro": { "color": "{color.primitives.gray.0}", "opacity": "32%" }
       },
       "intense": {
-        "bank": { "color": "{color.primitives.gray.0.dark}", "opacity": "64%" },
-        "pro": { "color": "{color.primitives.gray.0.dark}", "opacity": "64%" }
+        "bank": { "color": "{color.primitives.gray.0}", "opacity": "64%" },
+        "pro": { "color": "{color.primitives.gray.0}", "opacity": "64%" }
       }
     }
   },
@@ -1801,100 +2021,100 @@
         "pro": -16
       },
       "2xs": {
-        "bank": "{spacing.primitives.md}",
-        "pro": "{spacing.primitives.md}"
+        "bank": "{unit.positive.md}",
+        "pro": "{unit.positive.md}"
       },
       "xs": {
-        "bank": "{spacing.primitives.sm}",
-        "pro": "{spacing.primitives.sm}"
+        "bank": "{unit.positive.sm}",
+        "pro": "{unit.positive.sm}"
       },
       "sm": {
-        "bank": "{spacing.primitives.2xs}",
-        "pro": "{spacing.primitives.2xs}"
+        "bank": "{unit.positive.2xs}",
+        "pro": "{unit.positive.2xs}"
       },
       "md": {
-        "bank": "{spacing.primitives.zero}",
-        "pro": "{spacing.primitives.zero}"
+        "bank": "{unit.positive.zero}",
+        "pro": "{unit.positive.zero}"
       },
       "lg": {
-        "bank": "{spacing.primitives.2xs}",
-        "pro": "{spacing.primitives.2xs}"
+        "bank": "{unit.positive.2xs}",
+        "pro": "{unit.positive.2xs}"
       },
       "xl": {
-        "bank": "{spacing.primitives.xs}",
-        "pro": "{spacing.primitives.xs}"
+        "bank": "{unit.positive.xs}",
+        "pro": "{unit.positive.xs}"
       },
       "2xl": {
-        "bank": "{spacing.primitives.sm}",
-        "pro": "{spacing.primitives.sm}"
+        "bank": "{unit.positive.sm}",
+        "pro": "{unit.positive.sm}"
       },
       "3xl": {
-        "bank": "{spacing.primitives.md}",
-        "pro": "{spacing.primitives.md}"
+        "bank": "{unit.positive.md}",
+        "pro": "{unit.positive.md}"
       },
       "4xl": {
-        "bank": "{spacing.primitives.xl}",
-        "pro": "{spacing.primitives.xl}"
+        "bank": "{unit.positive.xl}",
+        "pro": "{unit.positive.xl}"
       }
     },
     "blur": {
       "none": {
-        "bank": "{spacing.primitives.zero}",
-        "pro": "{spacing.primitives.zero}"
+        "bank": "{unit.positive.zero}",
+        "pro": "{unit.positive.zero}"
       },
       "sm": {
-        "bank": "{spacing.primitives.xs}",
-        "pro": "{spacing.primitives.xs}"
+        "bank": "{unit.positive.xs}",
+        "pro": "{unit.positive.xs}"
       },
       "md": {
-        "bank": "{spacing.primitives.sm}",
-        "pro": "{spacing.primitives.sm}"
+        "bank": "{unit.positive.sm}",
+        "pro": "{unit.positive.sm}"
       },
       "lg": {
-        "bank": "{spacing.primitives.md}",
-        "pro": "{spacing.primitives.md}"
+        "bank": "{unit.positive.md}",
+        "pro": "{unit.positive.md}"
       },
       "xl": {
-        "bank": "{spacing.primitives.xl}",
-        "pro": "{spacing.primitives.xl}"
+        "bank": "{unit.positive.xl}",
+        "pro": "{unit.positive.xl}"
       },
       "2xl": {
-        "bank": "{spacing.primitives.4xl}",
-        "pro": "{spacing.primitives.4xl}"
+        "bank": "{unit.positive.4xl}",
+        "pro": "{unit.positive.4xl}"
       }
     },
     "spread": {
       "xs": {
-        "bank": "{spacing.primitives.md}",
-        "pro": "{spacing.primitives.md}"
+        "bank": "{unit.positive.md}",
+        "pro": "{unit.positive.md}"
       },
       "sm": {
-        "bank": "{spacing.primitives.sm}",
-        "pro": "{spacing.primitives.sm}"
+        "bank": "{unit.positive.sm}",
+        "pro": "{unit.positive.sm}"
       },
       "md": {
-        "bank": "{spacing.primitives.zero}",
-        "pro": "{spacing.primitives.zero}"
+        "bank": "{unit.positive.zero}",
+        "pro": "{unit.positive.zero}"
       }
     }
   },
 
   "borderWidth": {
     "none": {
-      "bank": "{spacing.primitives.zero}",
-      "pro": "{spacing.primitives.zero}"
+      "bank": "{unit.positive.zero}",
+      "pro": "{unit.positive.zero}"
     },
     "thin": {
-      "bank": "{spacing.primitives.2xs}",
-      "pro": "{spacing.primitives.2xs}"
+      "bank": "{unit.positive.2xs}",
+      "pro": "{unit.positive.2xs}"
     },
     "thick": {
-      "bank": "{spacing.primitives.xs}",
-      "pro": "{spacing.primitives.xs}"
+      "bank": "{unit.positive.xs}",
+      "pro": "{unit.positive.xs}"
     },
     "thicker": {
-      "bank": "{spacing.primitives.sm}",
-      "pro": "{spacing.primitives.sm}"
+      "bank": "{unit.positive.sm}",
+      "pro": "{unit.positive.sm}"
     }
   },
 
@@ -1928,24 +2148,24 @@
   "size": {
     "icon": {
       "xs": {
-        "bank": "{spacing.primitives.xl}",
-        "pro": "{spacing.primitives.xl}"
+        "bank": "{unit.positive.xl}",
+        "pro": "{unit.positive.xl}"
       },
       "sm": {
-        "bank": "{spacing.primitives.2xl}",
-        "pro": "{spacing.primitives.2xl}"
+        "bank": "{unit.positive.2xl}",
+        "pro": "{unit.positive.2xl}"
       },
       "md": {
-        "bank": "{spacing.primitives.3xl}",
-        "pro": "{spacing.primitives.3xl}"
+        "bank": "{unit.positive.3xl}",
+        "pro": "{unit.positive.3xl}"
       },
       "lg": {
-        "bank": "{spacing.primitives.4xl}",
-        "pro": "{spacing.primitives.4xl}"
+        "bank": "{unit.positive.4xl}",
+        "pro": "{unit.positive.4xl}"
       },
       "xl": {
-        "bank": "{spacing.primitives.5xl}",
-        "pro": "{spacing.primitives.5xl}"
+        "bank": "{unit.positive.5xl}",
+        "pro": "{unit.positive.5xl}"
       }
     },
     "scale": {
@@ -1964,34 +2184,34 @@
     },
     "divider": {
       "default": {
-        "bank": "{spacing.primitives.2xs}",
-        "pro": "{spacing.primitives.2xs}"
+        "bank": "{unit.positive.2xs}",
+        "pro": "{unit.positive.2xs}"
       },
       "thick": {
-        "bank": "{spacing.primitives.md}",
-        "pro": "{spacing.primitives.md}"
+        "bank": "{unit.positive.md}",
+        "pro": "{unit.positive.md}"
       },
       "thicker": {
-        "bank": "{spacing.primitives.xl}",
-        "pro": "{spacing.primitives.xl}"
+        "bank": "{unit.positive.xl}",
+        "pro": "{unit.positive.xl}"
       }
     },
     "thumb": {
       "sm": {
-        "bank": "{spacing.primitives.4xl}",
-        "pro": "{spacing.primitives.4xl}"
+        "bank": "{unit.positive.4xl}",
+        "pro": "{unit.positive.4xl}"
       },
       "md": {
-        "bank": "{spacing.primitives.5xl}",
-        "pro": "{spacing.primitives.5xl}"
+        "bank": "{unit.positive.5xl}",
+        "pro": "{unit.positive.5xl}"
       },
       "lg": {
-        "bank": "{spacing.primitives.6xl}",
-        "pro": "{spacing.primitives.6xl}"
+        "bank": "{unit.positive.6xl}",
+        "pro": "{unit.positive.6xl}"
       },
       "xl": {
-        "bank": "{spacing.primitives.7xl}",
-        "pro": "{spacing.primitives.7xl}"
+        "bank": "{unit.positive.7xl}",
+        "pro": "{unit.positive.7xl}"
       }
     }
   },
@@ -2026,20 +2246,20 @@
       "desktop": 1
     },
     "lineheight": {
-      "2xs": { "mobile": "{spacing.primitives.lg}", "tablet": "{spacing.primitives.lg}", "desktop": "{spacing.primitives.lg}" },
-      "xs": { "mobile": "{spacing.primitives.xl}", "tablet": "{spacing.primitives.xl}", "desktop": "{spacing.primitives.xl}" },
-      "sm": { "mobile": "{spacing.primitives.2xl}", "tablet": "{spacing.primitives.2xl}", "desktop": "{spacing.primitives.2xl}" },
-      "md": { "mobile": "{spacing.primitives.3xl}", "tablet": "{spacing.primitives.3xl}", "desktop": "{spacing.primitives.3xl}" },
+      "2xs": { "mobile": "{unit.positive.lg}", "tablet": "{unit.positive.lg}", "desktop": "{unit.positive.lg}" },
+      "xs": { "mobile": "{unit.positive.xl}", "tablet": "{unit.positive.xl}", "desktop": "{unit.positive.xl}" },
+      "sm": { "mobile": "{unit.positive.2xl}", "tablet": "{unit.positive.2xl}", "desktop": "{unit.positive.2xl}" },
+      "md": { "mobile": "{unit.positive.3xl}", "tablet": "{unit.positive.3xl}", "desktop": "{unit.positive.3xl}" },
       "lg": { "mobile": 28, "tablet": 28, "desktop": 28 },
       "xl": { "mobile": 36, "tablet": 36, "desktop": 36 },
       "2xl": { "mobile": 44, "tablet": 44, "desktop": 44 }
     },
     "size": {
-      "base": "{spacing.primitives.xl}",
+      "base": "{unit.positive.xl}",
       "2xs": { "mobile": 11, "tablet": 11, "desktop": 11 },
-      "xs": { "mobile": "{spacing.primitives.lg}", "tablet": "{spacing.primitives.lg}", "desktop": "{spacing.primitives.lg}" },
+      "xs": { "mobile": "{unit.positive.lg}", "tablet": "{unit.positive.lg}", "desktop": "{unit.positive.lg}" },
       "sm": { "mobile": 14, "tablet": 14, "desktop": 14 },
-      "md": { "mobile": "{spacing.primitives.xl}", "tablet": "{spacing.primitives.xl}", "desktop": "{spacing.primitives.xl}" },
+      "md": { "mobile": "{unit.positive.xl}", "tablet": "{unit.positive.xl}", "desktop": "{unit.positive.xl}" },
       "lg": { "mobile": 19, "tablet": 19, "desktop": 19 },
       "xl": { "mobile": 23, "tablet": 23, "desktop": 23 },
       "2xl": { "mobile": 28, "tablet": 28, "desktop": 28 },
@@ -2174,13 +2394,13 @@
     },
     "space": {
       "gap": {
-        "mobile": "{spacing.primitives.xl}",
-        "tablet": "{spacing.primitives.3xl}",
-        "desktop": "{spacing.primitives.3xl}"
+        "mobile": "{unit.positive.xl}",
+        "tablet": "{unit.positive.3xl}",
+        "desktop": "{unit.positive.3xl}"
       },
       "margin": {
-        "mobile": "{spacing.primitives.3xl}",
-        "tablet": "{spacing.primitives.5xl}",
+        "mobile": "{unit.positive.3xl}",
+        "tablet": "{unit.positive.5xl}",
         "desktop": 80
       }
     }
@@ -2191,7 +2411,10 @@
         let currentColorMode = 'dark'; // Default is dark mode
 
         // Utility functions
-        function resolveToken(tokenPath, mode = 'dark') {
+        function resolveToken(tokenPath, mode = null) {
+            // Use currentColorMode if mode is not provided
+            const effectiveMode = mode !== null ? mode : currentColorMode;
+
             // Se não for string, retornar o valor diretamente
             if (typeof tokenPath !== 'string') {
                 return tokenPath;
@@ -2209,10 +2432,10 @@
 
             // If value is an object with dark/light, return the appropriate mode
             if (value && typeof value === 'object' && value.hasOwnProperty('dark') && value.hasOwnProperty('light')) {
-                return value[mode];
+                return value[effectiveMode];
             }
 
-            return value !== undefined ? resolveToken(String(value), mode) : tokenPath;
+            return value !== undefined ? resolveToken(String(value), effectiveMode) : tokenPath;
         }
 
         function formatValue(value) {
@@ -2241,6 +2464,50 @@
                     element.classList.remove('copied');
                 }, 1000);
             });
+        }
+
+        // Theme Toggle Function
+        function toggleTheme() {
+            // Toggle between dark and light
+            currentColorMode = currentColorMode === 'dark' ? 'light' : 'dark';
+
+            // Update data-theme attribute on HTML element
+            document.documentElement.setAttribute('data-theme', currentColorMode);
+
+            // Update UI
+            const themeOptions = document.querySelectorAll('.theme-option');
+            themeOptions.forEach(option => {
+                if (option.dataset.theme === currentColorMode) {
+                    option.classList.add('active');
+                } else {
+                    option.classList.remove('active');
+                }
+            });
+
+            // Reload semantic colors if we're on that section
+            const currentSection = document.querySelector('.content-section.active');
+            if (currentSection && currentSection.id === 'semantic-colors') {
+                const container = document.getElementById('semanticColorsContent');
+                if (container) {
+                    renderSemanticColors(container);
+                }
+            }
+        }
+
+        // Internal Tab Switching Function
+        function switchInternalTab(event, tabId) {
+            // Get all buttons and contents within the same parent container
+            const wrapper = event.target.closest('.internal-tabs-wrapper');
+            const buttons = wrapper.querySelectorAll('.internal-tab-button');
+            const contents = wrapper.querySelectorAll('.internal-tab-content');
+
+            // Remove active class from all buttons and contents
+            buttons.forEach(button => button.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+
+            // Add active class to clicked button and corresponding content
+            event.target.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
         }
 
         // Copy Semantic Color Function
@@ -2283,6 +2550,8 @@
         }
 
         // Make functions global
+        window.toggleTheme = toggleTheme;
+        window.switchInternalTab = switchInternalTab;
         window.copySemanticColor = copySemanticColor;
         window.filterTheme = filterTheme;
         window.filterSpacingType = filterSpacingType;
@@ -2367,6 +2636,12 @@
                 case 'primitive-colors':
                     renderPrimitiveColors(container);
                     break;
+                case 'positive-unit':
+                    renderPositiveUnit(container);
+                    break;
+                case 'negative-unit':
+                    renderNegativeUnit(container);
+                    break;
                 case 'typography':
                     renderTypography(container);
                     break;
@@ -2410,6 +2685,24 @@
             </div>
     `;
 
+    // Helper function to extract primitive color name from token
+    const getPrimitiveName = (token) => {
+        // Extract from pattern like {color.primitives.gray.900} or {color.primitives.brand.green}
+        const matchNumeric = token.match(/\{color\.primitives\.(\w+)\.(\d+)\}/);
+        if (matchNumeric) {
+            const [, colorFamily, shade] = matchNumeric;
+            return `${colorFamily}-${shade}`;
+        }
+
+        const matchBrand = token.match(/\{color\.primitives\.brand\.(\w+)\}/);
+        if (matchBrand) {
+            const [, colorName] = matchBrand;
+            return `brand-${colorName}`;
+        }
+
+        return '';
+    };
+
     // Function to render semantic color table
     const renderSemanticTable = (category, subcategory, items) => {
         let tableHtml = `
@@ -2430,6 +2723,10 @@
             const bankToken = item.bank;
             const proToken = item.pro;
             const semanticPath = `color.${category}.${subcategory}.${item.name}`;
+            const bankHex = resolveToken(bankToken);
+            const proHex = resolveToken(proToken);
+            const bankPrimitive = getPrimitiveName(bankToken);
+            const proPrimitive = getPrimitiveName(proToken);
 
             tableHtml += `
                 <tr style="border-bottom: 1px solid var(--color-border);">
@@ -2439,19 +2736,25 @@
                                 <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.2"/>
                                 <circle cx="12" cy="12" r="6" fill="currentColor"/>
                             </svg>
-                            ${item.name}
+                            <span style="font-family: 'Courier New', monospace; font-size: 13px;">${semanticPath}</span>
                         </div>
                     </td>
                     <td style="padding: 16px;">
-                        <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('${semanticPath}', this)">
-                            <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${resolveToken(bankToken)}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
-                            <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">${semanticPath}</span>
+                        <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('${bankHex}', this)">
+                            <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${bankHex}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
+                            <div style="display: flex; flex-direction: column; gap: 4px;">
+                                <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace; font-weight: 600;">${bankHex.toUpperCase()}</span>
+                                <span style="color: var(--color-text-muted); font-size: 12px; font-family: 'Courier New', monospace;">${bankPrimitive}</span>
+                            </div>
                         </div>
                     </td>
                     <td style="padding: 16px;">
-                        <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('${semanticPath}', this)">
-                            <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${resolveToken(proToken)}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
-                            <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">${semanticPath}</span>
+                        <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('${proHex}', this)">
+                            <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${proHex}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
+                            <div style="display: flex; flex-direction: column; gap: 4px;">
+                                <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace; font-weight: 600;">${proHex.toUpperCase()}</span>
+                                <span style="color: var(--color-text-muted); font-size: 12px; font-family: 'Courier New', monospace;">${proPrimitive}</span>
+                            </div>
                         </div>
                     </td>
                 </tr>
@@ -2538,21 +2841,25 @@
                                     <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.2"/>
                                     <circle cx="12" cy="12" r="6" fill="currentColor"/>
                                 </svg>
-                                default
+                                <span style="font-family: 'Courier New', monospace; font-size: 13px;">color.surface.translucent.default</span>
                             </div>
                         </td>
                         <td style="padding: 16px;">
-                            <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('color.surface.translucent.default', this)">
+                            <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('${resolveToken(semantic.surface.translucent.default.bank.color)}', this)">
                                 <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${resolveToken(semantic.surface.translucent.default.bank.color)}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
-                                <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">color.surface.translucent.default</span>
-                                <span style="color: var(--color-text-muted); font-size: 13px; margin-left: auto;">${semantic.surface.translucent.default.bank.opacity} %</span>
+                                <div style="display: flex; flex-direction: column; gap: 4px;">
+                                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace; font-weight: 600;">${resolveToken(semantic.surface.translucent.default.bank.color).toUpperCase()}</span>
+                                    <span style="color: var(--color-text-muted); font-size: 12px; font-family: 'Courier New', monospace;">${getPrimitiveName(semantic.surface.translucent.default.bank.color)} • ${semantic.surface.translucent.default.bank.opacity}</span>
+                                </div>
                             </div>
                         </td>
                         <td style="padding: 16px;">
-                            <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('color.surface.translucent.default', this)">
+                            <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('${resolveToken(semantic.surface.translucent.default.pro.color)}', this)">
                                 <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${resolveToken(semantic.surface.translucent.default.pro.color)}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
-                                <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">color.surface.translucent.default</span>
-                                <span style="color: var(--color-text-muted); font-size: 13px; margin-left: auto;">${semantic.surface.translucent.default.pro.opacity} %</span>
+                                <div style="display: flex; flex-direction: column; gap: 4px;">
+                                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace; font-weight: 600;">${resolveToken(semantic.surface.translucent.default.pro.color).toUpperCase()}</span>
+                                    <span style="color: var(--color-text-muted); font-size: 12px; font-family: 'Courier New', monospace;">${getPrimitiveName(semantic.surface.translucent.default.pro.color)} • ${semantic.surface.translucent.default.pro.opacity}</span>
+                                </div>
                             </div>
                         </td>
                     </tr>
@@ -2563,21 +2870,25 @@
                                     <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.2"/>
                                     <circle cx="12" cy="12" r="6" fill="currentColor"/>
                                 </svg>
-                                inverse
+                                <span style="font-family: 'Courier New', monospace; font-size: 13px;">color.surface.translucent.inverse</span>
                             </div>
                         </td>
                         <td style="padding: 16px;">
-                            <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('color.surface.translucent.inverse', this)">
+                            <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('${resolveToken(semantic.surface.translucent.inverse.bank.color)}', this)">
                                 <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${resolveToken(semantic.surface.translucent.inverse.bank.color)}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
-                                <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">color.surface.translucent.inverse</span>
-                                <span style="color: var(--color-text-muted); font-size: 13px; margin-left: auto;">${semantic.surface.translucent.inverse.bank.opacity} %</span>
+                                <div style="display: flex; flex-direction: column; gap: 4px;">
+                                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace; font-weight: 600;">${resolveToken(semantic.surface.translucent.inverse.bank.color).toUpperCase()}</span>
+                                    <span style="color: var(--color-text-muted); font-size: 12px; font-family: 'Courier New', monospace;">${getPrimitiveName(semantic.surface.translucent.inverse.bank.color)} • ${semantic.surface.translucent.inverse.bank.opacity}</span>
+                                </div>
                             </div>
                         </td>
                         <td style="padding: 16px;">
-                            <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('color.surface.translucent.inverse', this)">
+                            <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('${resolveToken(semantic.surface.translucent.inverse.pro.color)}', this)">
                                 <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${resolveToken(semantic.surface.translucent.inverse.pro.color)}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
-                                <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">color.surface.translucent.inverse</span>
-                                <span style="color: var(--color-text-muted); font-size: 13px; margin-left: auto;">${semantic.surface.translucent.inverse.pro.opacity} %</span>
+                                <div style="display: flex; flex-direction: column; gap: 4px;">
+                                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace; font-weight: 600;">${resolveToken(semantic.surface.translucent.inverse.pro.color).toUpperCase()}</span>
+                                    <span style="color: var(--color-text-muted); font-size: 12px; font-family: 'Courier New', monospace;">${getPrimitiveName(semantic.surface.translucent.inverse.pro.color)} • ${semantic.surface.translucent.inverse.pro.opacity}</span>
+                                </div>
                             </div>
                         </td>
                     </tr>
@@ -2934,6 +3245,9 @@
 
     html += '</tbody></table>';
 
+    html += `</div>`; // Close shadow-tab
+    html += `</div>`; // Close internal-tabs-wrapper
+
     container.innerHTML = html;
 }
 
@@ -2941,6 +3255,20 @@
     console.log('renderPrimitiveColors called', container);
     const primitives = designTokens.color.primitives;
     let html = '';
+
+    // Tab System
+    html += `
+        <div class="internal-tabs-wrapper">
+            <div class="internal-tab-buttons">
+                <button class="internal-tab-button active" onclick="switchInternalTab(event, 'gray-tab')">Gray</button>
+                <button class="internal-tab-button" onclick="switchInternalTab(event, 'red-tab')">Red</button>
+                <button class="internal-tab-button" onclick="switchInternalTab(event, 'yellow-tab')">Yellow</button>
+                <button class="internal-tab-button" onclick="switchInternalTab(event, 'green-tab')">Green</button>
+                <button class="internal-tab-button" onclick="switchInternalTab(event, 'blue-tab')">Blue</button>
+                <button class="internal-tab-button" onclick="switchInternalTab(event, 'neutral-tab')">Neutral</button>
+                <button class="internal-tab-button" onclick="switchInternalTab(event, 'brand-tab')">Brand</button>
+            </div>
+    `;
 
     // Function to render primitive color table
     const renderPrimitiveTable = (colorName, colorObject) => {
@@ -2998,15 +3326,33 @@
         return tableHtml;
     };
 
-    // Render all color tables
+    // Gray Tab
+    html += `<div id="gray-tab" class="internal-tab-content active">`;
     html += renderPrimitiveTable('gray', primitives.gray);
-    html += renderPrimitiveTable('red', primitives.red);
-    html += renderPrimitiveTable('orange', primitives.orange);
-    html += renderPrimitiveTable('yellow', primitives.yellow);
-    html += renderPrimitiveTable('green', primitives.green);
-    html += renderPrimitiveTable('blue', primitives.blue);
+    html += `</div>`;
 
-    // Neutral and Brand (special cases - same color for dark and light)
+    // Red Tab
+    html += `<div id="red-tab" class="internal-tab-content">`;
+    html += renderPrimitiveTable('red', primitives.red);
+    html += `</div>`;
+
+    // Yellow Tab
+    html += `<div id="yellow-tab" class="internal-tab-content">`;
+    html += renderPrimitiveTable('yellow', primitives.yellow);
+    html += `</div>`;
+
+    // Green Tab
+    html += `<div id="green-tab" class="internal-tab-content">`;
+    html += renderPrimitiveTable('green', primitives.green);
+    html += `</div>`;
+
+    // Blue Tab
+    html += `<div id="blue-tab" class="internal-tab-content">`;
+    html += renderPrimitiveTable('blue', primitives.blue);
+    html += `</div>`;
+
+    // Neutral Tab
+    html += `<div id="neutral-tab" class="internal-tab-content">`;
     html += `
         <div style="margin-bottom: 48px;">
             <h3 style="font-size: 16px; font-weight: 350; color: var(--color-text-muted); margin-bottom: 16px;">color / neutral</h3>
@@ -3056,7 +3402,12 @@
                 </tbody>
             </table>
         </div>
+    `;
+    html += `</div>`; // Close neutral-tab
 
+    // Brand Tab
+    html += `<div id="brand-tab" class="internal-tab-content">`;
+    html += `
         <div style="margin-bottom: 48px;">
             <h3 style="font-size: 16px; font-weight: 350; color: var(--color-text-muted); margin-bottom: 16px;">color / brand</h3>
             <table style="width: 100%; border-collapse: collapse; background: var(--color-bg-secondary); border-radius: 8px; overflow: hidden;">
@@ -3105,6 +3456,8 @@
             </table>
         </div>
     `;
+    html += `</div>`; // Close brand-tab
+    html += `</div>`; // Close internal-tabs-wrapper
 
     container.innerHTML = html;
 }
@@ -3396,151 +3749,321 @@
             container.innerHTML = html;
         }
 
+        function renderPositiveUnit(container) {
+            const positiveUnits = designTokens.unit.positive;
+            const baseUnit = designTokens.unit.base;
+
+            let html = `
+                <div style="margin-bottom: 32px;">
+                    <div style="background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 8px; padding: 16px; margin-bottom: 24px;">
+                        <p style="font-size: 14px; color: var(--color-text-secondary); margin: 0;">
+                            <strong style="color: var(--color-accent);">unit.base</strong> = ${baseUnit}px
+                        </p>
+                    </div>
+
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; background: var(--color-bg-secondary); border-radius: 8px; overflow: hidden;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid var(--color-border);">
+                                    <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">Token</th>
+                                    <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">Name</th>
+                                    <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">Value</th>
+                                    <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">Visual</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+            `;
+
+            Object.entries(positiveUnits).forEach(([name, value]) => {
+                const tokenPath = `unit.positive.${name}`;
+                html += `
+                    <tr style="border-bottom: 1px solid var(--color-border);">
+                        <td style="padding: 16px;">
+                            <code style="font-family: 'Courier New', monospace; font-size: 13px; color: var(--color-text-secondary); background: var(--color-bg-tertiary); padding: 4px 8px; border-radius: 4px;">${tokenPath}</code>
+                        </td>
+                        <td style="padding: 16px;">
+                            <span style="font-family: 'Courier New', monospace; font-size: 14px; color: var(--color-text-primary); font-weight: 600;">${name}</span>
+                        </td>
+                        <td style="padding: 16px;">
+                            <span style="font-size: 14px; color: var(--color-text-primary); font-weight: 600;">${value}</span>
+                        </td>
+                        <td style="padding: 16px;">
+                            <div style="width: ${value}px; height: 32px; background: var(--color-accent); border-radius: 4px;"></div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        function renderNegativeUnit(container) {
+            const negativeUnits = designTokens.unit.negative;
+            const baseUnit = designTokens.unit.base;
+
+            let html = `
+                <div style="margin-bottom: 32px;">
+                    <div style="background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 8px; padding: 16px; margin-bottom: 24px;">
+                        <p style="font-size: 14px; color: var(--color-text-secondary); margin: 0;">
+                            <strong style="color: var(--color-accent);">unit.base</strong> = ${baseUnit}px
+                        </p>
+                        <p style="font-size: 13px; color: var(--color-text-muted); margin: 8px 0 0 0;">
+                            Valores negativos são usados para margin negativa e outros ajustes de posicionamento.
+                        </p>
+                    </div>
+
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; background: var(--color-bg-secondary); border-radius: 8px; overflow: hidden;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid var(--color-border);">
+                                    <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">Token</th>
+                                    <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">Name</th>
+                                    <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+            `;
+
+            Object.entries(negativeUnits).forEach(([name, value]) => {
+                const tokenPath = `unit.negative.${name}`;
+                html += `
+                    <tr style="border-bottom: 1px solid var(--color-border);">
+                        <td style="padding: 16px;">
+                            <code style="font-family: 'Courier New', monospace; font-size: 13px; color: var(--color-text-secondary); background: var(--color-bg-tertiary); padding: 4px 8px; border-radius: 4px;">${tokenPath}</code>
+                        </td>
+                        <td style="padding: 16px;">
+                            <span style="font-family: 'Courier New', monospace; font-size: 14px; color: var(--color-text-primary); font-weight: 600;">${name}</span>
+                        </td>
+                        <td style="padding: 16px;">
+                            <span style="font-size: 14px; color: var(--color-text-primary); font-weight: 600;">${value}</span>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
         function renderSpacing(container) {
             const spacing = designTokens.spacing;
             let html = '';
 
-            // Tab System
-            html += `
-                <div class="color-tabs-wrapper">
-                    <div class="color-tab-buttons">
-                        <button class="color-tab-button active" onclick="switchColorTab(event, 'semantic-spacing-tab')">
-                            Spacing Semânticos
-                        </button>
-                        <button class="color-tab-button" onclick="switchColorTab(event, 'primitive-spacing-tab')">
-                            Spacing Primitivos
-                        </button>
-                    </div>
-
-                    <!-- Semantic Spacing Tab Content -->
-                    <div id="semantic-spacing-tab" class="color-tab-content active">
-            `;
-
-            // Semantic Spacing Section
-            html += '<div style="margin-bottom: 64px;"><h2 style="font-size: 34px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">Semantic Spacing</h2>';
-            html += '<p style="font-size: 16px; color: var(--color-text-muted); margin-bottom: 32px;">Tokens semânticos de espaçamento para inset, inline e stack</p>';
-
-            // Spacing Type Filter Select
-            html += `
-                <div class="theme-filter-container">
-                    <select id="spacingTypeFilter" class="theme-filter-select" onchange="filterSpacingType(this.value)">
-                        <option value="all">Todos</option>
-                        <option value="inset">Inset</option>
-                        <option value="inline">Inline</option>
-                        <option value="stack">Stack</option>
-                    </select>
-                </div>
-            `;
-
-            html += '<div class="semantic-colors-grid">';
-
-            // Spacing Types
-            const spacingTypes = [
-                {
-                    key: 'inset',
-                    title: 'Inset',
-                    description: 'Padding interno de componentes (aplicado em todos os lados)'
-                },
-                {
-                    key: 'inline',
-                    title: 'Inline',
-                    description: 'Espaçamento horizontal entre elementos (left/right)'
-                },
-                {
-                    key: 'stack',
-                    title: 'Stack',
-                    description: 'Espaçamento vertical entre elementos (top/bottom)'
+            // Helper function to get unit reference
+            const getUnitReference = (token) => {
+                // Check if token is a string before calling match
+                if (typeof token !== 'string') {
+                    return null;
                 }
-            ];
+                const match = token.match(/\{unit\.positive\.(\w+)\}/);
+                if (match) {
+                    return `unit/positive/${match[1]}`;
+                }
+                return null;
+            };
 
-            spacingTypes.forEach(({ key, title, description }) => {
+            // Helper function to render spacing table
+            const renderSpacingTable = (category, title) => {
                 html += `
-                    <div class="semantic-color-card" data-spacing-type="${key}">
-                        <div class="semantic-card-header">
-                            <h3 class="semantic-card-title">${title}</h3>
-                            <p class="semantic-card-description">${description}</p>
-                        </div>
-                        <div class="semantic-card-tokens">
+                    <div style="margin-bottom: 48px;">
+                        <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 16px; color: var(--color-text-primary);">space / ${category} / ${title}</h3>
+                        <div style="overflow-x: auto;">
+                            <table style="width: 100%; border-collapse: collapse; background: var(--color-bg-secondary); border-radius: 8px; overflow: hidden;">
+                                <thead>
+                                    <tr style="border-bottom: 2px solid var(--color-border);">
+                                        <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">Name</th>
+                                        <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">mobile</th>
+                                        <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">tablet</th>
+                                        <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">desktop</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
                 `;
 
-                Object.entries(spacing[key]).forEach(([tokenKey, value]) => {
-                    const mobileResolved = resolveToken(value.mobile);
-                    const tabletResolved = resolveToken(value.tablet);
-                    const desktopResolved = resolveToken(value.desktop);
+                const data = spacing[category];
+                Object.entries(data).forEach(([name, values]) => {
+                    const fullTokenName = `space.${category}.${name}`;
+                    html += `
+                        <tr style="border-bottom: 1px solid var(--color-border);">
+                            <td style="padding: 16px;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="width: 32px; height: 32px; background: var(--color-accent); border-radius: 4px; flex-shrink: 0; opacity: 0.6;"></div>
+                                    <span style="font-family: 'Courier New', monospace; font-size: 14px; color: var(--color-text-primary); font-weight: 600;">${fullTokenName}</span>
+                                </div>
+                            </td>
+                    `;
+
+                    ['mobile', 'tablet', 'desktop'].forEach(device => {
+                        const token = values[device];
+                        const resolvedValue = resolveToken(token);
+                        const unitRef = getUnitReference(token);
+
+                        html += `
+                            <td style="padding: 16px;">
+                        `;
+
+                        if (unitRef) {
+                            html += `
+                                <div style="display: flex; flex-direction: column; gap: 4px;">
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0; stroke: var(--color-text-muted); stroke-width: 2;">
+                                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                        </svg>
+                                        <span style="font-size: 14px; color: var(--color-text-primary); font-weight: 600;">${unitRef}</span>
+                                    </div>
+                                    <span style="font-size: 13px; color: var(--color-text-muted); margin-left: 26px;">${resolvedValue}</span>
+                                </div>
+                            `;
+                        } else {
+                            html += `
+                                <span style="font-size: 14px; color: var(--color-text-primary); font-weight: 600;">${resolvedValue}</span>
+                            `;
+                        }
+
+                        html += `
+                            </td>
+                        `;
+                    });
 
                     html += `
-                        <div class="semantic-token-item" style="cursor: pointer;" onclick="copyColorWithFeedback('${mobileResolved}', this)">
-                            <div style="display: flex; align-items: center; justify-content: center; width: 100%; height: 80px; border-radius: 8px; background-color: var(--color-bg-tertiary); position: relative;">
-                                <div class="spacing-box" style="width: ${Math.min(mobileResolved, 160)}px; height: ${Math.min(mobileResolved, 60)}px; background-color: var(--color-accent); opacity: 0.6; border-radius: 4px;"></div>
-                            </div>
-                            <div class="semantic-token-details">
-                                <div class="semantic-token-label">${tokenKey}</div>
-                                <div class="semantic-token-path">spacing.${key}.${tokenKey}</div>
-                                <div class="semantic-token-hex" style="font-size: 11px; line-height: 1.4;">
-                                    Mobile: ${mobileResolved}px<br>
-                                    Tablet: ${tabletResolved}px<br>
-                                    Desktop: ${desktopResolved}px
-                                </div>
-                            </div>
-                        </div>
+                        </tr>
                     `;
                 });
 
                 html += `
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 `;
-            });
+            };
 
-            html += '</div></div>';
+            // Helper function to render negative spacing table
+            const renderNegativeTable = (category) => {
+                html += `
+                    <div style="margin-bottom: 48px;">
+                        <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 16px; color: var(--color-text-primary);">space / ${category} / negative</h3>
+                        <div style="overflow-x: auto;">
+                            <table style="width: 100%; border-collapse: collapse; background: var(--color-bg-secondary); border-radius: 8px; overflow: hidden;">
+                                <thead>
+                                    <tr style="border-bottom: 2px solid var(--color-border);">
+                                        <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">Name</th>
+                                        <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">mobile</th>
+                                        <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">tablet</th>
+                                        <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">desktop</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                `;
 
-            // Close Semantic Tab
-            html += '</div>';
-
-            // Primitive Spacing Tab Content
-            html += `
-                <div id="primitive-spacing-tab" class="color-tab-content">
-                    <div style="margin-bottom: 64px;">
-                        <h2 style="font-size: 34px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">Spacing Primitives</h2>
-                        <p style="font-size: 16px; color: var(--color-text-muted); margin-bottom: 32px;">
-                            Tokens primitivos de espaçamento que servem como base para todo o sistema
-                        </p>
-
-                        <div class="semantic-colors-grid">
-                            <div class="semantic-color-card">
-                                <div class="semantic-card-header">
-                                    <h3 class="semantic-card-title">Primitivos</h3>
-                                    <p class="semantic-card-description">Valores base em pixels para espaçamento</p>
+                const negativeUnits = designTokens.unit.negative;
+                Object.entries(negativeUnits).forEach(([name, value]) => {
+                    const fullTokenName = `space.${category}.${name}`;
+                    html += `
+                        <tr style="border-bottom: 1px solid var(--color-border);">
+                            <td style="padding: 16px;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="width: 32px; height: 32px; background: var(--color-accent); border-radius: 4px; flex-shrink: 0; opacity: 0.6;"></div>
+                                    <span style="font-family: 'Courier New', monospace; font-size: 14px; color: var(--color-text-primary); font-weight: 600;">${fullTokenName}</span>
                                 </div>
-                                <div class="semantic-card-tokens">
+                            </td>
+                            <td style="padding: 16px;">
+                                <div style="display: flex; flex-direction: column; gap: 4px;">
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0; stroke: var(--color-text-muted); stroke-width: 2;">
+                                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                        </svg>
+                                        <span style="font-size: 14px; color: var(--color-text-primary); font-weight: 600;">unit/negative/${name}</span>
+                                    </div>
+                                    <span style="font-size: 13px; color: var(--color-text-muted); margin-left: 26px;">${value}</span>
+                                </div>
+                            </td>
+                            <td style="padding: 16px;">
+                                <div style="display: flex; flex-direction: column; gap: 4px;">
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0; stroke: var(--color-text-muted); stroke-width: 2;">
+                                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                        </svg>
+                                        <span style="font-size: 14px; color: var(--color-text-primary); font-weight: 600;">unit/negative/${name}</span>
+                                    </div>
+                                    <span style="font-size: 13px; color: var(--color-text-muted); margin-left: 26px;">${value}</span>
+                                </div>
+                            </td>
+                            <td style="padding: 16px;">
+                                <div style="display: flex; flex-direction: column; gap: 4px;">
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0; stroke: var(--color-text-muted); stroke-width: 2;">
+                                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                        </svg>
+                                        <span style="font-size: 14px; color: var(--color-text-primary); font-weight: 600;">unit/negative/${name}</span>
+                                    </div>
+                                    <span style="font-size: 13px; color: var(--color-text-muted); margin-left: 26px;">${value}</span>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                html += `
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            };
+
+            // Internal Tabs System
+            html += `
+                <div class="internal-tabs-wrapper">
+                    <div class="internal-tab-buttons">
+                        <button class="internal-tab-button active" onclick="switchInternalTab(event, 'inset-tab')">Inset</button>
+                        <button class="internal-tab-button" onclick="switchInternalTab(event, 'inline-tab')">Inline</button>
+                        <button class="internal-tab-button" onclick="switchInternalTab(event, 'stack-tab')">Stack</button>
+                    </div>
+
+                    <!-- Inset Tab -->
+                    <div id="inset-tab" class="internal-tab-content active">
             `;
 
-            // Render primitive spacing tokens
-            Object.entries(spacing.primitives).forEach(([key, value]) => {
-                html += `
-                    <div class="semantic-token-item" style="cursor: pointer;" onclick="copyColorWithFeedback('${value}', this)">
-                        <div style="display: flex; align-items: center; justify-content: center; width: 100%; height: 80px; border-radius: 8px; background-color: var(--color-bg-tertiary); position: relative;">
-                            <div class="spacing-box" style="width: ${Math.min(value, 160)}px; height: ${Math.min(value, 60)}px; background-color: var(--color-accent); opacity: 0.6; border-radius: 4px;"></div>
-                        </div>
-                        <div class="semantic-token-details">
-                            <div class="semantic-token-label">${key}</div>
-                            <div class="semantic-token-path">spacing.primitives.${key}</div>
-                            <div class="semantic-token-hex">${value}px</div>
-                        </div>
-                    </div>
-                `;
-            });
+            renderSpacingTable('inset', 'positive');
 
             html += `
-                                </div>
-                            </div>
-                        </div>
+                    </div>
+
+                    <!-- Inline Tab -->
+                    <div id="inline-tab" class="internal-tab-content">
+            `;
+
+            renderSpacingTable('inline', 'positive');
+            renderNegativeTable('inline');
+
+            html += `
+                    </div>
+
+                    <!-- Stack Tab -->
+                    <div id="stack-tab" class="internal-tab-content">
+            `;
+
+            renderSpacingTable('stack', 'positive');
+            renderNegativeTable('stack');
+
+            html += `
                     </div>
                 </div>
             `;
-
-            // Close tabs wrapper
-            html += '</div>';
 
             container.innerHTML = html;
         }
@@ -3549,199 +4072,125 @@
             const grid = designTokens.grid;
             let html = '';
 
-            // Column Count Section
-            html += `
-                <div style="margin-bottom: 64px;">
-                    <h2 style="font-size: 34px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">Column Count</h2>
-                    <p style="font-size: 16px; color: var(--color-text-muted); margin-bottom: 32px;">
-                        Número de colunas do grid para cada breakpoint
-                    </p>
-
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
-            `;
-
-            // Render Column Count Cards
-            const devices = ['mobile', 'tablet', 'desktop'];
-            devices.forEach(device => {
-                const count = grid.column.count[device];
-                const deviceLabel = device.charAt(0).toUpperCase() + device.slice(1);
-
+            // Helper function to render table
+            const renderTable = (title, data) => {
                 html += `
-                    <div style="background: #1D202B; border-radius: 16px; padding: 32px; border: 1px solid #454A56;">
-                        <div style="display: flex; gap: 4px; margin-bottom: 20px; justify-content: center;">
+                    <div style="margin-bottom: 48px;">
+                        <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 16px; color: var(--color-text-primary);">grid / ${title}</h3>
+                        <div style="overflow-x: auto;">
+                            <table style="width: 100%; border-collapse: collapse; background: var(--color-bg-secondary); border-radius: 8px; overflow: hidden;">
+                                <thead>
+                                    <tr style="border-bottom: 2px solid var(--color-border);">
+                                        <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">Name</th>
+                                        <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">mobile</th>
+                                        <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">tablet</th>
+                                        <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">desktop</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
                 `;
 
-                // Visual columns
-                for (let i = 0; i < count; i++) {
-                    html += `<div style="background: var(--color-accent); height: 60px; flex: 1; border-radius: 4px; min-width: ${280 / count - 4}px;"></div>`;
+                data.forEach(row => {
+                    html += `
+                        <tr style="border-bottom: 1px solid var(--color-border);">
+                            <td style="padding: 16px;">
+                                <span style="font-family: 'Courier New', monospace; font-size: 14px; color: var(--color-text-primary); font-weight: 600;">${row.name}</span>
+                            </td>
+                    `;
+
+                    ['mobile', 'tablet', 'desktop'].forEach(device => {
+                        const value = row[device];
+                        const isTokenValue = typeof value === 'object';
+
+                        html += `
+                            <td style="padding: 16px;">
+                        `;
+
+                        if (isTokenValue) {
+                            const resolvedValue = resolveToken(value.token);
+                            const unitToken = value.reference;
+                            html += `
+                                <div style="display: flex; flex-direction: column; gap: 4px;">
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0; stroke: var(--color-text-muted); stroke-width: 2;">
+                                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                        </svg>
+                                        <span style="font-size: 14px; color: var(--color-text-primary); font-weight: 600;">${unitToken}</span>
+                                    </div>
+                                    <span style="font-size: 13px; color: var(--color-text-muted); margin-left: 26px;">${resolvedValue}</span>
+                                </div>
+                            `;
+                        } else {
+                            html += `
+                                <span style="font-size: 14px; color: var(--color-text-primary); font-weight: 600;">${value}</span>
+                            `;
+                        }
+
+                        html += `
+                            </td>
+                        `;
+                    });
+
+                    html += `
+                        </tr>
+                    `;
+                });
+
+                html += `
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            };
+
+            // Column Count
+            renderTable('column', [
+                {
+                    name: 'count',
+                    mobile: grid.column.count.mobile,
+                    tablet: grid.column.count.tablet,
+                    desktop: grid.column.count.desktop
                 }
+            ]);
 
-                html += `
-                        </div>
-                        <div style="text-align: center;">
-                            <div style="font-size: 24px; font-weight: 550; color: var(--color-text-primary); margin-bottom: 8px;">${deviceLabel}</div>
-                            <div style="font-size: 14px; color: var(--color-text-muted);">${count} columns</div>
-                        </div>
-                    </div>
-                `;
-            });
+            // Size Tables
+            renderTable('size', [
+                {
+                    name: 'vw',
+                    mobile: grid.size.vw.mobile,
+                    tablet: grid.size.vw.tablet,
+                    desktop: grid.size.vw.desktop
+                },
+                {
+                    name: 'vh',
+                    mobile: grid.size.vh.mobile,
+                    tablet: grid.size.vh.tablet,
+                    desktop: grid.size.vh.desktop
+                },
+                {
+                    name: 'container',
+                    mobile: grid.size.container.mobile,
+                    tablet: grid.size.container.tablet,
+                    desktop: grid.size.container.desktop
+                }
+            ]);
 
-            html += `
-                    </div>
-                </div>
-            `;
-
-            // Viewport Sizes Section
-            html += `
-                <div style="margin-bottom: 64px;">
-                    <h2 style="font-size: 34px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">Viewport Sizes</h2>
-                    <p style="font-size: 16px; color: var(--color-text-muted); margin-bottom: 32px;">
-                        Tamanhos de viewport e container para cada dispositivo
-                    </p>
-
-                    <div style="display: grid; gap: 32px;">
-            `;
-
-            // VW Section
-            html += `
-                <div>
-                    <h3 style="font-size: 23px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">VW</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
-            `;
-
-            devices.forEach(device => {
-                const vw = grid.size.vw[device];
-                const deviceLabel = device.charAt(0).toUpperCase() + device.slice(1);
-
-                html += `
-                    <div style="background: #1D202B; border-radius: 12px; padding: 24px; border: 1px solid #454A56; display: flex; justify-content: space-between; align-items: center;">
-                        <div style="font-size: 16px; font-weight: 550; color: var(--color-text-primary);">${deviceLabel}</div>
-                        <div style="font-size: 23px; font-weight: 550; color: var(--color-text-secondary);">${vw}px</div>
-                    </div>
-                `;
-            });
-
-            html += `
-                    </div>
-                </div>
-            `;
-
-            // VH Section
-            html += `
-                <div>
-                    <h3 style="font-size: 23px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">VH</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
-            `;
-
-            devices.forEach(device => {
-                const vh = grid.size.vh[device];
-                const deviceLabel = device.charAt(0).toUpperCase() + device.slice(1);
-
-                html += `
-                    <div style="background: #1D202B; border-radius: 12px; padding: 24px; border: 1px solid #454A56; display: flex; justify-content: space-between; align-items: center;">
-                        <div style="font-size: 16px; font-weight: 550; color: var(--color-text-primary);">${deviceLabel}</div>
-                        <div style="font-size: 23px; font-weight: 550; color: var(--color-text-secondary);">${vh}px</div>
-                    </div>
-                `;
-            });
-
-            html += `
-                    </div>
-                </div>
-            `;
-
-            // CONTAINER Section
-            html += `
-                <div>
-                    <h3 style="font-size: 23px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">CONTAINER</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
-            `;
-
-            devices.forEach(device => {
-                const container = grid.size.container[device];
-                const deviceLabel = device.charAt(0).toUpperCase() + device.slice(1);
-
-                html += `
-                    <div style="background: #1D202B; border-radius: 12px; padding: 24px; border: 1px solid #454A56; display: flex; justify-content: space-between; align-items: center;">
-                        <div style="font-size: 16px; font-weight: 550; color: var(--color-text-primary);">${deviceLabel}</div>
-                        <div style="font-size: 23px; font-weight: 550; color: var(--color-text-secondary);">${container}px</div>
-                    </div>
-                `;
-            });
-
-            html += `
-                    </div>
-                </div>
-            `;
-
-            html += `
-                    </div>
-                </div>
-            `;
-
-            // Grid Spacing Section
-            html += `
-                <div style="margin-bottom: 64px;">
-                    <h2 style="font-size: 34px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">Grid Spacing</h2>
-                    <p style="font-size: 16px; color: var(--color-text-muted); margin-bottom: 32px;">
-                        Espaçamentos entre colunas (gap) e margens externas (margin)
-                    </p>
-
-                    <div style="display: grid; gap: 32px;">
-            `;
-
-            // Gap Section
-            html += `
-                <div>
-                    <h3 style="font-size: 23px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">Gap</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
-            `;
-
-            devices.forEach(device => {
-                const gap = resolveToken(grid.space.gap[device]);
-                const deviceLabel = device.charAt(0).toUpperCase() + device.slice(1);
-
-                html += `
-                    <div style="background: #1D202B; border-radius: 12px; padding: 24px; border: 1px solid #454A56; display: flex; justify-content: space-between; align-items: center;">
-                        <div style="font-size: 16px; font-weight: 550; color: var(--color-text-primary);">${deviceLabel}</div>
-                        <div style="font-size: 23px; font-weight: 550; color: var(--color-text-secondary);">${gap}px</div>
-                    </div>
-                `;
-            });
-
-            html += `
-                    </div>
-                </div>
-            `;
-
-            // Margin Section
-            html += `
-                <div>
-                    <h3 style="font-size: 23px; font-weight: 550; margin-bottom: 16px; color: var(--color-text-primary);">Margin</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
-            `;
-
-            devices.forEach(device => {
-                const margin = resolveToken(grid.space.margin[device]);
-                const deviceLabel = device.charAt(0).toUpperCase() + device.slice(1);
-
-                html += `
-                    <div style="background: #1D202B; border-radius: 12px; padding: 24px; border: 1px solid #454A56; display: flex; justify-content: space-between; align-items: center;">
-                        <div style="font-size: 16px; font-weight: 550; color: var(--color-text-primary);">${deviceLabel}</div>
-                        <div style="font-size: 23px; font-weight: 550; color: var(--color-text-secondary);">${margin}px</div>
-                    </div>
-                `;
-            });
-
-            html += `
-                    </div>
-                </div>
-            `;
-
-            html += `
-                    </div>
-                </div>
-            `;
+            // Space Tables
+            renderTable('space', [
+                {
+                    name: 'gap',
+                    mobile: { token: grid.space.gap.mobile, reference: 'unit/positive/xl' },
+                    tablet: { token: grid.space.gap.tablet, reference: 'unit/positive/3xl' },
+                    desktop: { token: grid.space.gap.desktop, reference: 'unit/positive/3xl' }
+                },
+                {
+                    name: 'margin',
+                    mobile: { token: grid.space.margin.mobile, reference: 'unit/positive/3xl' },
+                    tablet: { token: grid.space.margin.tablet, reference: 'unit/positive/5xl' },
+                    desktop: grid.space.margin.desktop
+                }
+            ]);
 
             container.innerHTML = html;
         }
@@ -3773,35 +4222,122 @@
         }
 
         function renderBorders(container) {
+            const borderRadius = designTokens.borderRadius;
+            const borderWidth = designTokens.borderWidth;
             let html = '';
 
-            // Border Radius
-            html += '<div class="token-category"><h2 class="token-category-title">Border Radius</h2><div class="token-list">';
-            Object.entries(designTokens.borderRadius).forEach(([key, value]) => {
-                const resolved = resolveToken(value.bank);
-                html += `
-                    <div class="token-item">
-                        <div class="token-name">borderRadius.${key}</div>
-                        <div class="token-value">${value.bank} → ${resolved}px</div>
-                        <button class="copy-button" onclick="copyToClipboard('${resolved}', this)">Copiar</button>
-                    </div>
-                `;
-            });
-            html += '</div></div>';
+            // Helper function to get unit reference
+            const getUnitReference = (token) => {
+                if (typeof token !== 'string') {
+                    return null;
+                }
+                const match = token.match(/\{unit\.positive\.(\w+)\}/);
+                if (match) {
+                    return `unit/positive/${match[1]}`;
+                }
+                return null;
+            };
 
-            // Border Width
-            html += '<div class="token-category"><h2 class="token-category-title">Border Width</h2><div class="token-list">';
-            Object.entries(designTokens.borderWidth).forEach(([key, value]) => {
-                const resolved = resolveToken(value.bank);
-                html += `
-                    <div class="token-item">
-                        <div class="token-name">borderWidth.${key}</div>
-                        <div class="token-value">${value.bank} → ${resolved}px</div>
-                        <button class="copy-button" onclick="copyToClipboard('${resolved}', this)">Copiar</button>
-                    </div>
+            // Helper function to render border table
+            const renderBorderTable = (category, data) => {
+                let tableHtml = `
+                    <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 16px; color: var(--color-text-primary);">border / ${category}</h3>
+                    <table style="width: 100%; border-collapse: collapse; background: var(--color-bg-secondary); border-radius: 8px; overflow: hidden;">
+                        <thead>
+                            <tr style="border-bottom: 2px solid var(--color-border);">
+                                <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">Nome</th>
+                                <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">bank</th>
+                                <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">pro</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                 `;
-            });
-            html += '</div></div>';
+
+                Object.entries(data).forEach(([name, values]) => {
+                    const bankToken = values.bank;
+                    const proToken = values.pro;
+                    const bankUnitRef = getUnitReference(bankToken);
+                    const proUnitRef = getUnitReference(proToken);
+                    const bankResolved = resolveToken(bankToken);
+                    const proResolved = resolveToken(proToken);
+
+                    tableHtml += `
+                        <tr style="border-bottom: 1px solid var(--color-border);">
+                            <td style="padding: 16px;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="width: 32px; height: 32px; background: var(--color-accent); border-radius: 4px; flex-shrink: 0;"></div>
+                                    <span style="font-family: 'Courier New', monospace; font-size: 14px; color: var(--color-text-primary); font-weight: 600;">border.${category}.${name}</span>
+                                </div>
+                            </td>
+                            <td style="padding: 16px;">
+                                <div style="display: flex; flex-direction: column; gap: 4px;">
+                                    ${bankUnitRef ? `
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0; stroke: var(--color-text-muted); stroke-width: 2;">
+                                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                            </svg>
+                                            <span style="font-size: 14px; color: var(--color-text-primary); font-weight: 600;">${bankUnitRef}</span>
+                                        </div>
+                                        <span style="font-size: 13px; color: var(--color-text-muted); margin-left: 26px;">${bankResolved}</span>
+                                    ` : `
+                                        <span style="font-size: 14px; color: var(--color-text-primary); font-weight: 600;">${bankResolved}</span>
+                                    `}
+                                </div>
+                            </td>
+                            <td style="padding: 16px;">
+                                <div style="display: flex; flex-direction: column; gap: 4px;">
+                                    ${proUnitRef ? `
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0; stroke: var(--color-text-muted); stroke-width: 2;">
+                                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                            </svg>
+                                            <span style="font-size: 14px; color: var(--color-text-primary); font-weight: 600;">${proUnitRef}</span>
+                                        </div>
+                                        <span style="font-size: 13px; color: var(--color-text-muted); margin-left: 26px;">${proResolved}</span>
+                                    ` : `
+                                        <span style="font-size: 14px; color: var(--color-text-primary); font-weight: 600;">${proResolved}</span>
+                                    `}
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                tableHtml += `
+                        </tbody>
+                    </table>
+                `;
+
+                return tableHtml;
+            };
+
+            // Internal Tabs System
+            html += `
+                <div class="internal-tabs-wrapper">
+                    <div class="internal-tab-buttons">
+                        <button class="internal-tab-button active" onclick="switchInternalTab(event, 'radius-tab')">Radius</button>
+                        <button class="internal-tab-button" onclick="switchInternalTab(event, 'width-tab')">Width</button>
+                    </div>
+
+                    <!-- Radius Tab -->
+                    <div id="radius-tab" class="internal-tab-content active">
+            `;
+
+            html += renderBorderTable('radius', borderRadius);
+
+            html += `
+                    </div>
+
+                    <!-- Width Tab -->
+                    <div id="width-tab" class="internal-tab-content">
+            `;
+
+            html += renderBorderTable('width', borderWidth);
+
+            html += `
+                    </div>
+                </div>
+            `;
 
             container.innerHTML = html;
         }

@@ -661,7 +661,7 @@ Last updated 6 hours ago\
         "600": \{ "dark": "#B7CBFF", "light": "#3C56C7" \},\
         "700": \{ "dark": "#CEDCFF", "light": "#2739A8" \},\
         "800": \{ "dark": "#E4ECFF", "light": "#11057E" \},\
-        "900": \{ "dark": "#FABFFF", "light": "#0C0F17" \}\
+        "900": \{ "dark": "#FAFBFF", "light": "#0C0F17" \}\
       \},\
       "neutral": \{\
         "light": \{ "dark": "\{color.primitives.gray.900.dark\}", "light": "\{color.primitives.gray.0.light\}" \},\
