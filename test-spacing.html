@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Spacing</title>
+    <style>
+        body {
+            font-family: system-ui;
+            background: #0C0F17;
+            color: #EBECED;
+            padding: 40px;
+        }
+        .card {
+            background: #1D202B;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .token-item {
+            background: #000;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        .preview {
+            background: #383C48;
+            border-radius: 8px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+        .spacing-box {
+            background: #C2F141;
+            opacity: 0.6;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Teste de Spacing Primitives</h1>
+    <div id="content"></div>
+
+    <script>
+        const designTokens = {
+            spacing: {
+                primitives: {
+                    zero: 0,
+                    "2xs": 1,
+                    xs: 2,
+                    sm: 4,
+                    md: 8,
+                    lg: 12,
+                    xl: 16,
+                    "2xl": 20,
+                    "3xl": 24,
+                    "4xl": 32,
+                    "5xl": 48,
+                    "6xl": 64,
+                    "7xl": 96,
+                    "8xl": 128,
+                    "9xl": 160
+                }
+            }
+        };
+
+        function render() {
+            const container = document.getElementById('content');
+            let html = '<div class="card"><h2>Spacing Primitives</h2>';
+
+            Object.entries(designTokens.spacing.primitives).forEach(([key, value]) => {
+                const width = Math.min(value, 160);
+                const height = Math.min(value, 60);
+
+                html += `
+                    <div class="token-item">
+                        <div class="preview">
+                            <div class="spacing-box" style="width: ${width}px; height: ${height}px;"></div>
+                        </div>
+                        <div>
+                            <strong>${key}</strong>: ${value}px
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            container.innerHTML = html;
+            console.log('Rendered successfully!');
+        }
+
+        // Executar quando a página carregar
+        window.onload = render;
+    </script>
+</body>
+</html>
