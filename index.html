@@ -1230,6 +1230,13 @@
                         </svg>
                         <span>Borders</span>
                     </div>
+                    <div class="nav-item" data-section="sizes">
+                        <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <polyline points="21 8 21 21 8 21"></polyline>
+                            <rect x="1" y="1" width="12" height="12"></rect>
+                        </svg>
+                        <span>Sizes</span>
+                    </div>
                 </div>
 
                 <div class="nav-section">
@@ -1248,13 +1255,6 @@
                             <circle cx="12" cy="12" r="3"></circle>
                         </svg>
                         <span>Opacity</span>
-                    </div>
-                    <div class="nav-item" data-section="sizes">
-                        <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <polyline points="21 8 21 21 8 21"></polyline>
-                            <rect x="1" y="1" width="12" height="12"></rect>
-                        </svg>
-                        <span>Sizes</span>
                     </div>
                 </div>
 
@@ -4601,12 +4601,6 @@
                 { name: 'xl', value: 48 }
             ];
 
-            const dividerSizes = [
-                { name: 'default', value: 1 },
-                { name: 'thick', value: 8 },
-                { name: 'thicker', value: 16 }
-            ];
-
             const thumbSizes = [
                 { name: 'sm', value: 32 },
                 { name: 'md', value: 48 },
@@ -4614,341 +4608,71 @@
                 { name: 'xl', value: 96 }
             ];
 
-            let html = `
-                <style>
-                    .size-tabs {
-                        display: flex;
-                        gap: 8px;
-                        margin-bottom: 32px;
-                        border-bottom: 1px solid var(--color-border);
-                    }
+            // Helper function to render size cards
+            const renderSizeCards = (type, sizes) => {
+                let cardsHtml = `<div class="color-category-title">size / ${type}</div>`;
+                cardsHtml += `<div class="colors-grid">`;
 
-                    .size-tab-button {
-                        padding: 12px 24px;
-                        background: transparent;
-                        border: none;
-                        color: var(--color-text-muted);
-                        font-size: 15px;
-                        font-weight: 500;
-                        cursor: pointer;
-                        border-bottom: 2px solid transparent;
-                        transition: all 0.2s ease;
-                        position: relative;
-                        bottom: -1px;
-                    }
+                sizes.forEach(size => {
+                    const fullTokenName = `size.${type}.${size.name}`;
 
-                    .size-tab-button:hover {
-                        color: var(--color-text-primary);
-                    }
-
-                    .size-tab-button.active {
-                        color: var(--color-text-primary);
-                        border-bottom-color: #0066FF;
-                    }
-
-                    .size-tab-content {
-                        display: none;
-                    }
-
-                    .size-tab-content.active {
-                        display: block;
-                    }
-
-                    .size-grid {
-                        display: grid;
-                        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-                        gap: 32px;
-                        margin-top: 32px;
-                    }
-
-                    .size-card {
-                        display: flex;
-                        flex-direction: column;
-                        gap: 20px;
-                        align-items: center;
-                        padding: 32px;
-                        background: var(--color-bg-secondary);
-                        border: 1px solid var(--color-border);
-                        border-radius: 12px;
-                    }
-
-                    .size-preview {
-                        width: 120px;
-                        height: 120px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        border-radius: 12px;
-                        background: var(--color-bg-tertiary);
-                    }
-
-                    .size-icon-preview {
-                        background: #0066FF;
-                        border-radius: 8px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                    }
-
-                    .size-icon-preview svg {
-                        color: white;
-                        opacity: 0.9;
-                    }
-
-                    .size-divider-preview {
-                        width: 80%;
-                        background: #0066FF;
-                        border-radius: 2px;
-                    }
-
-                    .size-thumb-preview {
-                        border-radius: 50%;
-                        background: linear-gradient(135deg, #0066FF 0%, #0052CC 100%);
-                        border: 2px solid rgba(255, 255, 255, 0.2);
-                    }
-
-                    .size-info {
-                        display: flex;
-                        flex-direction: column;
-                        gap: 12px;
-                        width: 100%;
-                        text-align: center;
-                    }
-
-                    .size-name {
-                        font-size: 16px;
-                        font-weight: 600;
-                        color: var(--color-text-primary);
-                        font-family: 'Courier New', monospace;
-                    }
-
-                    .size-properties {
-                        display: flex;
-                        flex-direction: column;
-                        gap: 6px;
-                        font-size: 12px;
-                        color: var(--color-text-muted);
-                    }
-
-                    .size-property {
-                        display: flex;
-                        justify-content: space-between;
-                        padding: 4px 8px;
-                        background: var(--color-bg-tertiary);
-                        border-radius: 4px;
-                    }
-
-                    .size-property-label {
-                        font-weight: 600;
-                    }
-
-                    .size-property-value {
-                        font-family: 'Courier New', monospace;
-                        color: var(--color-text-secondary);
-                    }
-
-                    .size-section-title {
-                        font-size: 18px;
-                        font-weight: 600;
-                        color: var(--color-text-primary);
-                        margin-top: 48px;
-                        margin-bottom: 16px;
-                    }
-
-                    .size-section-title:first-of-type {
-                        margin-top: 0;
-                    }
-
-                    .size-description {
-                        font-size: 14px;
-                        color: var(--color-text-muted);
-                        margin-bottom: 24px;
-                    }
-                </style>
-
-                <!-- Tabs -->
-                <div class="size-tabs">
-                    <button class="size-tab-button active" onclick="switchSizeTab(event, 'icon-tab')">Icon</button>
-                    <button class="size-tab-button" onclick="switchSizeTab(event, 'divider-tab')">Divider</button>
-                    <button class="size-tab-button" onclick="switchSizeTab(event, 'thumb-tab')">Thumb</button>
-                </div>
-
-                <!-- Icon Tab -->
-                <div id="icon-tab" class="size-tab-content active">
-                    <div class="size-section-title">Icon Examples</div>
-                    <div class="size-description">
-                        Tamanhos de ícones para diferentes contextos de uso
-                    </div>
-
-                    <div class="size-grid">
-            `;
-
-            iconSizes.forEach(size => {
-                html += `
-                    <div class="size-card">
-                        <div class="size-preview">
-                            <div class="size-icon-preview" style="width: ${size.value}px; height: ${size.value}px;">
-                                <svg width="${size.value * 0.7}" height="${size.value * 0.7}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                    <circle cx="12" cy="7" r="4"></circle>
+                    cardsHtml += `
+                        <div class="color-card">
+                            <div class="color-preview-large" style="background: var(--color-bg-primary); display: flex; align-items: center; justify-content: center;">
+                                ${type === 'icon'
+                                    ? `<div style="width: ${size.value}px; height: ${size.value}px; background: var(--color-accent); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                        <svg width="${size.value * 0.6}" height="${size.value * 0.6}" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="12" cy="7" r="4"></circle>
+                                        </svg>
+                                       </div>`
+                                    : `<div style="width: ${size.value}px; height: ${size.value}px; border-radius: 50%; background: linear-gradient(135deg, var(--color-accent) 0%, #0052CC 100%); border: 2px solid rgba(255, 255, 255, 0.2);"></div>`
+                                }
+                            </div>
+                            <div>
+                                <div class="color-card-name">${fullTokenName}</div>
+                                <div class="color-card-hex">${size.value}px</div>
+                                <div class="color-card-primitive"></div>
+                            </div>
+                            <button class="color-card-copy-btn" onclick="copyColorToClipboard('${fullTokenName}', this)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                                 </svg>
-                            </div>
+                                <span>Copiar</span>
+                            </button>
                         </div>
-                        <div class="size-info">
-                            <div class="size-name">size.icon.${size.name}</div>
-                            <div class="size-properties">
-                                <div class="size-property">
-                                    <span class="size-property-label">Size:</span>
-                                    <span class="size-property-value">${size.value}px</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
+                    `;
+                });
 
-            html += `
-                    </div>
+                cardsHtml += `</div>`;
+                return cardsHtml;
+            };
 
-                    <div class="size-section-title">Icon Properties</div>
-                    <div class="size-description">
-                        Valores de tamanho disponíveis para ícones
+            let html = `
+                <!-- Internal Tabs System -->
+                <div class="internal-tabs-wrapper">
+                    <div class="internal-tab-buttons">
+                        <button class="internal-tab-button active" onclick="switchInternalTab(event, 'icon-size-tab')">Icon</button>
+                        <button class="internal-tab-button" onclick="switchInternalTab(event, 'thumb-size-tab')">Thumb</button>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 24px;">
-                        <div style="background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 12px; padding: 24px;">
-                            <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--color-text-primary);">Icon Sizes</h3>
-                            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
+                    <!-- Icon Tab -->
+                    <div id="icon-size-tab" class="internal-tab-content active">
             `;
 
-            iconSizes.forEach(size => {
-                html += `
-                                <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
-                                    <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">size.icon.${size.name}</span>
-                                    <span style="color: var(--color-text-muted);">${size.value}px</span>
-                                </div>
-                `;
-            });
+            html += renderSizeCards('icon', iconSizes);
 
             html += `
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Divider Tab -->
-                <div id="divider-tab" class="size-tab-content">
-                    <div class="size-section-title">Divider Examples</div>
-                    <div class="size-description">
-                        Espessuras de divisores para separação de conteúdo
                     </div>
 
-                    <div class="size-grid">
+                    <!-- Thumb Tab -->
+                    <div id="thumb-size-tab" class="internal-tab-content">
             `;
 
-            dividerSizes.forEach(size => {
-                html += `
-                    <div class="size-card">
-                        <div class="size-preview">
-                            <div class="size-divider-preview" style="height: ${size.value}px;"></div>
-                        </div>
-                        <div class="size-info">
-                            <div class="size-name">size.divider.${size.name}</div>
-                            <div class="size-properties">
-                                <div class="size-property">
-                                    <span class="size-property-label">Height:</span>
-                                    <span class="size-property-value">${size.value}px</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
+            html += renderSizeCards('thumb', thumbSizes);
 
             html += `
-                    </div>
-
-                    <div class="size-section-title">Divider Properties</div>
-                    <div class="size-description">
-                        Valores de espessura disponíveis para divisores
-                    </div>
-
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 24px;">
-                        <div style="background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 12px; padding: 24px;">
-                            <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--color-text-primary);">Divider Sizes</h3>
-                            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
-            `;
-
-            dividerSizes.forEach(size => {
-                html += `
-                                <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
-                                    <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">size.divider.${size.name}</span>
-                                    <span style="color: var(--color-text-muted);">${size.value}px</span>
-                                </div>
-                `;
-            });
-
-            html += `
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Thumb Tab -->
-                <div id="thumb-tab" class="size-tab-content">
-                    <div class="size-section-title">Thumb Examples</div>
-                    <div class="size-description">
-                        Tamanhos de miniaturas para avatares e imagens
-                    </div>
-
-                    <div class="size-grid">
-            `;
-
-            thumbSizes.forEach(size => {
-                html += `
-                    <div class="size-card">
-                        <div class="size-preview">
-                            <div class="size-thumb-preview" style="width: ${size.value}px; height: ${size.value}px;"></div>
-                        </div>
-                        <div class="size-info">
-                            <div class="size-name">size.thumb.${size.name}</div>
-                            <div class="size-properties">
-                                <div class="size-property">
-                                    <span class="size-property-label">Size:</span>
-                                    <span class="size-property-value">${size.value}px</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-
-            html += `
-                    </div>
-
-                    <div class="size-section-title">Thumb Properties</div>
-                    <div class="size-description">
-                        Valores de tamanho disponíveis para miniaturas
-                    </div>
-
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 24px;">
-                        <div style="background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 12px; padding: 24px;">
-                            <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--color-text-primary);">Thumb Sizes</h3>
-                            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
-            `;
-
-            thumbSizes.forEach(size => {
-                html += `
-                                <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
-                                    <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">size.thumb.${size.name}</span>
-                                    <span style="color: var(--color-text-muted);">${size.value}px</span>
-                                </div>
-                `;
-            });
-
-            html += `
-                            </div>
-                        </div>
                     </div>
                 </div>
             `;
@@ -4968,25 +4692,6 @@
 
         // Make copy function global
         window.copyToClipboard = copyToClipboard;
-
-        // Make switchSizeTab function global
-        window.switchSizeTab = function(event, tabId) {
-            // Remove active class from all buttons
-            document.querySelectorAll('.size-tab-button').forEach(btn => {
-                btn.classList.remove('active');
-            });
-
-            // Hide all tab contents
-            document.querySelectorAll('.size-tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-
-            // Activate clicked button
-            event.target.classList.add('active');
-
-            // Show selected tab content
-            document.getElementById(tabId).classList.add('active');
-        };
 
         // Make switchBorderTab function global
         window.switchBorderTab = function(event, tabId) {
