@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alert Component - Royal DS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0C0F17;
+            color: #E4E4E6;
+            padding: 40px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #F4F4F6;
+        }
+
+        .description {
+            font-size: 16px;
+            color: #9FA0A5;
+            margin-bottom: 48px;
+        }
+
+        h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            margin-top: 48px;
+            color: #F4F4F6;
+        }
+
+        .chips-container {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid #383C48;
+            background: #1D202B;
+            color: #9FA0A5;
+            transition: all 0.2s ease;
+        }
+
+        .chip:hover {
+            background: #272A32;
+            border-color: #454A56;
+        }
+
+        .chip.active {
+            background: #0066FF;
+            color: white;
+            border-color: #0066FF;
+        }
+
+        .alert-preview {
+            display: none;
+        }
+
+        .alert-preview.active {
+            display: block;
+        }
+
+        .alert {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            border-radius: 16px;
+            background: #1D202B;
+            border: 1px solid #383C48;
+            max-width: 600px;
+        }
+
+        .alert-icon {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .alert-icon svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .alert-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .alert-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #F4F4F6;
+        }
+
+        .alert-message {
+            font-size: 14px;
+            color: #9FA0A5;
+            line-height: 1.5;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #1D202B;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 24px;
+        }
+
+        thead {
+            background: #272A32;
+        }
+
+        th {
+            padding: 16px;
+            text-align: left;
+            font-weight: 550;
+            font-size: 14px;
+            color: #F4F4F6;
+            border-bottom: 2px solid #383C48;
+        }
+
+        td {
+            padding: 16px;
+            font-size: 14px;
+            border-bottom: 1px solid #383C48;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .token-name {
+            font-family: 'Courier New', monospace;
+            color: #F4F4F6;
+        }
+
+        .token-value {
+            color: #9FA0A5;
+        }
+
+        .section-description {
+            font-size: 14px;
+            color: #9FA0A5;
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Alert</h1>
+        <p class="description">
+            Componente de alerta para exibir mensagens importantes ao usuário com diferentes níveis de severidade.
+        </p>
+
+        <h2>Preview</h2>
+
+        <!-- Chips de seleção -->
+        <div class="chips-container">
+            <button class="chip active" onclick="switchVariant('success')">Sucesso</button>
+            <button class="chip" onclick="switchVariant('error')">Erro</button>
+            <button class="chip" onclick="switchVariant('info')">Informação</button>
+            <button class="chip" onclick="switchVariant('warning')">Atenção</button>
+        </div>
+
+        <!-- Preview Success -->
+        <div id="preview-success" class="alert-preview active">
+            <div class="alert" style="background: #005600; border-color: #005600;">
+                <div class="alert-icon">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M13.3332 4L5.99984 11.3333L2.6665 8" stroke="#89BF7F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="alert-content">
+                    <div class="alert-title" style="color: #89BF7F;">Sucesso</div>
+                    <div class="alert-message" style="color: #B2D5AB;">Operação realizada com sucesso!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preview Error -->
+        <div id="preview-error" class="alert-preview">
+            <div class="alert" style="background: #900000; border-color: #900000;">
+                <div class="alert-icon">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M12 4L4 12M4 4L12 12" stroke="#FB9586" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="alert-content">
+                    <div class="alert-title" style="color: #FB9586;">Erro</div>
+                    <div class="alert-message" style="color: #FFBBB0;">Ocorreu um erro ao processar sua solicitação.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preview Info -->
+        <div id="preview-info" class="alert-preview">
+            <div class="alert" style="background: #293DAC; border-color: #293DAC;">
+                <div class="alert-icon">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <circle cx="8" cy="8" r="6" stroke="#94AFFF" stroke-width="1.5"/>
+                        <path d="M8 7.33333V11.3333M8 5.33333H8.00667" stroke="#94AFFF" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="alert-content">
+                    <div class="alert-title" style="color: #94AFFF;">Informação</div>
+                    <div class="alert-message" style="color: #B7CBFF;">Esta é uma mensagem informativa para o usuário.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preview Warning -->
+        <div id="preview-warning" class="alert-preview">
+            <div class="alert" style="background: #664307; border-color: #664307;">
+                <div class="alert-icon">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M7.05719 2.66667L1.79052 11.3333C1.69052 11.4941 1.63721 11.6787 1.63672 11.8673C1.63623 12.0559 1.68859 12.2408 1.78779 12.4021C1.88698 12.5634 2.02934 12.6952 2.19927 12.7836C2.36919 12.872 2.56037 12.9136 2.75319 12.9043H13.2865C13.4794 12.9136 13.6705 12.872 13.8405 12.7836C14.0104 12.6952 14.1528 12.5634 14.252 12.4021C14.3512 12.2408 14.4035 12.0559 14.403 11.8673C14.4026 11.6787 14.3492 11.4941 14.2492 11.3333L8.98252 2.66667C8.88015 2.51192 8.73776 2.38665 8.56979 2.30487C8.40182 2.22309 8.21404 2.17773 8.02319 2.17273C7.83234 2.16773 7.64221 2.20325 7.46971 2.27616C7.29721 2.34907 7.14784 2.45694 7.03719 2.59C6.92654 2.72306 6.84819 2.87748 6.80852 3.04333" stroke="#ECA221" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M8 6V8.66667M8 11.3333H8.00667" stroke="#ECA221" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="alert-content">
+                    <div class="alert-title" style="color: #ECA221;">Atenção</div>
+                    <div class="alert-message" style="color: #FFC141;">Esta ação requer sua atenção antes de prosseguir.</div>
+                </div>
+            </div>
+        </div>
+
+        <h2>Design Tokens</h2>
+        <p class="section-description">
+            Tokens utilizados no componente Alert:
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Propriedade</th>
+                    <th>Token</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Padding</td>
+                    <td class="token-name">spacing.inset.md</td>
+                    <td class="token-value">16px</td>
+                </tr>
+                <tr>
+                    <td>Gap (Icon/Text)</td>
+                    <td class="token-name">spacing.inline.md</td>
+                    <td class="token-value">12px</td>
+                </tr>
+                <tr>
+                    <td>Border Radius</td>
+                    <td class="token-name">borderRadius.md</td>
+                    <td class="token-value">16px</td>
+                </tr>
+                <tr>
+                    <td>Border Width</td>
+                    <td class="token-name">1px</td>
+                    <td class="token-value">1px</td>
+                </tr>
+                <tr>
+                    <td>Icon Size</td>
+                    <td class="token-name">16px</td>
+                    <td class="token-value">16px</td>
+                </tr>
+                <tr>
+                    <td>Surface (Success)</td>
+                    <td class="token-name">color.surface.success.default</td>
+                    <td class="token-value">green.200 (#005600)</td>
+                </tr>
+                <tr>
+                    <td>Surface (Error)</td>
+                    <td class="token-name">color.surface.danger.default</td>
+                    <td class="token-value">red.200 (#900000)</td>
+                </tr>
+                <tr>
+                    <td>Surface (Info)</td>
+                    <td class="token-name">color.surface.info.default</td>
+                    <td class="token-value">blue.200 (#293DAC)</td>
+                </tr>
+                <tr>
+                    <td>Surface (Warning)</td>
+                    <td class="token-name">color.surface.warning.default</td>
+                    <td class="token-value">yellow.200 (#664307)</td>
+                </tr>
+                <tr>
+                    <td>Icon/Title (Success)</td>
+                    <td class="token-name">color.icon.success.default</td>
+                    <td class="token-value">green.500 (#89BF7F)</td>
+                </tr>
+                <tr>
+                    <td>Icon/Title (Error)</td>
+                    <td class="token-name">color.icon.danger.default</td>
+                    <td class="token-value">red.500 (#FB9586)</td>
+                </tr>
+                <tr>
+                    <td>Icon/Title (Info)</td>
+                    <td class="token-name">color.icon.info.default</td>
+                    <td class="token-value">blue.500 (#94AFFF)</td>
+                </tr>
+                <tr>
+                    <td>Icon/Title (Warning)</td>
+                    <td class="token-name">color.icon.warning.default</td>
+                    <td class="token-value">yellow.500 (#ECA221)</td>
+                </tr>
+                <tr>
+                    <td>Text (Success)</td>
+                    <td class="token-name">color.text.success.default</td>
+                    <td class="token-value">green.600 (#B2D5AB)</td>
+                </tr>
+                <tr>
+                    <td>Text (Error)</td>
+                    <td class="token-name">color.text.danger.default</td>
+                    <td class="token-value">red.600 (#FFBBB0)</td>
+                </tr>
+                <tr>
+                    <td>Text (Info)</td>
+                    <td class="token-name">color.text.info.default</td>
+                    <td class="token-value">blue.600 (#B7CBFF)</td>
+                </tr>
+                <tr>
+                    <td>Text (Warning)</td>
+                    <td class="token-name">color.text.warning.default</td>
+                    <td class="token-value">yellow.600 (#FFC141)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function switchVariant(variant) {
+            // Remove active from all chips
+            document.querySelectorAll('.chip').forEach(chip => {
+                chip.classList.remove('active');
+            });
+
+            // Hide all previews
+            document.querySelectorAll('.alert-preview').forEach(preview => {
+                preview.classList.remove('active');
+            });
+
+            // Activate clicked chip
+            event.target.classList.add('active');
+
+            // Show selected preview
+            document.getElementById('preview-' + variant).classList.add('active');
+        }
+    </script>
+</body>
+</html>

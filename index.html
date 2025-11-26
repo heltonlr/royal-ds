@@ -1114,8 +1114,9 @@
                         <span>Borders</span>
                     </div>
                     <div class="nav-item" data-section="opacity">
-                        <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10" opacity="0.3"></circle>
+                            <circle cx="12" cy="12" r="6" opacity="0.6"></circle>
                             <circle cx="12" cy="12" r="3"></circle>
                         </svg>
                         <span>Opacity</span>
@@ -1126,6 +1127,13 @@
                             <rect x="1" y="1" width="12" height="12"></rect>
                         </svg>
                         <span>Sizes</span>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Components</div>
+                    <div class="nav-item" data-section="alert">
+                        <span>Alert</span>
                     </div>
                 </div>
             </nav>
@@ -1322,6 +1330,18 @@
                 </div>
 
                 <div id="sizesContent"></div>
+            </section>
+
+            <!-- Alert Component Section -->
+            <section id="alert" class="content-section">
+                <div class="section-header">
+                    <h1 class="section-title">Alert</h1>
+                    <p class="section-description">
+                        Componente de alerta para exibir mensagens importantes ao usuário com diferentes níveis de severidade.
+                    </p>
+                </div>
+
+                <div id="alertContent"></div>
             </section>
         </main>
     </div>
@@ -2662,6 +2682,9 @@
                     break;
                 case 'sizes':
                     renderSizes(container);
+                    break;
+                case 'alert':
+                    renderAlert(container);
                     break;
             }
         }
@@ -4196,143 +4219,471 @@
         }
 
         function renderShadows(container) {
-            const shadow = designTokens.shadow;
+            // Exemplos de sombras com valores reais
+            const shadowExamples = [
+                { name: 'xs', blur: 2, distance: 1, spread: 0 },
+                { name: 'sm', blur: 4, distance: 1, spread: 0 },
+                { name: 'md', blur: 8, distance: 0, spread: 0 },
+                { name: 'lg', blur: 16, distance: 1, spread: 0 },
+                { name: 'xl', blur: 32, distance: 2, spread: 0 }
+            ];
 
-            let html = '';
+            let html = `
+                <style>
+                    .shadow-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                        gap: 32px;
+                        margin-top: 32px;
+                    }
 
-            Object.entries(shadow).forEach(([category, values]) => {
-                html += `<div class="token-category"><h2 class="token-category-title">Shadow - ${category.charAt(0).toUpperCase() + category.slice(1)}</h2><div class="token-list">`;
+                    .shadow-card {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 20px;
+                        align-items: center;
+                        padding: 32px;
+                        background: var(--color-bg-secondary);
+                        border: 1px solid var(--color-border);
+                        border-radius: 12px;
+                    }
 
-                Object.entries(values).forEach(([key, value]) => {
-                    const displayValue = typeof value === 'object' ?
-                        `Bank: ${formatValue(value.bank)}, Pro: ${formatValue(value.pro)}` :
-                        formatValue(value);
-                    html += `
-                        <div class="token-item">
-                            <div class="token-name">shadow.${category}.${key}</div>
-                            <div class="token-value">${displayValue}</div>
-                            <button class="copy-button" onclick="copyToClipboard('${JSON.stringify(value)}', this)">Copiar</button>
+                    .shadow-preview {
+                        width: 120px;
+                        height: 120px;
+                        background: #0066FF;
+                        border-radius: 12px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+
+                    .shadow-preview svg {
+                        width: 48px;
+                        height: 48px;
+                        color: white;
+                        opacity: 0.9;
+                    }
+
+                    .shadow-info {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 12px;
+                        width: 100%;
+                        text-align: center;
+                    }
+
+                    .shadow-name {
+                        font-size: 16px;
+                        font-weight: 600;
+                        color: var(--color-text-primary);
+                        font-family: 'Courier New', monospace;
+                    }
+
+                    .shadow-properties {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 6px;
+                        font-size: 12px;
+                        color: var(--color-text-muted);
+                    }
+
+                    .shadow-property {
+                        display: flex;
+                        justify-content: space-between;
+                        padding: 4px 8px;
+                        background: var(--color-bg-tertiary);
+                        border-radius: 4px;
+                    }
+
+                    .shadow-property-label {
+                        font-weight: 600;
+                    }
+
+                    .shadow-property-value {
+                        font-family: 'Courier New', monospace;
+                        color: var(--color-text-secondary);
+                    }
+
+                    .shadow-section-title {
+                        font-size: 18px;
+                        font-weight: 600;
+                        color: var(--color-text-primary);
+                        margin-top: 48px;
+                        margin-bottom: 16px;
+                    }
+
+                    .shadow-description {
+                        font-size: 14px;
+                        color: var(--color-text-muted);
+                        margin-bottom: 24px;
+                    }
+                </style>
+
+                <div class="shadow-section-title">Elevation Shadows</div>
+                <div class="shadow-description">
+                    Sombras para criar profundidade e hierarquia visual nos componentes
+                </div>
+
+                <div class="shadow-grid">
+            `;
+
+            shadowExamples.forEach(shadow => {
+                const boxShadow = `0 ${shadow.distance}px ${shadow.blur}px ${shadow.spread}px rgba(0, 0, 0, 0.12)`;
+
+                html += `
+                    <div class="shadow-card">
+                        <div class="shadow-preview" style="box-shadow: ${boxShadow}">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="9" y1="9" x2="15" y2="9"></line>
+                                <line x1="9" y1="15" x2="15" y2="15"></line>
+                            </svg>
                         </div>
-                    `;
-                });
-                html += '</div></div>';
+                        <div class="shadow-info">
+                            <div class="shadow-name">shadow.${shadow.name}</div>
+                            <div class="shadow-properties">
+                                <div class="shadow-property">
+                                    <span class="shadow-property-label">Blur:</span>
+                                    <span class="shadow-property-value">${shadow.blur}px</span>
+                                </div>
+                                <div class="shadow-property">
+                                    <span class="shadow-property-label">Distance:</span>
+                                    <span class="shadow-property-value">${shadow.distance}px</span>
+                                </div>
+                                <div class="shadow-property">
+                                    <span class="shadow-property-label">Spread:</span>
+                                    <span class="shadow-property-value">${shadow.spread}px</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
             });
+
+            html += `
+                </div>
+
+                <div class="shadow-section-title">Shadow Properties</div>
+                <div class="shadow-description">
+                    Propriedades individuais para construir sombras customizadas
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 24px;">
+                    <div style="background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 12px; padding: 24px;">
+                        <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--color-text-primary);">Blur</h3>
+                        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
+                            <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
+                                <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">shadow.blur.none</span>
+                                <span style="color: var(--color-text-muted);">0px</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
+                                <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">shadow.blur.sm</span>
+                                <span style="color: var(--color-text-muted);">2px</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
+                                <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">shadow.blur.md</span>
+                                <span style="color: var(--color-text-muted);">4px</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
+                                <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">shadow.blur.lg</span>
+                                <span style="color: var(--color-text-muted);">8px</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
+                                <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">shadow.blur.xl</span>
+                                <span style="color: var(--color-text-muted);">16px</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
+                                <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">shadow.blur.2xl</span>
+                                <span style="color: var(--color-text-muted);">32px</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 12px; padding: 24px;">
+                        <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--color-text-primary);">Distance</h3>
+                        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
+                            <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
+                                <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">shadow.distance.md</span>
+                                <span style="color: var(--color-text-muted);">0px</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
+                                <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">shadow.distance.sm</span>
+                                <span style="color: var(--color-text-muted);">1px</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
+                                <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">shadow.distance.lg</span>
+                                <span style="color: var(--color-text-muted);">1px</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
+                                <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">shadow.distance.xl</span>
+                                <span style="color: var(--color-text-muted);">2px</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 12px; padding: 24px;">
+                        <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--color-text-primary);">Spread</h3>
+                        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
+                            <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
+                                <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">shadow.spread.md</span>
+                                <span style="color: var(--color-text-muted);">0px</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
+                                <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">shadow.spread.sm</span>
+                                <span style="color: var(--color-text-muted);">4px</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
+                                <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">shadow.spread.xs</span>
+                                <span style="color: var(--color-text-muted);">8px</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
 
             container.innerHTML = html;
         }
 
         function renderBorders(container) {
-            const borderRadius = designTokens.borderRadius;
-            const borderWidth = designTokens.borderWidth;
-            let html = '';
+            // Dados de border radius
+            const radiusData = [
+                { name: 'none', bank: 0, pro: 0 },
+                { name: 'xs', bank: 4, pro: 4 },
+                { name: 'sm', bank: 2, pro: 2 },
+                { name: 'md', bank: 16, pro: 16 },
+                { name: 'lg', bank: 24, pro: 24 },
+                { name: 'pill', bank: 160, pro: 160 }
+            ];
 
-            // Helper function to get unit reference
-            const getUnitReference = (token) => {
-                if (typeof token !== 'string') {
-                    return null;
-                }
-                const match = token.match(/\{unit\.positive\.(\w+)\}/);
-                if (match) {
-                    return `unit/positive/${match[1]}`;
-                }
-                return null;
-            };
+            // Dados de border width
+            const widthData = [
+                { name: 'none', bank: 0, pro: 0 },
+                { name: 'thin', bank: 1, pro: 1 },
+                { name: 'thick', bank: 2, pro: 2 },
+                { name: 'thicker', bank: 4, pro: 4 }
+            ];
 
-            // Helper function to render border table
-            const renderBorderTable = (category, data) => {
-                let tableHtml = `
-                    <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 16px; color: var(--color-text-primary);">border / ${category}</h3>
-                    <table style="width: 100%; border-collapse: collapse; background: var(--color-bg-secondary); border-radius: 8px; overflow: hidden;">
-                        <thead>
-                            <tr style="border-bottom: 2px solid var(--color-border);">
-                                <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">Nome</th>
-                                <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">bank</th>
-                                <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">pro</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                `;
+            let html = `
+                <style>
+                    .border-tabs {
+                        display: flex;
+                        gap: 8px;
+                        margin-bottom: 32px;
+                        border-bottom: 1px solid var(--color-border);
+                    }
 
-                Object.entries(data).forEach(([name, values]) => {
-                    const bankToken = values.bank;
-                    const proToken = values.pro;
-                    const bankUnitRef = getUnitReference(bankToken);
-                    const proUnitRef = getUnitReference(proToken);
-                    const bankResolved = resolveToken(bankToken);
-                    const proResolved = resolveToken(proToken);
+                    .border-tab-button {
+                        padding: 12px 24px;
+                        background: transparent;
+                        border: none;
+                        color: var(--color-text-muted);
+                        font-size: 15px;
+                        font-weight: 500;
+                        cursor: pointer;
+                        border-bottom: 2px solid transparent;
+                        transition: all 0.2s ease;
+                        position: relative;
+                        bottom: -1px;
+                    }
 
-                    tableHtml += `
-                        <tr style="border-bottom: 1px solid var(--color-border);">
-                            <td style="padding: 16px;">
-                                <div style="display: flex; align-items: center; gap: 12px;">
-                                    <div style="width: 32px; height: 32px; background: var(--color-accent); border-radius: 4px; flex-shrink: 0;"></div>
-                                    <span style="font-family: 'Courier New', monospace; font-size: 14px; color: var(--color-text-primary); font-weight: 600;">border.${category}.${name}</span>
-                                </div>
-                            </td>
-                            <td style="padding: 16px;">
-                                <div style="display: flex; flex-direction: column; gap: 4px;">
-                                    ${bankUnitRef ? `
-                                        <div style="display: flex; align-items: center; gap: 8px;">
-                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0; stroke: var(--color-text-muted); stroke-width: 2;">
-                                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                            </svg>
-                                            <span style="font-size: 14px; color: var(--color-text-primary); font-weight: 600;">${bankUnitRef}</span>
-                                        </div>
-                                        <span style="font-size: 13px; color: var(--color-text-muted); margin-left: 26px;">${bankResolved}</span>
-                                    ` : `
-                                        <span style="font-size: 14px; color: var(--color-text-primary); font-weight: 600;">${bankResolved}</span>
-                                    `}
-                                </div>
-                            </td>
-                            <td style="padding: 16px;">
-                                <div style="display: flex; flex-direction: column; gap: 4px;">
-                                    ${proUnitRef ? `
-                                        <div style="display: flex; align-items: center; gap: 8px;">
-                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0; stroke: var(--color-text-muted); stroke-width: 2;">
-                                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                            </svg>
-                                            <span style="font-size: 14px; color: var(--color-text-primary); font-weight: 600;">${proUnitRef}</span>
-                                        </div>
-                                        <span style="font-size: 13px; color: var(--color-text-muted); margin-left: 26px;">${proResolved}</span>
-                                    ` : `
-                                        <span style="font-size: 14px; color: var(--color-text-primary); font-weight: 600;">${proResolved}</span>
-                                    `}
-                                </div>
-                            </td>
-                        </tr>
-                    `;
-                });
+                    .border-tab-button:hover {
+                        color: var(--color-text-primary);
+                    }
 
-                tableHtml += `
-                        </tbody>
-                    </table>
-                `;
+                    .border-tab-button.active {
+                        color: var(--color-text-primary);
+                        border-bottom-color: #0066FF;
+                    }
 
-                return tableHtml;
-            };
+                    .border-tab-content {
+                        display: none;
+                    }
 
-            // Internal Tabs System
-            html += `
-                <div class="internal-tabs-wrapper">
-                    <div class="internal-tab-buttons">
-                        <button class="internal-tab-button active" onclick="switchInternalTab(event, 'radius-tab')">Radius</button>
-                        <button class="internal-tab-button" onclick="switchInternalTab(event, 'width-tab')">Width</button>
-                    </div>
+                    .border-tab-content.active {
+                        display: block;
+                    }
 
-                    <!-- Radius Tab -->
-                    <div id="radius-tab" class="internal-tab-content active">
+                    .border-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                        gap: 24px;
+                    }
+
+                    .border-card {
+                        background: var(--color-bg-secondary);
+                        border: 1px solid var(--color-border);
+                        border-radius: 12px;
+                        padding: 24px;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 16px;
+                        align-items: center;
+                    }
+
+                    .border-preview {
+                        width: 100%;
+                        min-height: 120px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        border-radius: 8px;
+                        background: var(--color-bg-tertiary);
+                    }
+
+                    .border-radius-demo {
+                        width: 100px;
+                        height: 100px;
+                        background: #0066FF;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+
+                    .border-radius-demo svg {
+                        width: 40px;
+                        height: 40px;
+                        color: white;
+                    }
+
+                    .border-width-demo {
+                        width: 100px;
+                        height: 100px;
+                        background: transparent;
+                        border-style: solid;
+                        border-color: #0066FF;
+                        border-radius: 8px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+
+                    .border-width-demo svg {
+                        width: 40px;
+                        height: 40px;
+                        color: #0066FF;
+                    }
+
+                    .border-info {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 8px;
+                        width: 100%;
+                        text-align: center;
+                    }
+
+                    .border-name {
+                        font-size: 14px;
+                        font-weight: 600;
+                        color: var(--color-text-primary);
+                        font-family: 'Courier New', monospace;
+                    }
+
+                    .border-values {
+                        display: flex;
+                        gap: 12px;
+                        align-items: center;
+                        justify-content: center;
+                    }
+
+                    .border-value-item {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 2px;
+                    }
+
+                    .border-value-label {
+                        font-size: 10px;
+                        text-transform: uppercase;
+                        letter-spacing: 0.5px;
+                        color: var(--color-text-muted);
+                        font-weight: 600;
+                    }
+
+                    .border-value-number {
+                        font-size: 16px;
+                        font-weight: 600;
+                        color: var(--color-text-primary);
+                    }
+                </style>
+
+                <!-- Tabs -->
+                <div class="border-tabs">
+                    <button class="border-tab-button active" onclick="switchBorderTab(event, 'radius-tab')">Radius</button>
+                    <button class="border-tab-button" onclick="switchBorderTab(event, 'width-tab')">Width</button>
+                </div>
+
+                <!-- Radius Tab -->
+                <div id="radius-tab" class="border-tab-content active">
+                    <div class="border-grid">
             `;
 
-            html += renderBorderTable('radius', borderRadius);
+            // Radius cards
+            radiusData.forEach(item => {
+                html += `
+                    <div class="border-card">
+                        <div class="border-preview">
+                            <div class="border-radius-demo" style="border-radius: ${item.bank}px;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="8" x2="12" y2="16"></line>
+                                    <line x1="8" y1="12" x2="16" y2="12"></line>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="border-info">
+                            <div class="border-name">borderRadius.${item.name}</div>
+                            <div class="border-values">
+                                <div class="border-value-item">
+                                    <div class="border-value-label">Bank</div>
+                                    <div class="border-value-number">${item.bank}px</div>
+                                </div>
+                                <div class="border-value-item">
+                                    <div class="border-value-label">Pro</div>
+                                    <div class="border-value-number">${item.pro}px</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
 
             html += `
                     </div>
+                </div>
 
-                    <!-- Width Tab -->
-                    <div id="width-tab" class="internal-tab-content">
+                <!-- Width Tab -->
+                <div id="width-tab" class="border-tab-content">
+                    <div class="border-grid">
             `;
 
-            html += renderBorderTable('width', borderWidth);
+            // Width cards
+            widthData.forEach(item => {
+                html += `
+                    <div class="border-card">
+                        <div class="border-preview">
+                            <div class="border-width-demo" style="border-width: ${item.bank}px;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="border-info">
+                            <div class="border-name">borderWidth.${item.name}</div>
+                            <div class="border-values">
+                                <div class="border-value-item">
+                                    <div class="border-value-label">Bank</div>
+                                    <div class="border-value-number">${item.bank}px</div>
+                                </div>
+                                <div class="border-value-item">
+                                    <div class="border-value-label">Pro</div>
+                                    <div class="border-value-number">${item.pro}px</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
 
             html += `
                     </div>
@@ -4343,50 +4694,449 @@
         }
 
         function renderOpacity(container) {
-            let html = '<div class="token-category"><h2 class="token-category-title">Opacity Scale</h2><div class="token-list">';
+            const opacityData = [
+                { name: 'transparent', bank: 0, pro: 0 },
+                { name: 'low', bank: 12, pro: 12 },
+                { name: 'medium', bank: 32, pro: 32 },
+                { name: 'high', bank: 64, pro: 64 },
+                { name: 'higher', bank: 95, pro: 95 },
+                { name: 'opaque', bank: 100, pro: 100 }
+            ];
 
-            Object.entries(designTokens.opacity).forEach(([key, value]) => {
+            let html = `
+                <style>
+                    .opacity-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                        gap: 24px;
+                        margin-top: 32px;
+                    }
+
+                    .opacity-card {
+                        background: var(--color-bg-secondary);
+                        border: 1px solid var(--color-border);
+                        border-radius: 12px;
+                        padding: 24px;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 16px;
+                    }
+
+                    .opacity-preview {
+                        position: relative;
+                        width: 100%;
+                        height: 120px;
+                        border-radius: 8px;
+                        overflow: hidden;
+                        background:
+                            linear-gradient(45deg, #383C48 25%, transparent 25%),
+                            linear-gradient(-45deg, #383C48 25%, transparent 25%),
+                            linear-gradient(45deg, transparent 75%, #383C48 75%),
+                            linear-gradient(-45deg, transparent 75%, #383C48 75%);
+                        background-size: 20px 20px;
+                        background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+                        background-color: #1D202B;
+                    }
+
+                    .opacity-layer {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: #0066FF;
+                    }
+
+                    .opacity-info {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 8px;
+                    }
+
+                    .opacity-name {
+                        font-size: 16px;
+                        font-weight: 600;
+                        color: var(--color-text-primary);
+                        font-family: 'Courier New', monospace;
+                    }
+
+                    .opacity-values {
+                        display: flex;
+                        gap: 16px;
+                        align-items: center;
+                    }
+
+                    .opacity-value-item {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 4px;
+                    }
+
+                    .opacity-value-label {
+                        font-size: 11px;
+                        text-transform: uppercase;
+                        letter-spacing: 0.5px;
+                        color: var(--color-text-muted);
+                        font-weight: 600;
+                    }
+
+                    .opacity-value-number {
+                        font-size: 18px;
+                        font-weight: 600;
+                        color: var(--color-text-primary);
+                    }
+                </style>
+
+                <div class="opacity-grid">
+            `;
+
+            opacityData.forEach(item => {
                 html += `
-                    <div class="token-item">
-                        <div class="token-name">opacity.${key}</div>
-                        <div class="token-value">${value.bank}%</div>
-                        <button class="copy-button" onclick="copyToClipboard('${value.bank / 100}', this)">Copiar</button>
+                    <div class="opacity-card">
+                        <div class="opacity-preview">
+                            <div class="opacity-layer" style="opacity: ${item.bank / 100}"></div>
+                        </div>
+                        <div class="opacity-info">
+                            <div class="opacity-name">opacity.${item.name}</div>
+                            <div class="opacity-values">
+                                <div class="opacity-value-item">
+                                    <div class="opacity-value-label">Bank</div>
+                                    <div class="opacity-value-number">${item.bank}</div>
+                                </div>
+                                <div class="opacity-value-item">
+                                    <div class="opacity-value-label">Pro</div>
+                                    <div class="opacity-value-number">${item.pro}</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 `;
             });
-            html += '</div></div>';
+
+            html += `</div>`;
 
             container.innerHTML = html;
         }
 
         function renderSizes(container) {
-            const size = designTokens.size;
+            // Dados dos tokens de size
+            const iconSizes = [
+                { name: 'xs', bank: 16, pro: 16 },
+                { name: 'sm', bank: 20, pro: 20 },
+                { name: 'md', bank: 24, pro: 24 },
+                { name: 'lg', bank: 32, pro: 32 },
+                { name: 'xl', bank: 48, pro: 48 }
+            ];
 
-            let html = '';
+            const dividerSizes = [
+                { name: 'default', bank: 1, pro: 1 },
+                { name: 'thick', bank: 8, pro: 8 },
+                { name: 'thicker', bank: 16, pro: 16 }
+            ];
 
-            Object.entries(size).forEach(([category, values]) => {
-                html += `<div class="token-category"><h2 class="token-category-title">Size - ${category.charAt(0).toUpperCase() + category.slice(1)}</h2><div class="token-list">`;
+            const thumbSizes = [
+                { name: 'sm', bank: 32, pro: 32 },
+                { name: 'md', bank: 48, pro: 48 },
+                { name: 'lg', bank: 64, pro: 64 },
+                { name: 'xl', bank: 96, pro: 96 }
+            ];
 
-                Object.entries(values).forEach(([key, value]) => {
-                    const displayValue = typeof value === 'object' ?
-                        `Bank: ${formatValue(value.bank)}, Pro: ${formatValue(value.pro)}` :
-                        formatValue(value);
-                    html += `
-                        <div class="token-item">
-                            <div class="token-name">size.${category}.${key}</div>
-                            <div class="token-value">${displayValue}</div>
-                            <button class="copy-button" onclick="copyToClipboard('${JSON.stringify(value)}', this)">Copiar</button>
+            let html = `
+                <style>
+                    .size-tabs {
+                        display: flex;
+                        gap: 8px;
+                        margin-bottom: 32px;
+                        border-bottom: 1px solid var(--color-border);
+                    }
+
+                    .size-tab-button {
+                        padding: 12px 24px;
+                        background: transparent;
+                        border: none;
+                        color: var(--color-text-muted);
+                        font-size: 15px;
+                        font-weight: 500;
+                        cursor: pointer;
+                        border-bottom: 2px solid transparent;
+                        transition: all 0.2s ease;
+                        position: relative;
+                        bottom: -1px;
+                    }
+
+                    .size-tab-button:hover {
+                        color: var(--color-text-primary);
+                    }
+
+                    .size-tab-button.active {
+                        color: var(--color-text-primary);
+                        border-bottom-color: #0066FF;
+                    }
+
+                    .size-tab-content {
+                        display: none;
+                    }
+
+                    .size-tab-content.active {
+                        display: block;
+                    }
+
+                    .size-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                        gap: 24px;
+                    }
+
+                    .size-card {
+                        background: var(--color-bg-secondary);
+                        border: 1px solid var(--color-border);
+                        border-radius: 12px;
+                        padding: 24px;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 16px;
+                        align-items: center;
+                    }
+
+                    .size-preview {
+                        width: 100%;
+                        min-height: 120px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        border-radius: 8px;
+                        background: var(--color-bg-tertiary);
+                    }
+
+                    .size-icon-demo {
+                        border-radius: 8px;
+                        background: #0066FF;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+
+                    .size-icon-demo svg {
+                        color: white;
+                    }
+
+                    .size-divider-demo {
+                        width: 100%;
+                        background: #0066FF;
+                        border-radius: 2px;
+                    }
+
+                    .size-thumb-demo {
+                        border-radius: 50%;
+                        background: linear-gradient(135deg, #0066FF 0%, #0052CC 100%);
+                        border: 2px solid rgba(255, 255, 255, 0.2);
+                    }
+
+                    .size-info {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 8px;
+                        width: 100%;
+                        text-align: center;
+                    }
+
+                    .size-name {
+                        font-size: 14px;
+                        font-weight: 600;
+                        color: var(--color-text-primary);
+                        font-family: 'Courier New', monospace;
+                    }
+
+                    .size-values {
+                        display: flex;
+                        gap: 12px;
+                        align-items: center;
+                        justify-content: center;
+                    }
+
+                    .size-value-item {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 2px;
+                    }
+
+                    .size-value-label {
+                        font-size: 10px;
+                        text-transform: uppercase;
+                        letter-spacing: 0.5px;
+                        color: var(--color-text-muted);
+                        font-weight: 600;
+                    }
+
+                    .size-value-number {
+                        font-size: 16px;
+                        font-weight: 600;
+                        color: var(--color-text-primary);
+                    }
+                </style>
+
+                <!-- Tabs -->
+                <div class="size-tabs">
+                    <button class="size-tab-button active" onclick="switchSizeTab(event, 'icon-tab')">Icon</button>
+                    <button class="size-tab-button" onclick="switchSizeTab(event, 'divider-tab')">Divider</button>
+                    <button class="size-tab-button" onclick="switchSizeTab(event, 'thumb-tab')">Thumb</button>
+                </div>
+
+                <!-- Icon Tab -->
+                <div id="icon-tab" class="size-tab-content active">
+                    <div class="size-grid">
+            `;
+
+            iconSizes.forEach(item => {
+                html += `
+                    <div class="size-card">
+                        <div class="size-preview">
+                            <div class="size-icon-demo" style="width: ${item.bank}px; height: ${item.bank}px;">
+                                <svg width="${item.bank * 0.7}" height="${item.bank * 0.7}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                            </div>
                         </div>
-                    `;
-                });
-                html += '</div></div>';
+                        <div class="size-info">
+                            <div class="size-name">size.icon.${item.name}</div>
+                            <div class="size-values">
+                                <div class="size-value-item">
+                                    <div class="size-value-label">Bank</div>
+                                    <div class="size-value-number">${item.bank}px</div>
+                                </div>
+                                <div class="size-value-item">
+                                    <div class="size-value-label">Pro</div>
+                                    <div class="size-value-number">${item.pro}px</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
             });
+
+            html += `
+                    </div>
+                </div>
+
+                <!-- Divider Tab -->
+                <div id="divider-tab" class="size-tab-content">
+                    <div class="size-grid">
+            `;
+
+            dividerSizes.forEach(item => {
+                html += `
+                    <div class="size-card">
+                        <div class="size-preview">
+                            <div class="size-divider-demo" style="height: ${item.bank}px; width: 80%;"></div>
+                        </div>
+                        <div class="size-info">
+                            <div class="size-name">size.divider.${item.name}</div>
+                            <div class="size-values">
+                                <div class="size-value-item">
+                                    <div class="size-value-label">Bank</div>
+                                    <div class="size-value-number">${item.bank}px</div>
+                                </div>
+                                <div class="size-value-item">
+                                    <div class="size-value-label">Pro</div>
+                                    <div class="size-value-number">${item.pro}px</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `
+                    </div>
+                </div>
+
+                <!-- Thumb Tab -->
+                <div id="thumb-tab" class="size-tab-content">
+                    <div class="size-grid">
+            `;
+
+            thumbSizes.forEach(item => {
+                html += `
+                    <div class="size-card">
+                        <div class="size-preview">
+                            <div class="size-thumb-demo" style="width: ${item.bank}px; height: ${item.bank}px;"></div>
+                        </div>
+                        <div class="size-info">
+                            <div class="size-name">size.thumb.${item.name}</div>
+                            <div class="size-values">
+                                <div class="size-value-item">
+                                    <div class="size-value-label">Bank</div>
+                                    <div class="size-value-number">${item.bank}px</div>
+                                </div>
+                                <div class="size-value-item">
+                                    <div class="size-value-label">Pro</div>
+                                    <div class="size-value-number">${item.pro}px</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `
+                    </div>
+                </div>
+            `;
 
             container.innerHTML = html;
         }
 
+        function renderAlert(container) {
+            container.innerHTML = `
+                <iframe
+                    src="components/alert.html"
+                    style="width: 100%; height: 100vh; border: none; display: block;"
+                    title="Alert Component Documentation"
+                ></iframe>
+            `;
+        }
+
         // Make copy function global
         window.copyToClipboard = copyToClipboard;
+
+        // Make switchSizeTab function global
+        window.switchSizeTab = function(event, tabId) {
+            // Remove active class from all buttons
+            document.querySelectorAll('.size-tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Hide all tab contents
+            document.querySelectorAll('.size-tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Activate clicked button
+            event.target.classList.add('active');
+
+            // Show selected tab content
+            document.getElementById(tabId).classList.add('active');
+        };
+
+        // Make switchBorderTab function global
+        window.switchBorderTab = function(event, tabId) {
+            // Remove active class from all buttons
+            document.querySelectorAll('.border-tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Hide all tab contents
+            document.querySelectorAll('.border-tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Activate clicked button
+            event.target.classList.add('active');
+
+            // Show selected tab content
+            document.getElementById(tabId).classList.add('active');
+        };
 
         // Test renderSpacing function on load
         window.addEventListener('DOMContentLoaded', () => {
