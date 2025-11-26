@@ -3656,8 +3656,22 @@
                 // Define custom order for spacing sizes
                 const sizeOrder = ['none', '2xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl'];
 
+                // Define which negative tokens exist for each category
+                const negativeTokens = {
+                    'inline': ['sm', 'md', 'lg', 'xl'],
+                    'stack': ['sm', 'md', 'lg', 'xl'],
+                    'inset': [] // inset não tem negative
+                };
+
+                // Filter entries based on category and subcategory
+                let entries = Object.entries(data);
+                if (subcategory === 'negative') {
+                    const allowedTokens = negativeTokens[category] || [];
+                    entries = entries.filter(([name]) => allowedTokens.includes(name));
+                }
+
                 // Sort entries based on custom order
-                const sortedEntries = Object.entries(data).sort((a, b) => {
+                const sortedEntries = entries.sort((a, b) => {
                     const indexA = sizeOrder.indexOf(a[0]);
                     const indexB = sizeOrder.indexOf(b[0]);
                     return indexA - indexB;
