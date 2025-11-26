@@ -1051,15 +1051,11 @@
 
                 <div class="nav-section">
                     <div class="nav-section-title">Foundation</div>
-                    <div class="nav-item has-subitems" data-section="colors">
+                    <div class="nav-item" data-section="colors">
                         <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <circle cx="12" cy="12" r="10"></circle>
                         </svg>
                         <span>Colors</span>
-                    </div>
-                    <div class="nav-subitems" id="colors-subitems">
-                        <div class="nav-subitem" data-section="semantic-colors">Cores Semânticas</div>
-                        <div class="nav-subitem" data-section="primitive-colors">Cores Primitivas</div>
                     </div>
                     <div class="nav-item" data-section="typography">
                         <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -1069,29 +1065,6 @@
                         </svg>
                         <span>Typography</span>
                     </div>
-                    <div class="nav-item has-subitems" data-section="unit">
-                        <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                        </svg>
-                        <span>Unit</span>
-                    </div>
-                    <div class="nav-subitems" id="unit-subitems">
-                        <div class="nav-subitem" data-section="positive-unit">Positive</div>
-                        <div class="nav-subitem" data-section="negative-unit">Negative</div>
-                    </div>
-                    <div class="nav-item" data-section="grid">
-                        <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <rect x="3" y="3" width="7" height="7"></rect>
-                            <rect x="14" y="3" width="7" height="7"></rect>
-                            <rect x="14" y="14" width="7" height="7"></rect>
-                            <rect x="3" y="14" width="7" height="7"></rect>
-                        </svg>
-                        <span>Grid</span>
-                    </div>
-                </div>
-
-                <div class="nav-section">
-                    <div class="nav-section-title">Styles</div>
                     <div class="nav-item" data-section="spacing">
                         <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <line x1="4" y1="12" x2="20" y2="12"></line>
@@ -1100,18 +1073,22 @@
                         </svg>
                         <span>Spacing</span>
                     </div>
+                    <div class="nav-item" data-section="borders">
+                        <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span>Borders</span>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Styles</div>
                     <div class="nav-item" data-section="shadows">
                         <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
                             <path d="M2 17l10 5 10-5M2 12l10 5 10-5"></path>
                         </svg>
                         <span>Shadows</span>
-                    </div>
-                    <div class="nav-item" data-section="borders">
-                        <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                        </svg>
-                        <span>Borders</span>
                     </div>
                     <div class="nav-item" data-section="opacity">
                         <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1197,6 +1174,17 @@
             </section>
 
             <!-- Semantic Colors Section -->
+            <section id="colors" class="content-section">
+                <div class="section-header">
+                    <h1 class="section-title">Colors</h1>
+                    <p class="section-description">
+                        Tokens semânticos de cores para surface, border, text, icon, utility e shadow.
+                    </p>
+                </div>
+
+                <div id="colorsContent"></div>
+            </section>
+
             <section id="semantic-colors" class="content-section">
                 <div class="section-header">
                     <h1 class="section-title">Cores Semânticas</h1>
@@ -1205,7 +1193,7 @@
                     </p>
                 </div>
 
-                <div id="semanticColorsContent"></div>
+                <div id="semanticColorsContent2"></div>
             </section>
 
             <!-- Primitive Colors Section -->
@@ -1265,11 +1253,7 @@
                     </p>
                 </div>
 
-                <div id="spacingContent">
-                    <div style="padding: 20px; background: #1D202B; border-radius: 8px; text-align: center; color: #90939E;">
-                        Carregando conteúdo...
-                    </div>
-                </div>
+                <div id="spacingContent"></div>
             </section>
 
             <!-- Grid Section -->
@@ -2506,8 +2490,8 @@
 
             // Reload semantic colors if we're on that section
             const currentSection = document.querySelector('.content-section.active');
-            if (currentSection && currentSection.id === 'semantic-colors') {
-                const container = document.getElementById('semanticColorsContent');
+            if (currentSection && (currentSection.id === 'colors' || currentSection.id === 'semantic-colors')) {
+                const container = document.getElementById('colorsContent') || document.getElementById('semanticColorsContent');
                 if (container) {
                     renderSemanticColors(container);
                 }
@@ -2568,6 +2552,42 @@
                 }
             });
         }
+
+        // Function to switch between Cash/Pro themes
+        window.switchTheme = function(event, theme) {
+            // Update toggle buttons
+            document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Show/hide appropriate theme cards
+            if (theme === 'bank') {
+                document.querySelectorAll('.theme-bank').forEach(el => el.style.display = '');
+                document.querySelectorAll('.theme-pro').forEach(el => el.style.display = 'none');
+            } else {
+                document.querySelectorAll('.theme-bank').forEach(el => el.style.display = 'none');
+                document.querySelectorAll('.theme-pro').forEach(el => el.style.display = '');
+            }
+        };
+
+        // Function to copy color to clipboard
+        window.copyColorToClipboard = function(hex, button) {
+            navigator.clipboard.writeText(hex).then(() => {
+                const originalText = button.innerHTML;
+                button.classList.add('copied');
+                button.innerHTML = `
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <span>Copiado!</span>
+                `;
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                    button.innerHTML = originalText;
+                }, 2000);
+            });
+        };
 
         // Make functions global
         window.toggleTheme = toggleTheme;
@@ -2650,11 +2670,9 @@
             container.innerHTML = '';
 
             switch(section) {
+                case 'colors':
                 case 'semantic-colors':
                     renderSemanticColors(container);
-                    break;
-                case 'primitive-colors':
-                    renderPrimitiveColors(container);
                     break;
                 case 'positive-unit':
                     renderPositiveUnit(container);
@@ -2691,588 +2709,402 @@
 
         // Render functions
         function renderSemanticColors(container) {
-    console.log('renderSemanticColors called', container);
-    const semantic = designTokens.color;
-    let html = '';
+            console.log('renderSemanticColors called', container);
+            console.log('designTokens:', designTokens);
+            console.log('designTokens.color:', designTokens.color);
 
-    // Tab System
-    html += `
-        <div class="internal-tabs-wrapper">
-            <div class="internal-tab-buttons">
-                <button class="internal-tab-button active" onclick="switchInternalTab(event, 'surface-tab')">Surface</button>
-                <button class="internal-tab-button" onclick="switchInternalTab(event, 'border-tab')">Border</button>
-                <button class="internal-tab-button" onclick="switchInternalTab(event, 'text-tab')">Text</button>
-                <button class="internal-tab-button" onclick="switchInternalTab(event, 'icon-tab')">Icon</button>
-                <button class="internal-tab-button" onclick="switchInternalTab(event, 'utility-tab')">Utility</button>
-                <button class="internal-tab-button" onclick="switchInternalTab(event, 'shadow-tab')">Shadow</button>
-            </div>
-    `;
+            const semantic = designTokens.color;
 
-    // Helper function to extract primitive color name from token
-    const getPrimitiveName = (token) => {
-        // Extract from pattern like {color.primitives.gray.900} or {color.primitives.brand.green}
-        const matchNumeric = token.match(/\{color\.primitives\.(\w+)\.(\d+)\}/);
-        if (matchNumeric) {
-            const [, colorFamily, shade] = matchNumeric;
-            return `${colorFamily}-${shade}`;
-        }
+            if (!semantic || !semantic.surface) {
+                console.error('designTokens.color structure is invalid:', semantic);
+                container.innerHTML = '<div style="color: red; padding: 20px;">Erro: Estrutura de tokens de cores inválida. Verifique o console.</div>';
+                return;
+            }
 
-        const matchBrand = token.match(/\{color\.primitives\.brand\.(\w+)\}/);
-        if (matchBrand) {
-            const [, colorName] = matchBrand;
-            return `brand-${colorName}`;
-        }
+            // Helper function to extract primitive color name from token
+            const getPrimitiveName = (token) => {
+                const matchNumeric = token.match(/\{color\.primitives\.(\w+)\.(\d+)\}/);
+                if (matchNumeric) {
+                    const [, colorFamily, shade] = matchNumeric;
+                    return `${colorFamily}-${shade}`;
+                }
+                const matchBrand = token.match(/\{color\.primitives\.brand\.(\w+)\}/);
+                if (matchBrand) {
+                    const [, colorName] = matchBrand;
+                    return `brand-${colorName}`;
+                }
+                return '';
+            };
 
-        return '';
-    };
+            let html = `
+                <style>
+                    .theme-toggle-wrapper {
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-start;
+                        margin-bottom: 32px;
+                        padding: 4px;
+                        background: transparent;
+                        border: 1px solid var(--color-border);
+                        border-radius: 6px;
+                        width: fit-content;
+                    }
 
-    // Function to render semantic color table
-    const renderSemanticTable = (category, subcategory, items) => {
-        let tableHtml = `
-            <div style="margin-bottom: 48px;">
-                <h3 style="font-size: 16px; font-weight: 350; color: var(--color-text-muted); margin-bottom: 16px;">color / ${category} / ${subcategory}</h3>
-                <table style="width: 100%; border-collapse: collapse; background: var(--color-bg-secondary); border-radius: 8px; overflow: hidden;">
-                    <thead>
-                        <tr style="border-bottom: 1px solid var(--color-border);">
-                            <th style="padding: 16px; text-align: left; font-weight: 550; font-size: 14px; color: var(--color-text-primary); width: 200px;">Nome</th>
-                            <th style="padding: 16px; text-align: left; font-weight: 550; font-size: 14px; color: var(--color-text-primary);">bank</th>
-                            <th style="padding: 16px; text-align: left; font-weight: 550; font-size: 14px; color: var(--color-text-primary);">pro</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-        `;
+                    .theme-toggle-btn {
+                        flex: 1;
+                        padding: 8px 16px;
+                        background: transparent;
+                        border: none;
+                        color: var(--color-text-muted);
+                        font-size: 14px;
+                        font-weight: 500;
+                        cursor: pointer;
+                        border-radius: 4px;
+                        transition: all 0.2s ease;
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                    }
 
-        items.forEach(item => {
-            const bankToken = item.bank;
-            const proToken = item.pro;
-            const semanticPath = `color.${category}.${subcategory}.${item.name}`;
-            const bankHex = resolveToken(bankToken);
-            const proHex = resolveToken(proToken);
-            const bankPrimitive = getPrimitiveName(bankToken);
-            const proPrimitive = getPrimitiveName(proToken);
+                    .theme-toggle-btn svg {
+                        width: 16px;
+                        height: 16px;
+                        stroke: currentColor;
+                        fill: none;
+                        stroke-width: 2;
+                        stroke-linecap: round;
+                        stroke-linejoin: round;
+                    }
 
-            tableHtml += `
-                <tr style="border-bottom: 1px solid var(--color-border);">
-                    <td style="padding: 16px; color: var(--color-text-secondary); font-size: 14px;">
-                        <div style="display: flex; align-items: center; gap: 12px;">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0;">
-                                <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.2"/>
-                                <circle cx="12" cy="12" r="6" fill="currentColor"/>
-                            </svg>
-                            <span style="font-family: 'Courier New', monospace; font-size: 13px;">${semanticPath}</span>
-                        </div>
-                    </td>
-                    <td style="padding: 16px;">
-                        <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('${bankHex}', this)">
-                            <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${bankHex}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
-                            <div style="display: flex; flex-direction: column; gap: 4px;">
-                                <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace; font-weight: 600;">${bankHex.toUpperCase()}</span>
-                                <span style="color: var(--color-text-muted); font-size: 12px; font-family: 'Courier New', monospace;">${bankPrimitive}</span>
-                            </div>
-                        </div>
-                    </td>
-                    <td style="padding: 16px;">
-                        <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('${proHex}', this)">
-                            <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${proHex}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
-                            <div style="display: flex; flex-direction: column; gap: 4px;">
-                                <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace; font-weight: 600;">${proHex.toUpperCase()}</span>
-                                <span style="color: var(--color-text-muted); font-size: 12px; font-family: 'Courier New', monospace;">${proPrimitive}</span>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
+                    .theme-toggle-btn.active {
+                        background: var(--color-bg-tertiary);
+                        color: var(--color-text-primary);
+                    }
+
+                    .theme-toggle-btn:hover:not(.active) {
+                        color: var(--color-text-primary);
+                    }
+
+                    .colors-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                        gap: 24px;
+                        margin-top: 32px;
+                    }
+
+                    @media (min-width: 1200px) {
+                        .colors-grid {
+                            grid-template-columns: repeat(4, 1fr);
+                        }
+                    }
+
+                    .color-card {
+                        background: var(--color-bg-secondary);
+                        border: 1px solid var(--color-border);
+                        border-radius: 12px;
+                        padding: 20px;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 16px;
+                        transition: transform 0.2s ease, box-shadow 0.2s ease;
+                    }
+
+                    .color-card:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+                    }
+
+                    .color-preview-large {
+                        width: 100%;
+                        height: 80px;
+                        border-radius: 8px;
+                        border: 1px solid var(--color-border);
+                    }
+
+                    .color-card-name {
+                        font-size: 13px;
+                        font-family: 'Courier New', monospace;
+                        color: var(--color-text-secondary);
+                        font-weight: 600;
+                    }
+
+                    .color-card-hex {
+                        font-size: 16px;
+                        font-family: 'Courier New', monospace;
+                        color: var(--color-text-primary);
+                        font-weight: 600;
+                    }
+
+                    .color-card-primitive {
+                        font-size: 12px;
+                        font-family: 'Courier New', monospace;
+                        color: var(--color-text-muted);
+                    }
+
+                    .color-card-copy-btn {
+                        width: 100%;
+                        padding: 10px;
+                        background: var(--color-bg-tertiary);
+                        border: 1px solid var(--color-border);
+                        border-radius: 6px;
+                        color: var(--color-text-primary);
+                        font-size: 13px;
+                        font-weight: 500;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 8px;
+                    }
+
+                    .color-card-copy-btn:hover {
+                        background: var(--color-bg-secondary);
+                        border-color: #0066FF;
+                        color: #0066FF;
+                    }
+
+                    .color-card-copy-btn.copied {
+                        background: #0066FF;
+                        color: white;
+                        border-color: #0066FF;
+                    }
+
+                    .color-category-title {
+                        font-size: 18px;
+                        font-weight: 600;
+                        color: var(--color-text-primary);
+                        margin-top: 48px;
+                        margin-bottom: 0;
+                    }
+
+                    .color-category-title:first-of-type {
+                        margin-top: 0;
+                    }
+                </style>
+
+                <!-- Theme Toggle (Cash/Pro) -->
+                <div class="theme-toggle-wrapper">
+                    <button class="theme-toggle-btn active" onclick="switchTheme(event, 'bank')">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="5" y="4" width="14" height="17" rx="2" ry="2"></rect>
+                            <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                        </svg>
+                        <span>Cash</span>
+                    </button>
+                    <button class="theme-toggle-btn" onclick="switchTheme(event, 'pro')">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                        <span>Pro</span>
+                    </button>
+                </div>
+
+                <!-- Tab System -->
+                <div class="internal-tabs-wrapper">
+                    <div class="internal-tab-buttons">
+                        <button class="internal-tab-button active" onclick="switchInternalTab(event, 'surface-tab')">Surface</button>
+                        <button class="internal-tab-button" onclick="switchInternalTab(event, 'border-tab')">Border</button>
+                        <button class="internal-tab-button" onclick="switchInternalTab(event, 'text-tab')">Text</button>
+                        <button class="internal-tab-button" onclick="switchInternalTab(event, 'icon-tab')">Icon</button>
+                        <button class="internal-tab-button" onclick="switchInternalTab(event, 'utility-tab')">Utility</button>
+                        <button class="internal-tab-button" onclick="switchInternalTab(event, 'shadow-tab')">Shadow</button>
+                    </div>
             `;
-        });
 
-        tableHtml += `
-                    </tbody>
-                </table>
-            </div>
-        `;
+            // Helper to get color items from semantic tokens
+            const getColorItems = (categoryObj) => {
+                if (!categoryObj) return [];
+                return Object.keys(categoryObj).map(key => ({
+                    name: key,
+                    bank: categoryObj[key]?.bank,
+                    pro: categoryObj[key]?.pro
+                })).filter(item => item.bank && item.pro);
+            };
 
-        return tableHtml;
-    };
+            // Function to render color cards for a category
+            const renderColorCards = (category, subcategory, items) => {
+                let cardsHtml = `
+                    <div class="color-category-title">color / ${category} / ${subcategory}</div>
+                    <div class="colors-grid">
+                `;
 
-    // ========== SURFACE TAB ==========
-    html += `<div id="surface-tab" class="internal-tab-content active">`;
+                items.forEach(item => {
+                    if (!item || !item.bank || !item.pro) {
+                        console.warn('Invalid item:', item, 'for', category, subcategory);
+                        return;
+                    }
 
-    // Surface / Neutral
-    html += renderSemanticTable('surface', 'neutral', [
-        { name: 'default', bank: semantic.surface.neutral.default.bank, pro: semantic.surface.neutral.default.pro },
-        { name: 'secondary', bank: semantic.surface.neutral.secondary.bank, pro: semantic.surface.neutral.secondary.pro },
-        { name: 'tertiary', bank: semantic.surface.neutral.tertiary.bank, pro: semantic.surface.neutral.tertiary.pro },
-        { name: 'inverse', bank: semantic.surface.neutral.inverse.bank, pro: semantic.surface.neutral.inverse.pro }
-    ]);
+                    const bankToken = item.bank;
+                    const proToken = item.pro;
+                    const semanticPath = `color.${category}.${subcategory}.${item.name}`;
+                    const bankHex = resolveToken(bankToken);
+                    const proHex = resolveToken(proToken);
+                    const bankPrimitive = getPrimitiveName(bankToken);
+                    const proPrimitive = getPrimitiveName(proToken);
 
-    // Surface / Accent
-    html += renderSemanticTable('surface', 'accent', [
-        { name: 'soft', bank: semantic.surface.accent.soft.bank, pro: semantic.surface.accent.soft.pro },
-        { name: 'default', bank: semantic.surface.accent.default.bank, pro: semantic.surface.accent.default.pro },
-        { name: 'strong', bank: semantic.surface.accent.strong.bank, pro: semantic.surface.accent.strong.pro },
-        { name: 'stronger', bank: semantic.surface.accent.stronger.bank, pro: semantic.surface.accent.stronger.pro }
-    ]);
-
-    // Surface / Info
-    html += renderSemanticTable('surface', 'info', [
-        { name: 'soft', bank: semantic.surface.info.soft.bank, pro: semantic.surface.info.soft.pro },
-        { name: 'default', bank: semantic.surface.info.default.bank, pro: semantic.surface.info.default.pro },
-        { name: 'strong', bank: semantic.surface.info.strong.bank, pro: semantic.surface.info.strong.pro },
-        { name: 'stronger', bank: semantic.surface.info.stronger.bank, pro: semantic.surface.info.stronger.pro }
-    ]);
-
-    // Surface / Success
-    html += renderSemanticTable('surface', 'success', [
-        { name: 'soft', bank: semantic.surface.success.soft.bank, pro: semantic.surface.success.soft.pro },
-        { name: 'default', bank: semantic.surface.success.default.bank, pro: semantic.surface.success.default.pro },
-        { name: 'strong', bank: semantic.surface.success.strong.bank, pro: semantic.surface.success.strong.pro },
-        { name: 'stronger', bank: semantic.surface.success.stronger.bank, pro: semantic.surface.success.stronger.pro }
-    ]);
-
-    // Surface / Warning
-    html += renderSemanticTable('surface', 'warning', [
-        { name: 'soft', bank: semantic.surface.warning.soft.bank, pro: semantic.surface.warning.soft.pro },
-        { name: 'default', bank: semantic.surface.warning.default.bank, pro: semantic.surface.warning.default.pro },
-        { name: 'strong', bank: semantic.surface.warning.strong.bank, pro: semantic.surface.warning.strong.pro },
-        { name: 'stronger', bank: semantic.surface.warning.stronger.bank, pro: semantic.surface.warning.stronger.pro }
-    ]);
-
-    // Surface / Danger
-    html += renderSemanticTable('surface', 'danger', [
-        { name: 'soft', bank: semantic.surface.danger.soft.bank, pro: semantic.surface.danger.soft.pro },
-        { name: 'default', bank: semantic.surface.danger.default.bank, pro: semantic.surface.danger.default.pro },
-        { name: 'strong', bank: semantic.surface.danger.strong.bank, pro: semantic.surface.danger.strong.pro },
-        { name: 'stronger', bank: semantic.surface.danger.stronger.bank, pro: semantic.surface.danger.stronger.pro }
-    ]);
-
-    // Surface / Translucent (special case with opacity)
-    html += `
-        <div style="margin-bottom: 48px;">
-            <h3 style="font-size: 16px; font-weight: 350; color: var(--color-text-muted); margin-bottom: 16px;">color / surface / translucent</h3>
-            <table style="width: 100%; border-collapse: collapse; background: var(--color-bg-secondary); border-radius: 8px; overflow: hidden;">
-                <thead>
-                    <tr style="border-bottom: 1px solid var(--color-border);">
-                        <th style="padding: 16px; text-align: left; font-weight: 550; font-size: 14px; color: var(--color-text-primary); width: 200px;">Nome</th>
-                        <th style="padding: 16px; text-align: left; font-weight: 550; font-size: 14px; color: var(--color-text-primary);">bank</th>
-                        <th style="padding: 16px; text-align: left; font-weight: 550; font-size: 14px; color: var(--color-text-primary);">pro</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr style="border-bottom: 1px solid var(--color-border);">
-                        <td style="padding: 16px; color: var(--color-text-secondary); font-size: 14px;">
-                            <div style="display: flex; align-items: center; gap: 12px;">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0;">
-                                    <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.2"/>
-                                    <circle cx="12" cy="12" r="6" fill="currentColor"/>
+                    // Card for Bank theme
+                    cardsHtml += `
+                        <div class="color-card theme-bank">
+                            <div class="color-preview-large" style="background-color: ${bankHex};"></div>
+                            <div>
+                                <div class="color-card-name">${semanticPath}</div>
+                                <div class="color-card-hex">${bankHex.toUpperCase()}</div>
+                                <div class="color-card-primitive">${bankPrimitive}</div>
+                            </div>
+                            <button class="color-card-copy-btn" onclick="copyColorToClipboard('${bankHex}', this)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                                 </svg>
-                                <span style="font-family: 'Courier New', monospace; font-size: 13px;">color.surface.translucent.default</span>
+                                <span>Copiar</span>
+                            </button>
+                        </div>
+                    `;
+
+                    // Card for Pro theme
+                    cardsHtml += `
+                        <div class="color-card theme-pro" style="display: none;">
+                            <div class="color-preview-large" style="background-color: ${proHex};"></div>
+                            <div>
+                                <div class="color-card-name">${semanticPath}</div>
+                                <div class="color-card-hex">${proHex.toUpperCase()}</div>
+                                <div class="color-card-primitive">${proPrimitive}</div>
                             </div>
-                        </td>
-                        <td style="padding: 16px;">
-                            <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('${resolveToken(semantic.surface.translucent.default.bank.color)}', this)">
-                                <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${resolveToken(semantic.surface.translucent.default.bank.color)}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
-                                <div style="display: flex; flex-direction: column; gap: 4px;">
-                                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace; font-weight: 600;">${resolveToken(semantic.surface.translucent.default.bank.color).toUpperCase()}</span>
-                                    <span style="color: var(--color-text-muted); font-size: 12px; font-family: 'Courier New', monospace;">${getPrimitiveName(semantic.surface.translucent.default.bank.color)} • ${semantic.surface.translucent.default.bank.opacity}</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td style="padding: 16px;">
-                            <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('${resolveToken(semantic.surface.translucent.default.pro.color)}', this)">
-                                <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${resolveToken(semantic.surface.translucent.default.pro.color)}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
-                                <div style="display: flex; flex-direction: column; gap: 4px;">
-                                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace; font-weight: 600;">${resolveToken(semantic.surface.translucent.default.pro.color).toUpperCase()}</span>
-                                    <span style="color: var(--color-text-muted); font-size: 12px; font-family: 'Courier New', monospace;">${getPrimitiveName(semantic.surface.translucent.default.pro.color)} • ${semantic.surface.translucent.default.pro.opacity}</span>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid var(--color-border);">
-                        <td style="padding: 16px; color: var(--color-text-secondary); font-size: 14px;">
-                            <div style="display: flex; align-items: center; gap: 12px;">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0;">
-                                    <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.2"/>
-                                    <circle cx="12" cy="12" r="6" fill="currentColor"/>
+                            <button class="color-card-copy-btn" onclick="copyColorToClipboard('${proHex}', this)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                                 </svg>
-                                <span style="font-family: 'Courier New', monospace; font-size: 13px;">color.surface.translucent.inverse</span>
-                            </div>
-                        </td>
-                        <td style="padding: 16px;">
-                            <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('${resolveToken(semantic.surface.translucent.inverse.bank.color)}', this)">
-                                <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${resolveToken(semantic.surface.translucent.inverse.bank.color)}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
-                                <div style="display: flex; flex-direction: column; gap: 4px;">
-                                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace; font-weight: 600;">${resolveToken(semantic.surface.translucent.inverse.bank.color).toUpperCase()}</span>
-                                    <span style="color: var(--color-text-muted); font-size: 12px; font-family: 'Courier New', monospace;">${getPrimitiveName(semantic.surface.translucent.inverse.bank.color)} • ${semantic.surface.translucent.inverse.bank.opacity}</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td style="padding: 16px;">
-                            <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('${resolveToken(semantic.surface.translucent.inverse.pro.color)}', this)">
-                                <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${resolveToken(semantic.surface.translucent.inverse.pro.color)}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
-                                <div style="display: flex; flex-direction: column; gap: 4px;">
-                                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace; font-weight: 600;">${resolveToken(semantic.surface.translucent.inverse.pro.color).toUpperCase()}</span>
-                                    <span style="color: var(--color-text-muted); font-size: 12px; font-family: 'Courier New', monospace;">${getPrimitiveName(semantic.surface.translucent.inverse.pro.color)} • ${semantic.surface.translucent.inverse.pro.opacity}</span>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    `;
-
-    html += `</div>`; // Close surface-tab
-
-    // ========== BORDER TAB ==========
-    html += `<div id="border-tab" class="internal-tab-content">`;
-
-    // Border / Neutral
-    html += renderSemanticTable('border', 'neutral', [
-        { name: 'soft', bank: semantic.border.neutral.soft.bank, pro: semantic.border.neutral.soft.pro },
-        { name: 'default', bank: semantic.border.neutral.default.bank, pro: semantic.border.neutral.default.pro },
-        { name: 'strong', bank: semantic.border.neutral.strong.bank, pro: semantic.border.neutral.strong.pro },
-        { name: 'inverse', bank: semantic.border.neutral.inverse.bank, pro: semantic.border.neutral.inverse.pro }
-    ]);
-
-    // Border / Accent
-    html += renderSemanticTable('border', 'accent', [
-        { name: 'default', bank: semantic.border.accent.default.bank, pro: semantic.border.accent.default.pro },
-        { name: 'strong', bank: semantic.border.accent.strong.bank, pro: semantic.border.accent.strong.pro }
-    ]);
-
-    // Border / Info
-    html += renderSemanticTable('border', 'info', [
-        { name: 'default', bank: semantic.border.info.default.bank, pro: semantic.border.info.default.pro },
-        { name: 'strong', bank: semantic.border.info.strong.bank, pro: semantic.border.info.strong.pro }
-    ]);
-
-    // Border / Success
-    html += renderSemanticTable('border', 'success', [
-        { name: 'default', bank: semantic.border.success.default.bank, pro: semantic.border.success.default.pro },
-        { name: 'strong', bank: semantic.border.success.strong.bank, pro: semantic.border.success.strong.pro }
-    ]);
-
-    // Border / Warning
-    html += renderSemanticTable('border', 'warning', [
-        { name: 'default', bank: semantic.border.warning.default.bank, pro: semantic.border.warning.default.pro },
-        { name: 'strong', bank: semantic.border.warning.strong.bank, pro: semantic.border.warning.strong.pro }
-    ]);
-
-    // Border / Danger
-    html += renderSemanticTable('border', 'danger', [
-        { name: 'default', bank: semantic.border.danger.default.bank, pro: semantic.border.danger.default.pro },
-        { name: 'strong', bank: semantic.border.danger.strong.bank, pro: semantic.border.danger.strong.pro }
-    ]);
-
-    html += `</div>`; // Close border-tab
-
-    // ========== TEXT TAB ==========
-    html += `<div id="text-tab" class="internal-tab-content">`;
-
-    // Text / Neutral
-    html += renderSemanticTable('text', 'neutral', [
-        { name: 'soft', bank: semantic.text.neutral.soft.bank, pro: semantic.text.neutral.soft.pro },
-        { name: 'default', bank: semantic.text.neutral.default.bank, pro: semantic.text.neutral.default.pro },
-        { name: 'strong', bank: semantic.text.neutral.strong.bank, pro: semantic.text.neutral.strong.pro },
-        { name: 'inverse', bank: semantic.text.neutral.inverse.bank, pro: semantic.text.neutral.inverse.pro }
-    ]);
-
-    // Text / Accent
-    html += renderSemanticTable('text', 'accent', [
-        { name: 'default', bank: semantic.text.accent.default.bank, pro: semantic.text.accent.default.pro },
-        { name: 'strong', bank: semantic.text.accent.strong.bank, pro: semantic.text.accent.strong.pro }
-    ]);
-
-    // Text / Info
-    html += renderSemanticTable('text', 'info', [
-        { name: 'soft', bank: semantic.text.info.soft.bank, pro: semantic.text.info.soft.pro },
-        { name: 'default', bank: semantic.text.info.default.bank, pro: semantic.text.info.default.pro },
-        { name: 'strong', bank: semantic.text.info.strong.bank, pro: semantic.text.info.strong.pro }
-    ]);
-
-    // Text / Success
-    html += renderSemanticTable('text', 'success', [
-        { name: 'soft', bank: semantic.text.success.soft.bank, pro: semantic.text.success.soft.pro },
-        { name: 'default', bank: semantic.text.success.default.bank, pro: semantic.text.success.default.pro },
-        { name: 'strong', bank: semantic.text.success.strong.bank, pro: semantic.text.success.strong.pro }
-    ]);
-
-    // Text / Warning
-    html += renderSemanticTable('text', 'warning', [
-        { name: 'soft', bank: semantic.text.warning.soft.bank, pro: semantic.text.warning.soft.pro },
-        { name: 'default', bank: semantic.text.warning.default.bank, pro: semantic.text.warning.default.pro },
-        { name: 'strong', bank: semantic.text.warning.strong.bank, pro: semantic.text.warning.strong.pro }
-    ]);
-
-    // Text / Danger
-    html += renderSemanticTable('text', 'danger', [
-        { name: 'soft', bank: semantic.text.danger.soft.bank, pro: semantic.text.danger.soft.pro },
-        { name: 'default', bank: semantic.text.danger.default.bank, pro: semantic.text.danger.default.pro },
-        { name: 'strong', bank: semantic.text.danger.strong.bank, pro: semantic.text.danger.strong.pro }
-    ]);
-
-    html += `</div>`; // Close text-tab
-
-    // ========== ICON TAB ==========
-    html += `<div id="icon-tab" class="internal-tab-content">`;
-
-    // Icon / Neutral
-    html += renderSemanticTable('icon', 'neutral', [
-        { name: 'strong', bank: semantic.icon.neutral.strong.bank, pro: semantic.icon.neutral.strong.pro },
-        { name: 'default', bank: semantic.icon.neutral.default.bank, pro: semantic.icon.neutral.default.pro },
-        { name: 'soft', bank: semantic.icon.neutral.soft.bank, pro: semantic.icon.neutral.soft.pro },
-        { name: 'softer', bank: semantic.icon.neutral.softer.bank, pro: semantic.icon.neutral.softer.pro },
-        { name: 'inverse', bank: semantic.icon.neutral.inverse.bank, pro: semantic.icon.neutral.inverse.pro }
-    ]);
-
-    // Icon / Accent
-    html += renderSemanticTable('icon', 'accent', [
-        { name: 'default', bank: semantic.icon.accent.default.bank, pro: semantic.icon.accent.default.pro },
-        { name: 'strong', bank: semantic.icon.accent.strong.bank, pro: semantic.icon.accent.strong.pro }
-    ]);
-
-    // Icon / Info
-    html += renderSemanticTable('icon', 'info', [
-        { name: 'default', bank: semantic.icon.info.default.bank, pro: semantic.icon.info.default.pro },
-        { name: 'strong', bank: semantic.icon.info.strong.bank, pro: semantic.icon.info.strong.pro }
-    ]);
-
-    // Icon / Success
-    html += renderSemanticTable('icon', 'success', [
-        { name: 'default', bank: semantic.icon.success.default.bank, pro: semantic.icon.success.default.pro },
-        { name: 'strong', bank: semantic.icon.success.strong.bank, pro: semantic.icon.success.strong.pro }
-    ]);
-
-    // Icon / Warning
-    html += renderSemanticTable('icon', 'warning', [
-        { name: 'default', bank: semantic.icon.warning.default.bank, pro: semantic.icon.warning.default.pro },
-        { name: 'strong', bank: semantic.icon.warning.strong.bank, pro: semantic.icon.warning.strong.pro }
-    ]);
-
-    // Icon / Danger
-    html += renderSemanticTable('icon', 'danger', [
-        { name: 'default', bank: semantic.icon.danger.default.bank, pro: semantic.icon.danger.default.pro },
-        { name: 'strong', bank: semantic.icon.danger.strong.bank, pro: semantic.icon.danger.strong.pro }
-    ]);
-
-    html += `</div>`; // Close icon-tab
-
-    // ========== UTILITY TAB ==========
-    html += `<div id="utility-tab" class="internal-tab-content">`;
-
-    // Utility table (simple 2-row table)
-    html += `
-        <table style="width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 32px; background: var(--color-surface); border-radius: 12px; overflow: hidden; border: 1px solid var(--color-border);">
-            <thead>
-                <tr style="background: var(--color-surface-secondary);">
-                    <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 600; font-size: 14px; width: 200px; border-bottom: 1px solid var(--color-border);">
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="3" width="18" height="18" rx="2"/>
-                            </svg>
-                            Nome
+                                <span>Copiar</span>
+                            </button>
                         </div>
-                    </th>
-                    <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 600; font-size: 14px; border-bottom: 1px solid var(--color-border);">bank</th>
-                    <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 600; font-size: 14px; border-bottom: 1px solid var(--color-border);">pro</th>
-                </tr>
-            </thead>
-            <tbody>
-    `;
+                    `;
+                });
 
-    // Utility / light
-    const lightBank = semantic.utility.light.bank;
-    const lightPro = semantic.utility.light.pro;
-    html += `
-        <tr style="border-bottom: 1px solid var(--color-border);">
-            <td style="padding: 16px;">
-                <div style="display: flex; align-items: center; gap: 12px;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="5"/>
-                        <line x1="12" y1="1" x2="12" y2="3"/>
-                        <line x1="12" y1="21" x2="12" y2="23"/>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-                        <line x1="1" y1="12" x2="3" y2="12"/>
-                        <line x1="21" y1="12" x2="23" y2="12"/>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-                    </svg>
-                    <span style="color: var(--color-text-primary); font-weight: 500;">light</span>
-                </div>
-            </td>
-            <td style="padding: 16px;">
-                <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('color.utility.light', this)">
-                    <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${resolveToken(lightBank)}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
-                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">color/neutral/light</span>
-                </div>
-            </td>
-            <td style="padding: 16px;">
-                <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('color.utility.light', this)">
-                    <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${resolveToken(lightPro)}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
-                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">color/neutral/light</span>
-                </div>
-            </td>
-        </tr>
-    `;
+                cardsHtml += `</div>`;
+                return cardsHtml;
+            };
 
-    // Utility / dark
-    const darkBank = semantic.utility.dark.bank;
-    const darkPro = semantic.utility.dark.pro;
-    html += `
-        <tr>
-            <td style="padding: 16px;">
-                <div style="display: flex; align-items: center; gap: 12px;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-                    </svg>
-                    <span style="color: var(--color-text-primary); font-weight: 500;">dark</span>
-                </div>
-            </td>
-            <td style="padding: 16px;">
-                <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('color.utility.dark', this)">
-                    <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${resolveToken(darkBank)}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
-                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">color/neutral/dark</span>
-                </div>
-            </td>
-            <td style="padding: 16px;">
-                <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('color.utility.dark', this)">
-                    <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${resolveToken(darkPro)}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
-                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">color/neutral/dark</span>
-                </div>
-            </td>
-        </tr>
-    `;
+            // ========== SURFACE TAB ==========
+            html += `<div id="surface-tab" class="internal-tab-content active">`;
 
-    html += '</tbody></table>';
+            html += renderColorCards('surface', 'neutral', getColorItems(semantic.surface?.neutral));
+            html += renderColorCards('surface', 'accent', getColorItems(semantic.surface?.accent));
+            html += renderColorCards('surface', 'info', getColorItems(semantic.surface?.info));
+            html += renderColorCards('surface', 'success', getColorItems(semantic.surface?.success));
+            html += renderColorCards('surface', 'warning', getColorItems(semantic.surface?.warning));
+            html += renderColorCards('surface', 'danger', getColorItems(semantic.surface?.danger));
 
-    html += `</div>`; // Close utility-tab
+            html += `</div>`; // Close surface-tab
 
-    // ========== SHADOW TAB ==========
-    html += `<div id="shadow-tab" class="internal-tab-content">`;
+            // ========== BORDER TAB ==========
+            html += `<div id="border-tab" class="internal-tab-content">`;
+            html += renderColorCards('border', 'neutral', getColorItems(semantic.border?.neutral));
+            html += renderColorCards('border', 'accent', getColorItems(semantic.border?.accent));
+            html += renderColorCards('border', 'info', getColorItems(semantic.border?.info));
+            html += renderColorCards('border', 'success', getColorItems(semantic.border?.success));
+            html += renderColorCards('border', 'warning', getColorItems(semantic.border?.warning));
+            html += renderColorCards('border', 'danger', getColorItems(semantic.border?.danger));
+            html += `</div>`; // Close border-tab
 
-    // Shadow table (with opacity)
-    html += `
-        <table style="width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 32px; background: var(--color-surface); border-radius: 12px; overflow: hidden; border: 1px solid var(--color-border);">
-            <thead>
-                <tr style="background: var(--color-surface-secondary);">
-                    <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 600; font-size: 14px; width: 200px; border-bottom: 1px solid var(--color-border);">
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="3" width="18" height="18" rx="2"/>
-                            </svg>
-                            Nome
-                        </div>
-                    </th>
-                    <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 600; font-size: 14px; border-bottom: 1px solid var(--color-border);">bank</th>
-                    <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 600; font-size: 14px; border-bottom: 1px solid var(--color-border);">pro</th>
-                </tr>
-            </thead>
-            <tbody>
-    `;
+            // ========== TEXT TAB ==========
+            html += `<div id="text-tab" class="internal-tab-content">`;
+            html += renderColorCards('text', 'neutral', getColorItems(semantic.text?.neutral));
+            html += renderColorCards('text', 'accent', getColorItems(semantic.text?.accent));
+            html += renderColorCards('text', 'info', getColorItems(semantic.text?.info));
+            html += renderColorCards('text', 'success', getColorItems(semantic.text?.success));
+            html += renderColorCards('text', 'warning', getColorItems(semantic.text?.warning));
+            html += renderColorCards('text', 'danger', getColorItems(semantic.text?.danger));
+            html += `</div>`; // Close text-tab
 
-    // Shadow / soft
-    const softBankColor = resolveToken(semantic.shadow.soft.bank.color);
-    const softBankOpacity = semantic.shadow.soft.bank.opacity;
-    const softProColor = resolveToken(semantic.shadow.soft.pro.color);
-    const softProOpacity = semantic.shadow.soft.pro.opacity;
-    html += `
-        <tr style="border-bottom: 1px solid var(--color-border);">
-            <td style="padding: 16px;">
-                <div style="display: flex; align-items: center; gap: 12px;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="3" width="18" height="18" rx="2"/>
-                    </svg>
-                    <span style="color: var(--color-text-primary); font-weight: 500;">soft</span>
-                </div>
-            </td>
-            <td style="padding: 16px;">
-                <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('color.shadow.soft', this)">
-                    <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${softBankColor}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
-                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">${softBankColor.toUpperCase()}</span>
-                    <span style="color: var(--color-text-secondary); font-size: 14px; margin-left: 8px;">${softBankOpacity}</span>
-                </div>
-            </td>
-            <td style="padding: 16px;">
-                <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('color.shadow.soft', this)">
-                    <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${softProColor}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
-                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">${softProColor.toUpperCase()}</span>
-                    <span style="color: var(--color-text-secondary); font-size: 14px; margin-left: 8px;">${softProOpacity}</span>
-                </div>
-            </td>
-        </tr>
-    `;
+            // ========== ICON TAB ==========
+            html += `<div id="icon-tab" class="internal-tab-content">`;
+            html += renderColorCards('icon', 'neutral', getColorItems(semantic.icon?.neutral));
+            html += renderColorCards('icon', 'accent', getColorItems(semantic.icon?.accent));
+            html += renderColorCards('icon', 'info', getColorItems(semantic.icon?.info));
+            html += renderColorCards('icon', 'success', getColorItems(semantic.icon?.success));
+            html += renderColorCards('icon', 'warning', getColorItems(semantic.icon?.warning));
+            html += renderColorCards('icon', 'danger', getColorItems(semantic.icon?.danger));
+            html += `</div>`; // Close icon-tab
 
-    // Shadow / medium
-    const mediumBankColor = resolveToken(semantic.shadow.medium.bank.color);
-    const mediumBankOpacity = semantic.shadow.medium.bank.opacity;
-    const mediumProColor = resolveToken(semantic.shadow.medium.pro.color);
-    const mediumProOpacity = semantic.shadow.medium.pro.opacity;
-    html += `
-        <tr style="border-bottom: 1px solid var(--color-border);">
-            <td style="padding: 16px;">
-                <div style="display: flex; align-items: center; gap: 12px;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="3" width="18" height="18" rx="2"/>
-                    </svg>
-                    <span style="color: var(--color-text-primary); font-weight: 500;">medium</span>
-                </div>
-            </td>
-            <td style="padding: 16px;">
-                <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('color.shadow.medium', this)">
-                    <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${mediumBankColor}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
-                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">${mediumBankColor.toUpperCase()}</span>
-                    <span style="color: var(--color-text-secondary); font-size: 14px; margin-left: 8px;">${mediumBankOpacity}</span>
-                </div>
-            </td>
-            <td style="padding: 16px;">
-                <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('color.shadow.medium', this)">
-                    <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${mediumProColor}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
-                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">${mediumProColor.toUpperCase()}</span>
-                    <span style="color: var(--color-text-secondary); font-size: 14px; margin-left: 8px;">${mediumProOpacity}</span>
-                </div>
-            </td>
-        </tr>
-    `;
+            // ========== UTILITY TAB ==========
+            html += `<div id="utility-tab" class="internal-tab-content">`;
+            // Utility has 'light' and 'dark' as direct properties
+            html += renderColorCards('utility', '', getColorItems(semantic.utility));
+            html += `</div>`; // Close utility-tab
 
-    // Shadow / intense
-    const intenseBankColor = resolveToken(semantic.shadow.intense.bank.color);
-    const intenseBankOpacity = semantic.shadow.intense.bank.opacity;
-    const intenseProColor = resolveToken(semantic.shadow.intense.pro.color);
-    const intenseProOpacity = semantic.shadow.intense.pro.opacity;
-    html += `
-        <tr>
-            <td style="padding: 16px;">
-                <div style="display: flex; align-items: center; gap: 12px;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="3" width="18" height="18" rx="2"/>
-                    </svg>
-                    <span style="color: var(--color-text-primary); font-weight: 500;">intense</span>
-                </div>
-            </td>
-            <td style="padding: 16px;">
-                <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('color.shadow.intense', this)">
-                    <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${intenseBankColor}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
-                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">${intenseBankColor.toUpperCase()}</span>
-                    <span style="color: var(--color-text-secondary); font-size: 14px; margin-left: 8px;">${intenseBankOpacity}</span>
-                </div>
-            </td>
-            <td style="padding: 16px;">
-                <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="copyColorWithFeedback('color.shadow.intense', this)">
-                    <div style="width: 32px; height: 32px; border-radius: 6px; background-color: ${intenseProColor}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
-                    <span style="color: var(--color-text-primary); font-size: 14px; font-family: 'Courier New', monospace;">${intenseProColor.toUpperCase()}</span>
-                    <span style="color: var(--color-text-secondary); font-size: 14px; margin-left: 8px;">${intenseProOpacity}</span>
-                </div>
-            </td>
-        </tr>
-    `;
+            // ========== SHADOW TAB ==========
+            html += `<div id="shadow-tab" class="internal-tab-content">`;
+            // Shadow has 'soft', 'medium', 'intense' as direct properties with color+opacity structure
+            // Need special handling for shadow colors with opacity
+            if (semantic.shadow) {
+                html += `
+                    <div class="color-category-title">color / shadow</div>
+                    <div class="colors-grid">
+                `;
+                Object.keys(semantic.shadow).forEach(key => {
+                    const item = semantic.shadow[key];
+                    if (item.bank && item.pro) {
+                        const bankColor = typeof item.bank === 'object' ? item.bank.color : item.bank;
+                        const proColor = typeof item.pro === 'object' ? item.pro.color : item.pro;
+                        const bankOpacity = typeof item.bank === 'object' ? item.bank.opacity : '100%';
+                        const proOpacity = typeof item.pro === 'object' ? item.pro.opacity : '100%';
 
-    html += '</tbody></table>';
+                        const bankHex = resolveToken(bankColor);
+                        const proHex = resolveToken(proColor);
+                        const bankPrimitive = getPrimitiveName(bankColor);
+                        const proPrimitive = getPrimitiveName(proColor);
 
-    html += `</div>`; // Close shadow-tab
-    html += `</div>`; // Close internal-tabs-wrapper
+                        // Bank card
+                        html += `
+                            <div class="color-card theme-bank">
+                                <div class="color-preview-large" style="background-color: ${bankHex}; opacity: ${parseInt(bankOpacity) / 100};"></div>
+                                <div>
+                                    <div class="color-card-name">color.shadow.${key}</div>
+                                    <div class="color-card-hex">${bankHex.toUpperCase()}</div>
+                                    <div class="color-card-primitive">${bankPrimitive} • ${bankOpacity}</div>
+                                </div>
+                                <button class="color-card-copy-btn" onclick="copyColorToClipboard('${bankHex}', this)">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                        `;
 
-    container.innerHTML = html;
-}
+                        // Pro card
+                        html += `
+                            <div class="color-card theme-pro" style="display: none;">
+                                <div class="color-preview-large" style="background-color: ${proHex}; opacity: ${parseInt(proOpacity) / 100};"></div>
+                                <div>
+                                    <div class="color-card-name">color.shadow.${key}</div>
+                                    <div class="color-card-hex">${proHex.toUpperCase()}</div>
+                                    <div class="color-card-primitive">${proPrimitive} • ${proOpacity}</div>
+                                </div>
+                                <button class="color-card-copy-btn" onclick="copyColorToClipboard('${proHex}', this)">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                        `;
+                    }
+                });
+                html += `</div>`;
+            }
+            html += `</div>`; // Close shadow-tab
+
+            html += `</div>`; // Close internal-tabs-wrapper
+
+            container.innerHTML = html;
+        }
 
         function renderPrimitiveColors(container) {
     console.log('renderPrimitiveColors called', container);
@@ -3882,171 +3714,120 @@
         }
 
         function renderSpacing(container) {
+            console.log('renderSpacing called');
             const spacing = designTokens.spacing;
+            console.log('spacing data:', spacing);
             let html = '';
 
             // Helper function to get unit reference
             const getUnitReference = (token) => {
-                // Check if token is a string before calling match
                 if (typeof token !== 'string') {
                     return null;
                 }
-                const match = token.match(/\{unit\.positive\.(\w+)\}/);
+                const match = token.match(/\{unit\.(positive|negative)\.(\w+)\}/);
                 if (match) {
-                    return `unit/positive/${match[1]}`;
+                    return `${match[1]}-${match[2]}`;
                 }
                 return null;
             };
 
-            // Helper function to render spacing table
-            const renderSpacingTable = (category, title) => {
-                html += `
-                    <div style="margin-bottom: 48px;">
-                        <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 16px; color: var(--color-text-primary);">space / ${category} / ${title}</h3>
-                        <div style="overflow-x: auto;">
-                            <table style="width: 100%; border-collapse: collapse; background: var(--color-bg-secondary); border-radius: 8px; overflow: hidden;">
-                                <thead>
-                                    <tr style="border-bottom: 2px solid var(--color-border);">
-                                        <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">Name</th>
-                                        <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">mobile</th>
-                                        <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">tablet</th>
-                                        <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">desktop</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                `;
+            // Helper function to render spacing cards
+            const renderSpacingCards = (category, subcategory) => {
+                const data = subcategory === 'negative' ? designTokens.unit.negative : spacing[category];
+                if (!data) return '';
 
-                const data = spacing[category];
-                Object.entries(data).forEach(([name, values]) => {
+                let cardsHtml = `<div class="color-category-title">space / ${category} / ${subcategory}</div>`;
+                cardsHtml += `<div class="colors-grid">`;
+
+                // Define custom order for spacing sizes
+                const sizeOrder = ['none', 'xs', '2xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl'];
+
+                // Sort entries based on custom order
+                const sortedEntries = Object.entries(data).sort((a, b) => {
+                    const indexA = sizeOrder.indexOf(a[0]);
+                    const indexB = sizeOrder.indexOf(b[0]);
+                    return indexA - indexB;
+                });
+
+                sortedEntries.forEach(([name, values]) => {
                     const fullTokenName = `space.${category}.${name}`;
-                    html += `
-                        <tr style="border-bottom: 1px solid var(--color-border);">
-                            <td style="padding: 16px;">
-                                <div style="display: flex; align-items: center; gap: 12px;">
-                                    <div style="width: 32px; height: 32px; background: var(--color-accent); border-radius: 4px; flex-shrink: 0; opacity: 0.6;"></div>
-                                    <span style="font-family: 'Courier New', monospace; font-size: 14px; color: var(--color-text-primary); font-weight: 600;">${fullTokenName}</span>
-                                </div>
-                            </td>
+
+                    // Get the token value (same for mobile/tablet/desktop)
+                    const token = subcategory === 'negative' ? `{unit.negative.${name}}` : (values.mobile || values);
+                    const resolvedValue = resolveToken(token);
+                    const unitRef = getUnitReference(token);
+
+                    // Parse pixel value for preview
+                    const pixelValue = parseInt(resolvedValue);
+                    const absPixelValue = Math.abs(pixelValue);
+
+                    // Card for Cash/Bank theme
+                    cardsHtml += `
+                        <div class="color-card theme-bank">
+                            <div class="color-preview-large" style="background: var(--color-bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <div style="width: ${Math.min(absPixelValue * 2, 100)}px; height: 8px; background: var(--color-accent); opacity: 0.6; border-radius: 4px;"></div>
+                            </div>
+                            <div>
+                                <div class="color-card-name">${fullTokenName}</div>
+                                <div class="color-card-hex">${resolvedValue}</div>
+                                <div class="color-card-primitive">${unitRef || ''}</div>
+                            </div>
+                            <button class="color-card-copy-btn" onclick="copyColorToClipboard('${fullTokenName}', this)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                                <span>Copiar</span>
+                            </button>
+                        </div>
                     `;
 
-                    ['mobile', 'tablet', 'desktop'].forEach(device => {
-                        const token = values[device];
-                        const resolvedValue = resolveToken(token);
-                        const unitRef = getUnitReference(token);
-
-                        html += `
-                            <td style="padding: 16px;">
-                        `;
-
-                        if (unitRef) {
-                            html += `
-                                <div style="display: flex; flex-direction: column; gap: 4px;">
-                                    <div style="display: flex; align-items: center; gap: 8px;">
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0; stroke: var(--color-text-muted); stroke-width: 2;">
-                                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                        </svg>
-                                        <span style="font-size: 14px; color: var(--color-text-primary); font-weight: 600;">${unitRef}</span>
-                                    </div>
-                                    <span style="font-size: 13px; color: var(--color-text-muted); margin-left: 26px;">${resolvedValue}</span>
-                                </div>
-                            `;
-                        } else {
-                            html += `
-                                <span style="font-size: 14px; color: var(--color-text-primary); font-weight: 600;">${resolvedValue}</span>
-                            `;
-                        }
-
-                        html += `
-                            </td>
-                        `;
-                    });
-
-                    html += `
-                        </tr>
+                    // Card for Pro theme
+                    cardsHtml += `
+                        <div class="color-card theme-pro" style="display: none;">
+                            <div class="color-preview-large" style="background: var(--color-bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <div style="width: ${Math.min(absPixelValue * 2, 100)}px; height: 8px; background: var(--color-accent); opacity: 0.6; border-radius: 4px;"></div>
+                            </div>
+                            <div>
+                                <div class="color-card-name">${fullTokenName}</div>
+                                <div class="color-card-hex">${resolvedValue}</div>
+                                <div class="color-card-primitive">${unitRef || ''}</div>
+                            </div>
+                            <button class="color-card-copy-btn" onclick="copyColorToClipboard('${fullTokenName}', this)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                                <span>Copiar</span>
+                            </button>
+                        </div>
                     `;
                 });
 
-                html += `
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                `;
+                cardsHtml += `</div>`;
+                return cardsHtml;
             };
 
-            // Helper function to render negative spacing table
-            const renderNegativeTable = (category) => {
-                html += `
-                    <div style="margin-bottom: 48px;">
-                        <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 16px; color: var(--color-text-primary);">space / ${category} / negative</h3>
-                        <div style="overflow-x: auto;">
-                            <table style="width: 100%; border-collapse: collapse; background: var(--color-bg-secondary); border-radius: 8px; overflow: hidden;">
-                                <thead>
-                                    <tr style="border-bottom: 2px solid var(--color-border);">
-                                        <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">Name</th>
-                                        <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">mobile</th>
-                                        <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">tablet</th>
-                                        <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 550; font-size: 14px;">desktop</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                `;
-
-                const negativeUnits = designTokens.unit.negative;
-                Object.entries(negativeUnits).forEach(([name, value]) => {
-                    const fullTokenName = `space.${category}.${name}`;
-                    html += `
-                        <tr style="border-bottom: 1px solid var(--color-border);">
-                            <td style="padding: 16px;">
-                                <div style="display: flex; align-items: center; gap: 12px;">
-                                    <div style="width: 32px; height: 32px; background: var(--color-accent); border-radius: 4px; flex-shrink: 0; opacity: 0.6;"></div>
-                                    <span style="font-family: 'Courier New', monospace; font-size: 14px; color: var(--color-text-primary); font-weight: 600;">${fullTokenName}</span>
-                                </div>
-                            </td>
-                            <td style="padding: 16px;">
-                                <div style="display: flex; flex-direction: column; gap: 4px;">
-                                    <div style="display: flex; align-items: center; gap: 8px;">
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0; stroke: var(--color-text-muted); stroke-width: 2;">
-                                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                        </svg>
-                                        <span style="font-size: 14px; color: var(--color-text-primary); font-weight: 600;">unit/negative/${name}</span>
-                                    </div>
-                                    <span style="font-size: 13px; color: var(--color-text-muted); margin-left: 26px;">${value}</span>
-                                </div>
-                            </td>
-                            <td style="padding: 16px;">
-                                <div style="display: flex; flex-direction: column; gap: 4px;">
-                                    <div style="display: flex; align-items: center; gap: 8px;">
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0; stroke: var(--color-text-muted); stroke-width: 2;">
-                                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                        </svg>
-                                        <span style="font-size: 14px; color: var(--color-text-primary); font-weight: 600;">unit/negative/${name}</span>
-                                    </div>
-                                    <span style="font-size: 13px; color: var(--color-text-muted); margin-left: 26px;">${value}</span>
-                                </div>
-                            </td>
-                            <td style="padding: 16px;">
-                                <div style="display: flex; flex-direction: column; gap: 4px;">
-                                    <div style="display: flex; align-items: center; gap: 8px;">
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0; stroke: var(--color-text-muted); stroke-width: 2;">
-                                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                        </svg>
-                                        <span style="font-size: 14px; color: var(--color-text-primary); font-weight: 600;">unit/negative/${name}</span>
-                                    </div>
-                                    <span style="font-size: 13px; color: var(--color-text-muted); margin-left: 26px;">${value}</span>
-                                </div>
-                            </td>
-                        </tr>
-                    `;
-                });
-
-                html += `
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                `;
-            };
+            // Cash/Pro Toggle (same style as Colors)
+            html += `
+                <div class="theme-toggle-wrapper">
+                    <button class="theme-toggle-btn active" onclick="switchTheme(event, 'bank')">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="5" y="4" width="14" height="17" rx="2" ry="2"></rect>
+                            <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                        </svg>
+                        <span>Cash</span>
+                    </button>
+                    <button class="theme-toggle-btn" onclick="switchTheme(event, 'pro')">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                        <span>Pro</span>
+                    </button>
+                </div>
+            `;
 
             // Internal Tabs System
             html += `
@@ -4061,7 +3842,7 @@
                     <div id="inset-tab" class="internal-tab-content active">
             `;
 
-            renderSpacingTable('inset', 'positive');
+            html += renderSpacingCards('inset', 'positive');
 
             html += `
                     </div>
@@ -4070,8 +3851,8 @@
                     <div id="inline-tab" class="internal-tab-content">
             `;
 
-            renderSpacingTable('inline', 'positive');
-            renderNegativeTable('inline');
+            html += renderSpacingCards('inline', 'positive');
+            html += renderSpacingCards('inline', 'negative');
 
             html += `
                     </div>
@@ -4080,15 +3861,25 @@
                     <div id="stack-tab" class="internal-tab-content">
             `;
 
-            renderSpacingTable('stack', 'positive');
-            renderNegativeTable('stack');
+            html += renderSpacingCards('stack', 'positive');
+            html += renderSpacingCards('stack', 'negative');
 
             html += `
                     </div>
                 </div>
             `;
 
+            console.log('HTML length:', html.length);
+            console.log('HTML contains colors-grid:', html.includes('colors-grid'));
+            console.log('HTML contains color-card:', html.includes('color-card'));
+            console.log('First 500 chars:', html.substring(0, 500));
             container.innerHTML = html;
+            console.log('Container innerHTML set, length:', container.innerHTML.length);
+
+            // Force a repaint
+            setTimeout(() => {
+                console.log('After timeout, container still has:', container.querySelectorAll('.color-card').length, 'cards');
+            }, 100);
         }
 
         function renderGrid(container) {
@@ -4446,244 +4237,146 @@
         }
 
         function renderBorders(container) {
-            // Dados de border radius
-            const radiusData = [
-                { name: 'none', bank: 0, pro: 0 },
-                { name: 'xs', bank: 4, pro: 4 },
-                { name: 'sm', bank: 2, pro: 2 },
-                { name: 'md', bank: 16, pro: 16 },
-                { name: 'lg', bank: 24, pro: 24 },
-                { name: 'pill', bank: 160, pro: 160 }
-            ];
+            const borderRadius = designTokens.borderRadius;
+            const borderWidth = designTokens.borderWidth;
+            let html = '';
 
-            // Dados de border width
-            const widthData = [
-                { name: 'none', bank: 0, pro: 0 },
-                { name: 'thin', bank: 1, pro: 1 },
-                { name: 'thick', bank: 2, pro: 2 },
-                { name: 'thicker', bank: 4, pro: 4 }
-            ];
+            // Helper function to get unit reference
+            const getUnitReference = (token) => {
+                if (typeof token !== 'string') {
+                    return null;
+                }
+                const match = token.match(/\{unit\.positive\.(\w+)\}/);
+                if (match) {
+                    return `positive-${match[1]}`;
+                }
+                return null;
+            };
 
-            let html = `
-                <style>
-                    .border-tabs {
-                        display: flex;
-                        gap: 8px;
-                        margin-bottom: 32px;
-                        border-bottom: 1px solid var(--color-border);
-                    }
+            // Helper function to render border cards
+            const renderBorderCards = (type, data) => {
+                if (!data) return '';
 
-                    .border-tab-button {
-                        padding: 12px 24px;
-                        background: transparent;
-                        border: none;
-                        color: var(--color-text-muted);
-                        font-size: 15px;
-                        font-weight: 500;
-                        cursor: pointer;
-                        border-bottom: 2px solid transparent;
-                        transition: all 0.2s ease;
-                        position: relative;
-                        bottom: -1px;
-                    }
+                let cardsHtml = `<div class="color-category-title">border / ${type}</div>`;
+                cardsHtml += `<div class="colors-grid">`;
 
-                    .border-tab-button:hover {
-                        color: var(--color-text-primary);
-                    }
+                // Define custom order
+                const sizeOrder = type === 'radius'
+                    ? ['none', 'xs', 'sm', 'md', 'lg', 'pill']
+                    : ['none', 'thin', 'thick', 'thicker'];
 
-                    .border-tab-button.active {
-                        color: var(--color-text-primary);
-                        border-bottom-color: #0066FF;
-                    }
+                // Sort entries based on custom order
+                const sortedEntries = Object.entries(data).sort((a, b) => {
+                    const indexA = sizeOrder.indexOf(a[0]);
+                    const indexB = sizeOrder.indexOf(b[0]);
+                    return indexA - indexB;
+                });
 
-                    .border-tab-content {
-                        display: none;
-                    }
+                sortedEntries.forEach(([name, values]) => {
+                    const fullTokenName = `border${type === 'radius' ? 'Radius' : 'Width'}.${name}`;
+                    const token = values.bank || values.pro;
+                    const resolvedValue = resolveToken(token);
+                    const unitRef = getUnitReference(token);
 
-                    .border-tab-content.active {
-                        display: block;
-                    }
+                    // Parse pixel value for preview
+                    const pixelValue = parseInt(resolvedValue);
 
-                    .border-grid {
-                        display: grid;
-                        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-                        gap: 24px;
-                    }
+                    // Card for Cash/Bank theme
+                    cardsHtml += `
+                        <div class="color-card theme-bank">
+                            <div class="color-preview-large" style="background: var(--color-bg-primary); display: flex; align-items: center; justify-content: center;">
+                                ${type === 'radius'
+                                    ? `<div style="width: 80px; height: 80px; background: var(--color-accent); border-radius: ${pixelValue}px;"></div>`
+                                    : `<div style="width: 80px; height: 80px; border: ${pixelValue}px solid var(--color-accent); border-radius: 8px;"></div>`
+                                }
+                            </div>
+                            <div>
+                                <div class="color-card-name">${fullTokenName}</div>
+                                <div class="color-card-hex">${resolvedValue}</div>
+                                <div class="color-card-primitive">${unitRef || ''}</div>
+                            </div>
+                            <button class="color-card-copy-btn" onclick="copyColorToClipboard('${fullTokenName}', this)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                                <span>Copiar</span>
+                            </button>
+                        </div>
+                    `;
 
-                    .border-card {
-                        background: var(--color-bg-secondary);
-                        border: 1px solid var(--color-border);
-                        border-radius: 12px;
-                        padding: 24px;
-                        display: flex;
-                        flex-direction: column;
-                        gap: 16px;
-                        align-items: center;
-                    }
+                    // Card for Pro theme
+                    cardsHtml += `
+                        <div class="color-card theme-pro" style="display: none;">
+                            <div class="color-preview-large" style="background: var(--color-bg-primary); display: flex; align-items: center; justify-content: center;">
+                                ${type === 'radius'
+                                    ? `<div style="width: 80px; height: 80px; background: var(--color-accent); border-radius: ${pixelValue}px;"></div>`
+                                    : `<div style="width: 80px; height: 80px; border: ${pixelValue}px solid var(--color-accent); border-radius: 8px;"></div>`
+                                }
+                            </div>
+                            <div>
+                                <div class="color-card-name">${fullTokenName}</div>
+                                <div class="color-card-hex">${resolvedValue}</div>
+                                <div class="color-card-primitive">${unitRef || ''}</div>
+                            </div>
+                            <button class="color-card-copy-btn" onclick="copyColorToClipboard('${fullTokenName}', this)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                                <span>Copiar</span>
+                            </button>
+                        </div>
+                    `;
+                });
 
-                    .border-preview {
-                        width: 100%;
-                        min-height: 120px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        border-radius: 8px;
-                        background: var(--color-bg-tertiary);
-                    }
+                cardsHtml += `</div>`;
+                return cardsHtml;
+            };
 
-                    .border-radius-demo {
-                        width: 100px;
-                        height: 100px;
-                        background: #0066FF;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                    }
-
-                    .border-radius-demo svg {
-                        width: 40px;
-                        height: 40px;
-                        color: white;
-                    }
-
-                    .border-width-demo {
-                        width: 100px;
-                        height: 100px;
-                        background: transparent;
-                        border-style: solid;
-                        border-color: #0066FF;
-                        border-radius: 8px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                    }
-
-                    .border-width-demo svg {
-                        width: 40px;
-                        height: 40px;
-                        color: #0066FF;
-                    }
-
-                    .border-info {
-                        display: flex;
-                        flex-direction: column;
-                        gap: 8px;
-                        width: 100%;
-                        text-align: center;
-                    }
-
-                    .border-name {
-                        font-size: 14px;
-                        font-weight: 600;
-                        color: var(--color-text-primary);
-                        font-family: 'Courier New', monospace;
-                    }
-
-                    .border-values {
-                        display: flex;
-                        gap: 12px;
-                        align-items: center;
-                        justify-content: center;
-                    }
-
-                    .border-value-item {
-                        display: flex;
-                        flex-direction: column;
-                        gap: 2px;
-                    }
-
-                    .border-value-label {
-                        font-size: 10px;
-                        text-transform: uppercase;
-                        letter-spacing: 0.5px;
-                        color: var(--color-text-muted);
-                        font-weight: 600;
-                    }
-
-                    .border-value-number {
-                        font-size: 16px;
-                        font-weight: 600;
-                        color: var(--color-text-primary);
-                    }
-                </style>
-
-                <!-- Tabs -->
-                <div class="border-tabs">
-                    <button class="border-tab-button active" onclick="switchBorderTab(event, 'radius-tab')">Radius</button>
-                    <button class="border-tab-button" onclick="switchBorderTab(event, 'width-tab')">Width</button>
+            // Cash/Pro Toggle (same style as Colors)
+            html += `
+                <div class="theme-toggle-wrapper">
+                    <button class="theme-toggle-btn active" onclick="switchTheme(event, 'bank')">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="5" y="4" width="14" height="17" rx="2" ry="2"></rect>
+                            <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                        </svg>
+                        <span>Cash</span>
+                    </button>
+                    <button class="theme-toggle-btn" onclick="switchTheme(event, 'pro')">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                        <span>Pro</span>
+                    </button>
                 </div>
-
-                <!-- Radius Tab -->
-                <div id="radius-tab" class="border-tab-content active">
-                    <div class="border-grid">
             `;
 
-            // Radius cards
-            radiusData.forEach(item => {
-                html += `
-                    <div class="border-card">
-                        <div class="border-preview">
-                            <div class="border-radius-demo" style="border-radius: ${item.bank}px;">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <line x1="12" y1="8" x2="12" y2="16"></line>
-                                    <line x1="8" y1="12" x2="16" y2="12"></line>
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="border-info">
-                            <div class="border-name">borderRadius.${item.name}</div>
-                            <div class="border-values">
-                                <div class="border-value-item">
-                                    <div class="border-value-label">Bank</div>
-                                    <div class="border-value-number">${item.bank}px</div>
-                                </div>
-                                <div class="border-value-item">
-                                    <div class="border-value-label">Pro</div>
-                                    <div class="border-value-number">${item.pro}px</div>
-                                </div>
-                            </div>
-                        </div>
+            // Internal Tabs System
+            html += `
+                <div class="internal-tabs-wrapper">
+                    <div class="internal-tab-buttons">
+                        <button class="internal-tab-button active" onclick="switchInternalTab(event, 'radius-tab')">Radius</button>
+                        <button class="internal-tab-button" onclick="switchInternalTab(event, 'width-tab')">Width</button>
                     </div>
-                `;
-            });
+
+                    <!-- Radius Tab -->
+                    <div id="radius-tab" class="internal-tab-content active">
+            `;
+
+            html += renderBorderCards('radius', borderRadius);
 
             html += `
                     </div>
-                </div>
 
-                <!-- Width Tab -->
-                <div id="width-tab" class="border-tab-content">
-                    <div class="border-grid">
+                    <!-- Width Tab -->
+                    <div id="width-tab" class="internal-tab-content">
             `;
 
-            // Width cards
-            widthData.forEach(item => {
-                html += `
-                    <div class="border-card">
-                        <div class="border-preview">
-                            <div class="border-width-demo" style="border-width: ${item.bank}px;">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="border-info">
-                            <div class="border-name">borderWidth.${item.name}</div>
-                            <div class="border-values">
-                                <div class="border-value-item">
-                                    <div class="border-value-label">Bank</div>
-                                    <div class="border-value-number">${item.bank}px</div>
-                                </div>
-                                <div class="border-value-item">
-                                    <div class="border-value-label">Pro</div>
-                                    <div class="border-value-number">${item.pro}px</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
+            html += renderBorderCards('width', borderWidth);
 
             html += `
                     </div>
@@ -4694,39 +4387,40 @@
         }
 
         function renderOpacity(container) {
-            const opacityData = [
-                { name: 'transparent', bank: 0, pro: 0 },
-                { name: 'low', bank: 12, pro: 12 },
-                { name: 'medium', bank: 32, pro: 32 },
-                { name: 'high', bank: 64, pro: 64 },
-                { name: 'higher', bank: 95, pro: 95 },
-                { name: 'opaque', bank: 100, pro: 100 }
+            const opacityExamples = [
+                { name: 'transparent', value: 0 },
+                { name: 'low', value: 12 },
+                { name: 'medium', value: 32 },
+                { name: 'high', value: 64 },
+                { name: 'higher', value: 95 },
+                { name: 'opaque', value: 100 }
             ];
 
             let html = `
                 <style>
                     .opacity-grid {
                         display: grid;
-                        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-                        gap: 24px;
+                        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                        gap: 32px;
                         margin-top: 32px;
                     }
 
                     .opacity-card {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 20px;
+                        align-items: center;
+                        padding: 32px;
                         background: var(--color-bg-secondary);
                         border: 1px solid var(--color-border);
                         border-radius: 12px;
-                        padding: 24px;
-                        display: flex;
-                        flex-direction: column;
-                        gap: 16px;
                     }
 
                     .opacity-preview {
                         position: relative;
-                        width: 100%;
+                        width: 120px;
                         height: 120px;
-                        border-radius: 8px;
+                        border-radius: 12px;
                         overflow: hidden;
                         background:
                             linear-gradient(45deg, #383C48 25%, transparent 25%),
@@ -4736,6 +4430,9 @@
                         background-size: 20px 20px;
                         background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
                         background-color: #1D202B;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
                     }
 
                     .opacity-layer {
@@ -4747,10 +4444,20 @@
                         background: #0066FF;
                     }
 
+                    .opacity-icon {
+                        position: relative;
+                        z-index: 1;
+                        width: 48px;
+                        height: 48px;
+                        color: white;
+                    }
+
                     .opacity-info {
                         display: flex;
                         flex-direction: column;
-                        gap: 8px;
+                        gap: 12px;
+                        width: 100%;
+                        text-align: center;
                     }
 
                     .opacity-name {
@@ -4760,52 +4467,74 @@
                         font-family: 'Courier New', monospace;
                     }
 
-                    .opacity-values {
-                        display: flex;
-                        gap: 16px;
-                        align-items: center;
-                    }
-
-                    .opacity-value-item {
+                    .opacity-properties {
                         display: flex;
                         flex-direction: column;
-                        gap: 4px;
+                        gap: 6px;
+                        font-size: 12px;
+                        color: var(--color-text-muted);
                     }
 
-                    .opacity-value-label {
-                        font-size: 11px;
-                        text-transform: uppercase;
-                        letter-spacing: 0.5px;
-                        color: var(--color-text-muted);
+                    .opacity-property {
+                        display: flex;
+                        justify-content: space-between;
+                        padding: 4px 8px;
+                        background: var(--color-bg-tertiary);
+                        border-radius: 4px;
+                    }
+
+                    .opacity-property-label {
                         font-weight: 600;
                     }
 
-                    .opacity-value-number {
+                    .opacity-property-value {
+                        font-family: 'Courier New', monospace;
+                        color: var(--color-text-secondary);
+                    }
+
+                    .opacity-section-title {
                         font-size: 18px;
                         font-weight: 600;
                         color: var(--color-text-primary);
+                        margin-top: 48px;
+                        margin-bottom: 16px;
+                    }
+
+                    .opacity-description {
+                        font-size: 14px;
+                        color: var(--color-text-muted);
+                        margin-bottom: 24px;
                     }
                 </style>
+
+                <div class="opacity-section-title">Opacity Examples</div>
+                <div class="opacity-description">
+                    Níveis de opacidade para criar camadas e efeitos de transparência
+                </div>
 
                 <div class="opacity-grid">
             `;
 
-            opacityData.forEach(item => {
+            opacityExamples.forEach(opacity => {
                 html += `
                     <div class="opacity-card">
                         <div class="opacity-preview">
-                            <div class="opacity-layer" style="opacity: ${item.bank / 100}"></div>
+                            <div class="opacity-layer" style="opacity: ${opacity.value / 100}"></div>
+                            <svg class="opacity-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M12 6v6l4 2"></path>
+                            </svg>
                         </div>
                         <div class="opacity-info">
-                            <div class="opacity-name">opacity.${item.name}</div>
-                            <div class="opacity-values">
-                                <div class="opacity-value-item">
-                                    <div class="opacity-value-label">Bank</div>
-                                    <div class="opacity-value-number">${item.bank}</div>
+                            <div class="opacity-name">opacity.${opacity.name}</div>
+                            <div class="opacity-properties">
+                                <div class="opacity-property">
+                                    <span class="opacity-property-label">Value:</span>
+                                    <span class="opacity-property-value">${opacity.value}</span>
                                 </div>
-                                <div class="opacity-value-item">
-                                    <div class="opacity-value-label">Pro</div>
-                                    <div class="opacity-value-number">${item.pro}</div>
+                                <div class="opacity-property">
+                                    <span class="opacity-property-label">CSS:</span>
+                                    <span class="opacity-property-value">${(opacity.value / 100).toFixed(2)}</span>
                                 </div>
                             </div>
                         </div>
@@ -4813,7 +4542,46 @@
                 `;
             });
 
-            html += `</div>`;
+            html += `
+                </div>
+
+                <div class="opacity-section-title">Opacity Properties</div>
+                <div class="opacity-description">
+                    Valores individuais de opacidade disponíveis no Design System
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 24px;">
+                    <div style="background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 12px; padding: 24px;">
+                        <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--color-text-primary);">Opacity Values</h3>
+                        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
+                            <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
+                                <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">opacity.transparent</span>
+                                <span style="color: var(--color-text-muted);">0</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
+                                <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">opacity.low</span>
+                                <span style="color: var(--color-text-muted);">12</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
+                                <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">opacity.medium</span>
+                                <span style="color: var(--color-text-muted);">32</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
+                                <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">opacity.high</span>
+                                <span style="color: var(--color-text-muted);">64</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
+                                <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">opacity.higher</span>
+                                <span style="color: var(--color-text-muted);">95</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
+                                <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">opacity.opaque</span>
+                                <span style="color: var(--color-text-muted);">100</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
 
             container.innerHTML = html;
         }
@@ -4821,24 +4589,24 @@
         function renderSizes(container) {
             // Dados dos tokens de size
             const iconSizes = [
-                { name: 'xs', bank: 16, pro: 16 },
-                { name: 'sm', bank: 20, pro: 20 },
-                { name: 'md', bank: 24, pro: 24 },
-                { name: 'lg', bank: 32, pro: 32 },
-                { name: 'xl', bank: 48, pro: 48 }
+                { name: 'xs', value: 16 },
+                { name: 'sm', value: 20 },
+                { name: 'md', value: 24 },
+                { name: 'lg', value: 32 },
+                { name: 'xl', value: 48 }
             ];
 
             const dividerSizes = [
-                { name: 'default', bank: 1, pro: 1 },
-                { name: 'thick', bank: 8, pro: 8 },
-                { name: 'thicker', bank: 16, pro: 16 }
+                { name: 'default', value: 1 },
+                { name: 'thick', value: 8 },
+                { name: 'thicker', value: 16 }
             ];
 
             const thumbSizes = [
-                { name: 'sm', bank: 32, pro: 32 },
-                { name: 'md', bank: 48, pro: 48 },
-                { name: 'lg', bank: 64, pro: 64 },
-                { name: 'xl', bank: 96, pro: 96 }
+                { name: 'sm', value: 32 },
+                { name: 'md', value: 48 },
+                { name: 'lg', value: 64 },
+                { name: 'xl', value: 96 }
             ];
 
             let html = `
@@ -4883,50 +4651,52 @@
 
                     .size-grid {
                         display: grid;
-                        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-                        gap: 24px;
+                        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                        gap: 32px;
+                        margin-top: 32px;
                     }
 
                     .size-card {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 20px;
+                        align-items: center;
+                        padding: 32px;
                         background: var(--color-bg-secondary);
                         border: 1px solid var(--color-border);
                         border-radius: 12px;
-                        padding: 24px;
-                        display: flex;
-                        flex-direction: column;
-                        gap: 16px;
-                        align-items: center;
                     }
 
                     .size-preview {
-                        width: 100%;
-                        min-height: 120px;
+                        width: 120px;
+                        height: 120px;
                         display: flex;
                         align-items: center;
                         justify-content: center;
-                        border-radius: 8px;
+                        border-radius: 12px;
                         background: var(--color-bg-tertiary);
                     }
 
-                    .size-icon-demo {
-                        border-radius: 8px;
+                    .size-icon-preview {
                         background: #0066FF;
+                        border-radius: 8px;
                         display: flex;
                         align-items: center;
                         justify-content: center;
                     }
 
-                    .size-icon-demo svg {
+                    .size-icon-preview svg {
                         color: white;
+                        opacity: 0.9;
                     }
 
-                    .size-divider-demo {
-                        width: 100%;
+                    .size-divider-preview {
+                        width: 80%;
                         background: #0066FF;
                         border-radius: 2px;
                     }
 
-                    .size-thumb-demo {
+                    .size-thumb-preview {
                         border-radius: 50%;
                         background: linear-gradient(135deg, #0066FF 0%, #0052CC 100%);
                         border: 2px solid rgba(255, 255, 255, 0.2);
@@ -4935,43 +4705,59 @@
                     .size-info {
                         display: flex;
                         flex-direction: column;
-                        gap: 8px;
+                        gap: 12px;
                         width: 100%;
                         text-align: center;
                     }
 
                     .size-name {
-                        font-size: 14px;
+                        font-size: 16px;
                         font-weight: 600;
                         color: var(--color-text-primary);
                         font-family: 'Courier New', monospace;
                     }
 
-                    .size-values {
-                        display: flex;
-                        gap: 12px;
-                        align-items: center;
-                        justify-content: center;
-                    }
-
-                    .size-value-item {
+                    .size-properties {
                         display: flex;
                         flex-direction: column;
-                        gap: 2px;
+                        gap: 6px;
+                        font-size: 12px;
+                        color: var(--color-text-muted);
                     }
 
-                    .size-value-label {
-                        font-size: 10px;
-                        text-transform: uppercase;
-                        letter-spacing: 0.5px;
-                        color: var(--color-text-muted);
+                    .size-property {
+                        display: flex;
+                        justify-content: space-between;
+                        padding: 4px 8px;
+                        background: var(--color-bg-tertiary);
+                        border-radius: 4px;
+                    }
+
+                    .size-property-label {
                         font-weight: 600;
                     }
 
-                    .size-value-number {
-                        font-size: 16px;
+                    .size-property-value {
+                        font-family: 'Courier New', monospace;
+                        color: var(--color-text-secondary);
+                    }
+
+                    .size-section-title {
+                        font-size: 18px;
                         font-weight: 600;
                         color: var(--color-text-primary);
+                        margin-top: 48px;
+                        margin-bottom: 16px;
+                    }
+
+                    .size-section-title:first-of-type {
+                        margin-top: 0;
+                    }
+
+                    .size-description {
+                        font-size: 14px;
+                        color: var(--color-text-muted);
+                        margin-bottom: 24px;
                     }
                 </style>
 
@@ -4984,30 +4770,31 @@
 
                 <!-- Icon Tab -->
                 <div id="icon-tab" class="size-tab-content active">
+                    <div class="size-section-title">Icon Examples</div>
+                    <div class="size-description">
+                        Tamanhos de ícones para diferentes contextos de uso
+                    </div>
+
                     <div class="size-grid">
             `;
 
-            iconSizes.forEach(item => {
+            iconSizes.forEach(size => {
                 html += `
                     <div class="size-card">
                         <div class="size-preview">
-                            <div class="size-icon-demo" style="width: ${item.bank}px; height: ${item.bank}px;">
-                                <svg width="${item.bank * 0.7}" height="${item.bank * 0.7}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <div class="size-icon-preview" style="width: ${size.value}px; height: ${size.value}px;">
+                                <svg width="${size.value * 0.7}" height="${size.value * 0.7}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                                     <circle cx="12" cy="7" r="4"></circle>
                                 </svg>
                             </div>
                         </div>
                         <div class="size-info">
-                            <div class="size-name">size.icon.${item.name}</div>
-                            <div class="size-values">
-                                <div class="size-value-item">
-                                    <div class="size-value-label">Bank</div>
-                                    <div class="size-value-number">${item.bank}px</div>
-                                </div>
-                                <div class="size-value-item">
-                                    <div class="size-value-label">Pro</div>
-                                    <div class="size-value-number">${item.pro}px</div>
+                            <div class="size-name">size.icon.${size.name}</div>
+                            <div class="size-properties">
+                                <div class="size-property">
+                                    <span class="size-property-label">Size:</span>
+                                    <span class="size-property-value">${size.value}px</span>
                                 </div>
                             </div>
                         </div>
@@ -5016,30 +4803,56 @@
             });
 
             html += `
+                    </div>
+
+                    <div class="size-section-title">Icon Properties</div>
+                    <div class="size-description">
+                        Valores de tamanho disponíveis para ícones
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 24px;">
+                        <div style="background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 12px; padding: 24px;">
+                            <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--color-text-primary);">Icon Sizes</h3>
+                            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
+            `;
+
+            iconSizes.forEach(size => {
+                html += `
+                                <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
+                                    <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">size.icon.${size.name}</span>
+                                    <span style="color: var(--color-text-muted);">${size.value}px</span>
+                                </div>
+                `;
+            });
+
+            html += `
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Divider Tab -->
                 <div id="divider-tab" class="size-tab-content">
+                    <div class="size-section-title">Divider Examples</div>
+                    <div class="size-description">
+                        Espessuras de divisores para separação de conteúdo
+                    </div>
+
                     <div class="size-grid">
             `;
 
-            dividerSizes.forEach(item => {
+            dividerSizes.forEach(size => {
                 html += `
                     <div class="size-card">
                         <div class="size-preview">
-                            <div class="size-divider-demo" style="height: ${item.bank}px; width: 80%;"></div>
+                            <div class="size-divider-preview" style="height: ${size.value}px;"></div>
                         </div>
                         <div class="size-info">
-                            <div class="size-name">size.divider.${item.name}</div>
-                            <div class="size-values">
-                                <div class="size-value-item">
-                                    <div class="size-value-label">Bank</div>
-                                    <div class="size-value-number">${item.bank}px</div>
-                                </div>
-                                <div class="size-value-item">
-                                    <div class="size-value-label">Pro</div>
-                                    <div class="size-value-number">${item.pro}px</div>
+                            <div class="size-name">size.divider.${size.name}</div>
+                            <div class="size-properties">
+                                <div class="size-property">
+                                    <span class="size-property-label">Height:</span>
+                                    <span class="size-property-value">${size.value}px</span>
                                 </div>
                             </div>
                         </div>
@@ -5048,30 +4861,56 @@
             });
 
             html += `
+                    </div>
+
+                    <div class="size-section-title">Divider Properties</div>
+                    <div class="size-description">
+                        Valores de espessura disponíveis para divisores
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 24px;">
+                        <div style="background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 12px; padding: 24px;">
+                            <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--color-text-primary);">Divider Sizes</h3>
+                            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
+            `;
+
+            dividerSizes.forEach(size => {
+                html += `
+                                <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
+                                    <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">size.divider.${size.name}</span>
+                                    <span style="color: var(--color-text-muted);">${size.value}px</span>
+                                </div>
+                `;
+            });
+
+            html += `
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Thumb Tab -->
                 <div id="thumb-tab" class="size-tab-content">
+                    <div class="size-section-title">Thumb Examples</div>
+                    <div class="size-description">
+                        Tamanhos de miniaturas para avatares e imagens
+                    </div>
+
                     <div class="size-grid">
             `;
 
-            thumbSizes.forEach(item => {
+            thumbSizes.forEach(size => {
                 html += `
                     <div class="size-card">
                         <div class="size-preview">
-                            <div class="size-thumb-demo" style="width: ${item.bank}px; height: ${item.bank}px;"></div>
+                            <div class="size-thumb-preview" style="width: ${size.value}px; height: ${size.value}px;"></div>
                         </div>
                         <div class="size-info">
-                            <div class="size-name">size.thumb.${item.name}</div>
-                            <div class="size-values">
-                                <div class="size-value-item">
-                                    <div class="size-value-label">Bank</div>
-                                    <div class="size-value-number">${item.bank}px</div>
-                                </div>
-                                <div class="size-value-item">
-                                    <div class="size-value-label">Pro</div>
-                                    <div class="size-value-number">${item.pro}px</div>
+                            <div class="size-name">size.thumb.${size.name}</div>
+                            <div class="size-properties">
+                                <div class="size-property">
+                                    <span class="size-property-label">Size:</span>
+                                    <span class="size-property-value">${size.value}px</span>
                                 </div>
                             </div>
                         </div>
@@ -5080,6 +4919,31 @@
             });
 
             html += `
+                    </div>
+
+                    <div class="size-section-title">Thumb Properties</div>
+                    <div class="size-description">
+                        Valores de tamanho disponíveis para miniaturas
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 24px;">
+                        <div style="background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 12px; padding: 24px;">
+                            <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--color-text-primary);">Thumb Sizes</h3>
+                            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
+            `;
+
+            thumbSizes.forEach(size => {
+                html += `
+                                <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
+                                    <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">size.thumb.${size.name}</span>
+                                    <span style="color: var(--color-text-muted);">${size.value}px</span>
+                                </div>
+                `;
+            });
+
+            html += `
+                            </div>
+                        </div>
                     </div>
                 </div>
             `;
