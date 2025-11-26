@@ -53,7 +53,7 @@
             --color-text-primary: #0C0F17;
             --color-text-secondary: #464850;
             --color-text-muted: #808287;
-            --color-accent: #C2F141;
+            --color-accent: #059669;
             --color-border: #BBBCBF;
         }
 
@@ -169,6 +169,7 @@
             align-items: center;
             gap: 12px;
             color: var(--color-text-primary);
+            position: relative;
         }
 
         .nav-item:hover {
@@ -184,6 +185,12 @@
             font-weight: 500;
         }
 
+        .nav-item.disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
         .nav-item-icon {
             width: 18px;
             height: 18px;
@@ -193,6 +200,19 @@
             stroke-linecap: round;
             stroke-linejoin: round;
             flex-shrink: 0;
+        }
+
+        .nav-item-badge {
+            margin-left: auto;
+            padding: 2px 8px;
+            font-size: 10px;
+            font-weight: 600;
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .nav-subitems {
@@ -1237,32 +1257,28 @@
                         </svg>
                         <span>Sizes</span>
                     </div>
-                </div>
-
-                <div class="nav-section">
-                    <div class="nav-section-title">Styles</div>
-                    <div class="nav-item" data-section="shadows">
+                    <div class="nav-item disabled">
                         <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
                             <path d="M2 17l10 5 10-5M2 12l10 5 10-5"></path>
                         </svg>
                         <span>Shadows</span>
+                        <span class="nav-item-badge">Em breve</span>
                     </div>
-                    <div class="nav-item" data-section="opacity">
+                    <div class="nav-item disabled">
                         <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="12" cy="12" r="10" opacity="0.3"></circle>
                             <circle cx="12" cy="12" r="6" opacity="0.6"></circle>
                             <circle cx="12" cy="12" r="3"></circle>
                         </svg>
                         <span>Opacity</span>
+                        <span class="nav-item-badge">Em breve</span>
                     </div>
                 </div>
 
                 <div class="nav-section">
                     <div class="nav-section-title">Components</div>
-                    <div class="nav-item" data-section="alert">
-                        <span>Alert</span>
-                    </div>
+                    <span class="nav-item-badge" style="margin: 8px 24px; display: inline-block;">Em breve</span>
                 </div>
             </nav>
         </aside>
@@ -1790,7 +1806,7 @@
         "dark": { "dark": "{color.primitives.gray.0}", "light": "{color.primitives.gray.0}" }
       },
       "brand": {
-        "green": { "dark": "#C2F141", "light": "#C2F141" }
+        "green": { "dark": "#C2F141", "light": "#059669" }
       }
     },
     "surface": {
