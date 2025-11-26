@@ -2953,80 +2953,12 @@
             // ========== SURFACE TAB ==========
             html += `<div id="surface-tab" class="internal-tab-content active">`;
 
-            // Helper function to render surface table
-            const renderSurfaceTable = (subcategory, items) => {
-                if (!items || items.length === 0) return '';
-
-                let tableHtml = `
-                    <div class="color-category-title">color / surface / ${subcategory}</div>
-                    <div style="overflow-x: auto; margin-top: 24px; margin-bottom: 48px;">
-                        <table style="width: 100%; border-collapse: collapse; background: var(--color-bg-secondary); border-radius: 12px; overflow: hidden;">
-                            <thead>
-                                <tr style="border-bottom: 2px solid var(--color-border);">
-                                    <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 600; font-size: 14px; width: 150px;">Nome</th>
-                                    <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 600; font-size: 14px;">bank</th>
-                                    <th style="padding: 16px; text-align: left; color: var(--color-text-primary); font-weight: 600; font-size: 14px;">pro</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                `;
-
-                items.forEach(item => {
-                    const bankToken = item.bank;
-                    const proToken = item.pro;
-                    const bankHex = resolveToken(bankToken);
-                    const proHex = resolveToken(proToken);
-                    const bankPrimitive = getPrimitiveName(bankToken);
-                    const proPrimitive = getPrimitiveName(proToken);
-
-                    tableHtml += `
-                        <tr style="border-bottom: 1px solid var(--color-border);">
-                            <td style="padding: 16px;">
-                                <div style="display: flex; align-items: center; gap: 12px;">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="12" cy="12" r="10"></circle>
-                                    </svg>
-                                    <span style="font-family: 'Courier New', monospace; font-size: 14px; color: var(--color-text-primary); font-weight: 600;">${item.name}</span>
-                                </div>
-                            </td>
-                            <td style="padding: 16px;">
-                                <div style="display: flex; align-items: center; gap: 12px;">
-                                    <div style="width: 40px; height: 40px; border-radius: 8px; background-color: ${bankHex}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
-                                    <div style="display: flex; flex-direction: column; gap: 4px;">
-                                        <span style="font-family: 'Courier New', monospace; font-size: 13px; color: var(--color-text-primary); font-weight: 600;">${bankHex.toUpperCase()}</span>
-                                        <span style="font-family: 'Courier New', monospace; font-size: 11px; color: var(--color-text-muted);">${bankPrimitive}</span>
-                                    </div>
-                                    <span style="margin-left: auto; font-size: 13px; color: var(--color-text-muted); font-weight: 600;">95 %</span>
-                                </div>
-                            </td>
-                            <td style="padding: 16px;">
-                                <div style="display: flex; align-items: center; gap: 12px;">
-                                    <div style="width: 40px; height: 40px; border-radius: 8px; background-color: ${proHex}; border: 1px solid var(--color-border); flex-shrink: 0;"></div>
-                                    <div style="display: flex; flex-direction: column; gap: 4px;">
-                                        <span style="font-family: 'Courier New', monospace; font-size: 13px; color: var(--color-text-primary); font-weight: 600;">${proHex.toUpperCase()}</span>
-                                        <span style="font-family: 'Courier New', monospace; font-size: 11px; color: var(--color-text-muted);">${proPrimitive}</span>
-                                    </div>
-                                    <span style="margin-left: auto; font-size: 13px; color: var(--color-text-muted); font-weight: 600;">95 %</span>
-                                </div>
-                            </td>
-                        </tr>
-                    `;
-                });
-
-                tableHtml += `
-                            </tbody>
-                        </table>
-                    </div>
-                `;
-                return tableHtml;
-            };
-
-            html += renderSurfaceTable('neutral', getColorItems(semantic.surface?.neutral));
-            html += renderSurfaceTable('accent', getColorItems(semantic.surface?.accent));
-            html += renderSurfaceTable('info', getColorItems(semantic.surface?.info));
-            html += renderSurfaceTable('success', getColorItems(semantic.surface?.success));
-            html += renderSurfaceTable('warning', getColorItems(semantic.surface?.warning));
-            html += renderSurfaceTable('danger', getColorItems(semantic.surface?.danger));
+            html += renderColorCards('surface', 'neutral', getColorItems(semantic.surface?.neutral));
+            html += renderColorCards('surface', 'accent', getColorItems(semantic.surface?.accent));
+            html += renderColorCards('surface', 'info', getColorItems(semantic.surface?.info));
+            html += renderColorCards('surface', 'success', getColorItems(semantic.surface?.success));
+            html += renderColorCards('surface', 'warning', getColorItems(semantic.surface?.warning));
+            html += renderColorCards('surface', 'danger', getColorItems(semantic.surface?.danger));
 
             html += `</div>`; // Close surface-tab
 
