@@ -2720,24 +2720,6 @@
             });
         }
 
-        // Function to switch between Cash/Pro themes
-        window.switchTheme = function(event, theme) {
-            // Update toggle buttons
-            document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-
-            // Show/hide appropriate theme cards
-            if (theme === 'bank') {
-                document.querySelectorAll('.theme-bank').forEach(el => el.style.display = '');
-                document.querySelectorAll('.theme-pro').forEach(el => el.style.display = 'none');
-            } else {
-                document.querySelectorAll('.theme-bank').forEach(el => el.style.display = 'none');
-                document.querySelectorAll('.theme-pro').forEach(el => el.style.display = '');
-            }
-        };
-
         // Function to copy color to clipboard
         window.copyColorToClipboard = function(hex, button) {
             navigator.clipboard.writeText(hex).then(() => {
@@ -2904,25 +2886,6 @@
             };
 
             let html = `
-                <!-- Theme Toggle (Cash/Pro) -->
-                <div class="theme-toggle-wrapper">
-                    <button class="theme-toggle-btn active" onclick="switchTheme(event, 'bank')">
-                        <svg viewBox="0 0 24 24">
-                            <rect x="5" y="4" width="14" height="17" rx="2" ry="2"></rect>
-                            <line x1="12" y1="18" x2="12.01" y2="18"></line>
-                        </svg>
-                        <span>Cash</span>
-                    </button>
-                    <button class="theme-toggle-btn" onclick="switchTheme(event, 'pro')">
-                        <svg viewBox="0 0 24 24">
-                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                            <line x1="8" y1="21" x2="16" y2="21"></line>
-                            <line x1="12" y1="17" x2="12" y2="21"></line>
-                        </svg>
-                        <span>Pro</span>
-                    </button>
-                </div>
-
                 <!-- Tab System -->
                 <div class="internal-tabs-wrapper">
                     <div class="internal-tab-buttons">
@@ -2953,48 +2916,26 @@
                 `;
 
                 items.forEach(item => {
-                    if (!item || !item.bank || !item.pro) {
+                    if (!item || !item.bank) {
                         console.warn('Invalid item:', item, 'for', category, subcategory);
                         return;
                     }
 
-                    const bankToken = item.bank;
-                    const proToken = item.pro;
+                    const token = item.bank; // Using bank since values are the same
                     const semanticPath = `color.${category}.${subcategory}.${item.name}`;
-                    const bankHex = resolveToken(bankToken);
-                    const proHex = resolveToken(proToken);
-                    const bankPrimitive = getPrimitiveName(bankToken);
-                    const proPrimitive = getPrimitiveName(proToken);
+                    const hex = resolveToken(token);
+                    const primitive = getPrimitiveName(token);
 
-                    // Card for Bank theme
+                    // Single card (no theme variation needed)
                     cardsHtml += `
-                        <div class="color-card theme-bank">
-                            <div class="color-preview-large" style="background-color: ${bankHex};"></div>
+                        <div class="color-card">
+                            <div class="color-preview-large" style="background-color: ${hex};"></div>
                             <div>
                                 <div class="color-card-name">${semanticPath}</div>
-                                <div class="color-card-hex">${bankHex.toUpperCase()}</div>
-                                <div class="color-card-primitive">${bankPrimitive}</div>
+                                <div class="color-card-hex">${hex.toUpperCase()}</div>
+                                <div class="color-card-primitive">${primitive}</div>
                             </div>
-                            <button class="color-card-copy-btn" onclick="copyColorToClipboard('${bankHex}', this)">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                                </svg>
-                                <span>Copiar</span>
-                            </button>
-                        </div>
-                    `;
-
-                    // Card for Pro theme
-                    cardsHtml += `
-                        <div class="color-card theme-pro" style="display: none;">
-                            <div class="color-preview-large" style="background-color: ${proHex};"></div>
-                            <div>
-                                <div class="color-card-name">${semanticPath}</div>
-                                <div class="color-card-hex">${proHex.toUpperCase()}</div>
-                                <div class="color-card-primitive">${proPrimitive}</div>
-                            </div>
-                            <button class="color-card-copy-btn" onclick="copyColorToClipboard('${proHex}', this)">
+                            <button class="color-card-copy-btn" onclick="copyColorToClipboard('${hex}', this)">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -3068,46 +3009,23 @@
                 `;
                 Object.keys(semantic.shadow).forEach(key => {
                     const item = semantic.shadow[key];
-                    if (item.bank && item.pro) {
-                        const bankColor = typeof item.bank === 'object' ? item.bank.color : item.bank;
-                        const proColor = typeof item.pro === 'object' ? item.pro.color : item.pro;
-                        const bankOpacity = typeof item.bank === 'object' ? item.bank.opacity : '100%';
-                        const proOpacity = typeof item.pro === 'object' ? item.pro.opacity : '100%';
+                    if (item.bank) {
+                        const color = typeof item.bank === 'object' ? item.bank.color : item.bank;
+                        const opacity = typeof item.bank === 'object' ? item.bank.opacity : '100%';
 
-                        const bankHex = resolveToken(bankColor);
-                        const proHex = resolveToken(proColor);
-                        const bankPrimitive = getPrimitiveName(bankColor);
-                        const proPrimitive = getPrimitiveName(proColor);
+                        const hex = resolveToken(color);
+                        const primitive = getPrimitiveName(color);
 
-                        // Bank card
+                        // Single card (no theme variation needed)
                         html += `
-                            <div class="color-card theme-bank">
-                                <div class="color-preview-large" style="background-color: ${bankHex}; opacity: ${parseInt(bankOpacity) / 100};"></div>
+                            <div class="color-card">
+                                <div class="color-preview-large" style="background-color: ${hex}; opacity: ${parseInt(opacity) / 100};"></div>
                                 <div>
                                     <div class="color-card-name">color.shadow.${key}</div>
-                                    <div class="color-card-hex">${bankHex.toUpperCase()}</div>
-                                    <div class="color-card-primitive">${bankPrimitive} • ${bankOpacity}</div>
+                                    <div class="color-card-hex">${hex.toUpperCase()}</div>
+                                    <div class="color-card-primitive">${primitive} • ${opacity}</div>
                                 </div>
-                                <button class="color-card-copy-btn" onclick="copyColorToClipboard('${bankHex}', this)">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                                    </svg>
-                                    <span>Copiar</span>
-                                </button>
-                            </div>
-                        `;
-
-                        // Pro card
-                        html += `
-                            <div class="color-card theme-pro" style="display: none;">
-                                <div class="color-preview-large" style="background-color: ${proHex}; opacity: ${parseInt(proOpacity) / 100};"></div>
-                                <div>
-                                    <div class="color-card-name">color.shadow.${key}</div>
-                                    <div class="color-card-hex">${proHex.toUpperCase()}</div>
-                                    <div class="color-card-primitive">${proPrimitive} • ${proOpacity}</div>
-                                </div>
-                                <button class="color-card-copy-btn" onclick="copyColorToClipboard('${proHex}', this)">
+                                <button class="color-card-copy-btn" onclick="copyColorToClipboard('${hex}', this)">
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                                         <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -3782,30 +3700,9 @@
                     const pixelValue = parseInt(resolvedValue);
                     const absPixelValue = Math.abs(pixelValue);
 
-                    // Card for Cash/Bank theme
+                    // Single card (no theme variation needed)
                     cardsHtml += `
-                        <div class="color-card theme-bank">
-                            <div class="color-preview-large" style="background: var(--color-bg-primary); display: flex; align-items: center; justify-content: center;">
-                                <div style="width: ${Math.min(absPixelValue * 2, 100)}px; height: 8px; background: var(--color-accent); opacity: 0.6; border-radius: 4px;"></div>
-                            </div>
-                            <div>
-                                <div class="color-card-name">${fullTokenName}</div>
-                                <div class="color-card-hex">${resolvedValue}</div>
-                                <div class="color-card-primitive">${unitRef || ''}</div>
-                            </div>
-                            <button class="color-card-copy-btn" onclick="copyColorToClipboard('${fullTokenName}', this)">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                                </svg>
-                                <span>Copiar</span>
-                            </button>
-                        </div>
-                    `;
-
-                    // Card for Pro theme
-                    cardsHtml += `
-                        <div class="color-card theme-pro" style="display: none;">
+                        <div class="color-card">
                             <div class="color-preview-large" style="background: var(--color-bg-primary); display: flex; align-items: center; justify-content: center;">
                                 <div style="width: ${Math.min(absPixelValue * 2, 100)}px; height: 8px; background: var(--color-accent); opacity: 0.6; border-radius: 4px;"></div>
                             </div>
@@ -3828,27 +3725,6 @@
                 cardsHtml += `</div>`;
                 return cardsHtml;
             };
-
-            // Cash/Pro Toggle (same style as Colors)
-            html += `
-                <div class="theme-toggle-wrapper">
-                    <button class="theme-toggle-btn active" onclick="switchTheme(event, 'bank')">
-                        <svg viewBox="0 0 24 24">
-                            <rect x="5" y="4" width="14" height="17" rx="2" ry="2"></rect>
-                            <line x1="12" y1="18" x2="12.01" y2="18"></line>
-                        </svg>
-                        <span>Cash</span>
-                    </button>
-                    <button class="theme-toggle-btn" onclick="switchTheme(event, 'pro')">
-                        <svg viewBox="0 0 24 24">
-                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                            <line x1="8" y1="21" x2="16" y2="21"></line>
-                            <line x1="12" y1="17" x2="12" y2="21"></line>
-                        </svg>
-                        <span>Pro</span>
-                    </button>
-                </div>
-            `;
 
             // Internal Tabs System
             html += `
@@ -4302,33 +4178,9 @@
                     // Parse pixel value for preview
                     const pixelValue = parseInt(resolvedValue);
 
-                    // Card for Cash/Bank theme
+                    // Single card (no theme variation needed)
                     cardsHtml += `
-                        <div class="color-card theme-bank">
-                            <div class="color-preview-large" style="background: var(--color-bg-primary); display: flex; align-items: center; justify-content: center;">
-                                ${type === 'radius'
-                                    ? `<div style="width: 80px; height: 80px; background: var(--color-accent); border-radius: ${pixelValue}px;"></div>`
-                                    : `<div style="width: 80px; height: 80px; border: ${pixelValue}px solid var(--color-accent); border-radius: 8px;"></div>`
-                                }
-                            </div>
-                            <div>
-                                <div class="color-card-name">${fullTokenName}</div>
-                                <div class="color-card-hex">${resolvedValue}</div>
-                                <div class="color-card-primitive">${unitRef || ''}</div>
-                            </div>
-                            <button class="color-card-copy-btn" onclick="copyColorToClipboard('${fullTokenName}', this)">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                                </svg>
-                                <span>Copiar</span>
-                            </button>
-                        </div>
-                    `;
-
-                    // Card for Pro theme
-                    cardsHtml += `
-                        <div class="color-card theme-pro" style="display: none;">
+                        <div class="color-card">
                             <div class="color-preview-large" style="background: var(--color-bg-primary); display: flex; align-items: center; justify-content: center;">
                                 ${type === 'radius'
                                     ? `<div style="width: 80px; height: 80px; background: var(--color-accent); border-radius: ${pixelValue}px;"></div>`
@@ -4354,27 +4206,6 @@
                 cardsHtml += `</div>`;
                 return cardsHtml;
             };
-
-            // Cash/Pro Toggle (same style as Colors)
-            html += `
-                <div class="theme-toggle-wrapper">
-                    <button class="theme-toggle-btn active" onclick="switchTheme(event, 'bank')">
-                        <svg viewBox="0 0 24 24">
-                            <rect x="5" y="4" width="14" height="17" rx="2" ry="2"></rect>
-                            <line x1="12" y1="18" x2="12.01" y2="18"></line>
-                        </svg>
-                        <span>Cash</span>
-                    </button>
-                    <button class="theme-toggle-btn" onclick="switchTheme(event, 'pro')">
-                        <svg viewBox="0 0 24 24">
-                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                            <line x1="8" y1="21" x2="16" y2="21"></line>
-                            <line x1="12" y1="17" x2="12" y2="21"></line>
-                        </svg>
-                        <span>Pro</span>
-                    </button>
-                </div>
-            `;
 
             // Internal Tabs System
             html += `
