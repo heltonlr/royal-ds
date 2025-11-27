@@ -31,6 +31,59 @@
             --spacing-4xl: 32px;
             --spacing-5xl: 48px;
             --font-family: 'JUST Sans Variable', system-ui, sans-serif;
+
+            /* Typography Tokens - Heading */
+            --heading-xl: 41px;
+            --heading-xl-lh: 44px;
+            --heading-lg: 34px;
+            --heading-lg-lh: 36px;
+            --heading-md: 28px;
+            --heading-md-lh: 28px;
+            --heading-sm: 23px;
+            --heading-sm-lh: 28px;
+            --heading-xs: 19px;
+            --heading-xs-lh: 20px;
+            --heading-weight: 550;
+
+            /* Typography Tokens - Subtitle */
+            --subtitle-lg: 23px;
+            --subtitle-lg-lh: 28px;
+            --subtitle-md: 19px;
+            --subtitle-md-lh: 24px;
+            --subtitle-weight: 200;
+
+            /* Typography Tokens - Body */
+            --body-lg: 19px;
+            --body-lg-lh: 28px;
+            --body-md: 16px;
+            --body-md-lh: 24px;
+            --body-sm: 14px;
+            --body-sm-lh: 20px;
+            --body-xs: 12px;
+            --body-xs-lh: 16px;
+            --body-weight-default: 350;
+            --body-weight-strong: 550;
+
+            /* Typography Tokens - UI */
+            --ui-lg: 19px;
+            --ui-lg-lh: 24px;
+            --ui-md: 16px;
+            --ui-md-lh: 24px;
+            --ui-sm: 14px;
+            --ui-sm-lh: 20px;
+            --ui-xs: 11px;
+            --ui-xs-lh: 12px;
+            --ui-weight-default: 350;
+            --ui-weight-strong: 550;
+
+            /* Typography Tokens - Overline */
+            --overline-lg: 14px;
+            --overline-lg-lh: 16px;
+            --overline-md: 12px;
+            --overline-md-lh: 16px;
+            --overline-sm: 11px;
+            --overline-sm-lh: 12px;
+            --overline-weight: 550;
         }
 
         /* Dark Theme */
@@ -61,9 +114,9 @@
             font-family: var(--font-family);
             background-color: var(--color-bg-primary);
             color: var(--color-text-primary);
-            line-height: 1.6;
-            font-size: 16px;
-            font-weight: 350;
+            font-size: var(--body-md);
+            line-height: var(--body-md-lh);
+            font-weight: var(--body-weight-default);
         }
 
         .app-container {
@@ -114,9 +167,10 @@
         }
 
         .logo-subtitle {
-            font-size: 14px;
+            font-size: var(--subtitle-md);
+            line-height: var(--subtitle-md-lh);
             color: var(--color-text-muted);
-            font-weight: 200;
+            font-weight: var(--subtitle-weight);
         }
 
         /* Theme Toggle */
@@ -172,10 +226,11 @@
 
         .nav-section-title {
             padding: var(--spacing-md) var(--spacing-3xl);
-            font-size: 11px;
-            font-weight: 550;
+            font-size: var(--overline-sm);
+            line-height: var(--overline-sm-lh);
+            font-weight: var(--overline-weight);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.25px;
             color: var(--color-text-muted);
         }
 
@@ -184,7 +239,9 @@
             cursor: pointer;
             transition: all 0.2s ease;
             border-left: 2px solid transparent;
-            font-size: 14px;
+            font-size: var(--ui-sm);
+            line-height: var(--ui-sm-lh);
+            font-weight: var(--ui-weight-default);
             display: flex;
             align-items: center;
             gap: 12px;
@@ -225,14 +282,15 @@
         .nav-item-badge {
             margin-left: auto;
             padding: 2px 8px;
-            font-size: 10px;
-            font-weight: 600;
+            font-size: var(--ui-xs);
+            line-height: var(--ui-xs-lh);
+            font-weight: var(--ui-weight-strong);
             background: var(--color-bg-tertiary);
             border: 1px solid var(--color-border);
             border-radius: 4px;
             color: var(--color-text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.13px;
         }
 
         .nav-subitems {
@@ -249,7 +307,9 @@
             cursor: pointer;
             transition: all 0.2s ease;
             border-left: 2px solid transparent;
-            font-size: 13px;
+            font-size: var(--body-sm);
+            line-height: var(--body-sm-lh);
+            font-weight: var(--body-weight-default);
             color: var(--color-text-secondary);
         }
 
@@ -290,15 +350,19 @@
         }
 
         .section-title {
-            font-size: 41px;
-            font-weight: 550;
+            font-size: var(--heading-xl);
+            line-height: var(--heading-xl-lh);
+            font-weight: var(--heading-weight);
+            letter-spacing: -1px;
             margin-bottom: var(--spacing-lg);
         }
 
         .section-description {
-            font-size: 19px;
+            font-size: var(--subtitle-lg);
+            line-height: var(--subtitle-lg-lh);
             color: var(--color-text-secondary);
-            font-weight: 200;
+            font-weight: var(--subtitle-weight);
+            letter-spacing: -0.5px;
             max-width: 800px;
         }
 
@@ -317,8 +381,9 @@
         }
 
         .token-category-title {
-            font-size: 23px;
-            font-weight: 550;
+            font-size: var(--heading-sm);
+            line-height: var(--heading-sm-lh);
+            font-weight: var(--heading-weight);
             margin-bottom: var(--spacing-xl);
             display: flex;
             align-items: center;
@@ -330,8 +395,9 @@
             color: var(--color-text-primary);
             padding: 2px 8px;
             border-radius: 4px;
-            font-size: 11px;
-            font-weight: 550;
+            font-size: var(--overline-sm);
+            line-height: var(--overline-sm-lh);
+            font-weight: var(--overline-weight);
         }
 
         .token-list {
@@ -356,13 +422,17 @@
 
         .token-name {
             font-family: 'Monaco', 'Courier New', monospace;
-            font-size: 14px;
+            font-size: var(--body-sm);
+            line-height: var(--body-sm-lh);
+            font-weight: var(--body-weight-default);
             color: var(--color-text-secondary);
         }
 
         .token-value {
             color: var(--color-text-secondary);
-            font-size: 14px;
+            font-size: var(--body-sm);
+            line-height: var(--body-sm-lh);
+            font-weight: var(--body-weight-default);
         }
 
         .copy-button {
@@ -372,8 +442,9 @@
             padding: var(--spacing-md) var(--spacing-xl);
             border-radius: 4px;
             cursor: pointer;
-            font-size: 12px;
-            font-weight: 550;
+            font-size: var(--body-xs);
+            line-height: var(--body-xs-lh);
+            font-weight: var(--body-weight-strong);
             transition: all 0.2s ease;
             font-family: var(--font-family);
         }
@@ -409,16 +480,18 @@
         }
 
         .color-scale-title {
-            font-size: 23px;
-            font-weight: 550;
+            font-size: var(--heading-sm);
+            line-height: var(--heading-sm-lh);
+            font-weight: var(--heading-weight);
             margin-bottom: var(--spacing-md);
             color: var(--color-text-primary);
         }
 
         .color-scale-description {
-            font-size: 14px;
+            font-size: var(--body-sm);
+            line-height: var(--body-sm-lh);
+            font-weight: var(--body-weight-default);
             color: var(--color-text-muted);
-            line-height: 1.5;
         }
 
         .color-swatches-stack {
@@ -464,8 +537,9 @@
         }
 
         .color-swatch-name {
-            font-size: 14px;
-            font-weight: 550;
+            font-size: var(--body-sm);
+            line-height: var(--body-sm-lh);
+            font-weight: var(--body-weight-strong);
             color: var(--color-text-primary);
             font-family: 'Monaco', 'Courier New', monospace;
         }
@@ -483,16 +557,19 @@
         }
 
         .color-value-label {
-            font-size: 10px;
+            font-size: var(--ui-xs);
+            line-height: var(--ui-xs-lh);
             text-transform: uppercase;
-            font-weight: 550;
+            font-weight: var(--overline-weight);
             color: var(--color-text-muted);
-            letter-spacing: 0.5px;
+            letter-spacing: 0.13px;
         }
 
         .color-value-hex {
             font-family: 'Monaco', 'Courier New', monospace;
-            font-size: 12px;
+            font-size: var(--body-xs);
+            line-height: var(--body-xs-lh);
+            font-weight: var(--body-weight-default);
             color: var(--color-text-secondary);
         }
 
@@ -542,16 +619,18 @@
         }
 
         .semantic-card-title {
-            font-size: 23px;
-            font-weight: 550;
+            font-size: var(--heading-sm);
+            line-height: var(--heading-sm-lh);
+            font-weight: var(--heading-weight);
             margin-bottom: var(--spacing-md);
             color: var(--color-text-primary);
         }
 
         .semantic-card-description {
-            font-size: 14px;
+            font-size: var(--body-sm);
+            line-height: var(--body-sm-lh);
+            font-weight: var(--body-weight-default);
             color: var(--color-text-muted);
-            line-height: 1.5;
         }
 
         .semantic-card-tokens {
@@ -580,8 +659,9 @@
             color: white;
             padding: 8px 16px;
             border-radius: 6px;
-            font-size: 14px;
-            font-weight: 550;
+            font-size: var(--body-sm);
+            line-height: var(--body-sm-lh);
+            font-weight: var(--body-weight-strong);
             pointer-events: none;
             animation: fadeOut 1s forwards;
         }
@@ -606,20 +686,25 @@
         }
 
         .semantic-token-label {
-            font-size: 16px;
-            font-weight: 550;
+            font-size: var(--body-md);
+            line-height: var(--body-md-lh);
+            font-weight: var(--body-weight-strong);
             color: var(--color-text-primary);
         }
 
         .semantic-token-path {
             font-family: 'Monaco', 'Courier New', monospace;
-            font-size: 11px;
+            font-size: var(--overline-sm);
+            line-height: var(--overline-sm-lh);
+            font-weight: var(--body-weight-default);
             color: var(--color-text-muted);
         }
 
         .semantic-token-hex {
             font-family: 'Monaco', 'Courier New', monospace;
-            font-size: 12px;
+            font-size: var(--body-xs);
+            line-height: var(--body-xs-lh);
+            font-weight: var(--body-weight-default);
             color: var(--color-text-muted);
             margin-top: 4px;
         }
@@ -866,16 +951,20 @@
 
         .welcome-title {
             font-size: 64px;
-            font-weight: 550;
+            line-height: 68px;
+            font-weight: var(--heading-weight);
+            letter-spacing: -1.5px;
             margin-bottom: var(--spacing-3xl);
             color: var(--color-text-primary);
         }
 
         .welcome-description {
-            font-size: 19px;
+            font-size: var(--subtitle-lg);
+            line-height: var(--subtitle-lg-lh);
+            font-weight: var(--subtitle-weight);
+            letter-spacing: -0.5px;
             color: var(--color-text-secondary);
             margin-bottom: var(--spacing-4xl);
-            line-height: 1.8;
         }
 
         .stats-grid {
@@ -894,14 +983,18 @@
         }
 
         .stat-number {
-            font-size: 41px;
-            font-weight: 550;
+            font-size: var(--heading-xl);
+            line-height: var(--heading-xl-lh);
+            font-weight: var(--heading-weight);
+            letter-spacing: -1px;
             color: var(--color-text-primary);
             margin-bottom: var(--spacing-md);
         }
 
         .stat-label {
-            font-size: 14px;
+            font-size: var(--body-sm);
+            line-height: var(--body-sm-lh);
+            font-weight: var(--body-weight-default);
             color: var(--color-text-muted);
         }
 
@@ -1434,9 +1527,9 @@
                                 <svg style="width: 24px; height: 24px; color: var(--color-accent);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <circle cx="12" cy="12" r="10"></circle>
                                 </svg>
-                                <h3 style="font-size: 18px; margin: 0; color: var(--color-text-primary); font-weight: 600;">Colors</h3>
+                                <h3 style="font-size: var(--heading-xs); line-height: var(--heading-xs-lh); font-weight: var(--heading-weight); margin: 0; color: var(--color-text-primary);">Colors</h3>
                             </div>
-                            <p style="color: var(--color-text-secondary); font-size: 14px; margin: 0; line-height: 1.5;">
+                            <p style="color: var(--color-text-secondary); font-size: var(--body-sm); line-height: var(--body-sm-lh); font-weight: var(--body-weight-default); margin: 0;">
                                 Paleta completa de cores semânticas e primitivas
                             </p>
                         </div>
@@ -1448,9 +1541,9 @@
                                     <polyline points="8 8 4 12 8 16"></polyline>
                                     <polyline points="16 16 20 12 16 8"></polyline>
                                 </svg>
-                                <h3 style="font-size: 18px; margin: 0; color: var(--color-text-primary); font-weight: 600;">Spacing</h3>
+                                <h3 style="font-size: var(--heading-xs); line-height: var(--heading-xs-lh); font-weight: var(--heading-weight); margin: 0; color: var(--color-text-primary);">Spacing</h3>
                             </div>
-                            <p style="color: var(--color-text-secondary); font-size: 14px; margin: 0; line-height: 1.5;">
+                            <p style="color: var(--color-text-secondary); font-size: var(--body-sm); line-height: var(--body-sm-lh); font-weight: var(--body-weight-default); margin: 0;">
                                 Sistema de espaçamento inline, inset e stack
                             </p>
                         </div>
@@ -1460,9 +1553,9 @@
                                 <svg style="width: 24px; height: 24px; color: var(--color-accent);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                                 </svg>
-                                <h3 style="font-size: 18px; margin: 0; color: var(--color-text-primary); font-weight: 600;">Borders</h3>
+                                <h3 style="font-size: var(--heading-xs); line-height: var(--heading-xs-lh); font-weight: var(--heading-weight); margin: 0; color: var(--color-text-primary);">Borders</h3>
                             </div>
-                            <p style="color: var(--color-text-secondary); font-size: 14px; margin: 0; line-height: 1.5;">
+                            <p style="color: var(--color-text-secondary); font-size: var(--body-sm); line-height: var(--body-sm-lh); font-weight: var(--body-weight-default); margin: 0;">
                                 Border radius e border width tokens
                             </p>
                         </div>
@@ -1473,9 +1566,9 @@
                                     <polyline points="21 8 21 21 8 21"></polyline>
                                     <rect x="1" y="1" width="12" height="12"></rect>
                                 </svg>
-                                <h3 style="font-size: 18px; margin: 0; color: var(--color-text-primary); font-weight: 600;">Sizes</h3>
+                                <h3 style="font-size: var(--heading-xs); line-height: var(--heading-xs-lh); font-weight: var(--heading-weight); margin: 0; color: var(--color-text-primary);">Sizes</h3>
                             </div>
-                            <p style="color: var(--color-text-secondary); font-size: 14px; margin: 0; line-height: 1.5;">
+                            <p style="color: var(--color-text-secondary); font-size: var(--body-sm); line-height: var(--body-sm-lh); font-weight: var(--body-weight-default); margin: 0;">
                                 Tamanhos para ícones e elementos da interface
                             </p>
                         </div>
@@ -1487,9 +1580,9 @@
                                     <circle cx="12" cy="12" r="6" opacity="0.6"></circle>
                                     <circle cx="12" cy="12" r="3"></circle>
                                 </svg>
-                                <h3 style="font-size: 18px; margin: 0; color: var(--color-text-primary); font-weight: 600;">Opacity</h3>
+                                <h3 style="font-size: var(--heading-xs); line-height: var(--heading-xs-lh); font-weight: var(--heading-weight); margin: 0; color: var(--color-text-primary);">Opacity</h3>
                             </div>
-                            <p style="color: var(--color-text-secondary); font-size: 14px; margin: 0; line-height: 1.5;">
+                            <p style="color: var(--color-text-secondary); font-size: var(--body-sm); line-height: var(--body-sm-lh); font-weight: var(--body-weight-default); margin: 0;">
                                 Escala de opacidade para hierarquia visual
                             </p>
                         </div>
@@ -1501,9 +1594,9 @@
                                     <line x1="9" y1="20" x2="15" y2="20"></line>
                                     <line x1="12" y1="4" x2="12" y2="20"></line>
                                 </svg>
-                                <h3 style="font-size: 18px; margin: 0; color: var(--color-text-primary); font-weight: 600;">Typography</h3>
+                                <h3 style="font-size: var(--heading-xs); line-height: var(--heading-xs-lh); font-weight: var(--heading-weight); margin: 0; color: var(--color-text-primary);">Typography</h3>
                             </div>
-                            <p style="color: var(--color-text-secondary); font-size: 14px; margin: 0; line-height: 1.5;">
+                            <p style="color: var(--color-text-secondary); font-size: var(--body-sm); line-height: var(--body-sm-lh); font-weight: var(--body-weight-default); margin: 0;">
                                 Sistema tipográfico com JUST Sans Variable
                             </p>
                         </div>
@@ -1520,10 +1613,10 @@
                                     <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
                                     <path d="M2 17l10 5 10-5M2 12l10 5 10-5"></path>
                                 </svg>
-                                <h3 style="font-size: 18px; margin: 0; color: var(--color-text-primary); font-weight: 600;">Shadows</h3>
-                                <span style="font-size: 11px; padding: 4px 8px; background: var(--color-bg-tertiary); border-radius: 4px; color: var(--color-text-muted);">Em breve</span>
+                                <h3 style="font-size: var(--heading-xs); line-height: var(--heading-xs-lh); font-weight: var(--heading-weight); margin: 0; color: var(--color-text-primary);">Shadows</h3>
+                                <span style="font-size: var(--overline-sm); line-height: var(--overline-sm-lh); font-weight: var(--overline-weight); padding: 4px 8px; background: var(--color-bg-tertiary); border-radius: 4px; color: var(--color-text-muted);">Em breve</span>
                             </div>
-                            <p style="color: var(--color-text-secondary); font-size: 14px; margin: 0; line-height: 1.5;">
+                            <p style="color: var(--color-text-secondary); font-size: var(--body-sm); line-height: var(--body-sm-lh); font-weight: var(--body-weight-default); margin: 0;">
                                 Tokens de sombra para elevação e profundidade
                             </p>
                         </div>
@@ -1540,8 +1633,8 @@
                                 <line x1="12" y1="17" x2="12" y2="21"></line>
                             </svg>
                             <div>
-                                <h3 style="font-size: 18px; margin: 0 0 8px 0; color: var(--color-text-primary); font-weight: 600;">Biblioteca de Componentes</h3>
-                                <p style="color: var(--color-text-secondary); font-size: 14px; margin: 0; line-height: 1.6;">
+                                <h3 style="font-size: var(--heading-xs); line-height: var(--heading-xs-lh); font-weight: var(--heading-weight); margin: 0 0 8px 0; color: var(--color-text-primary);">Biblioteca de Componentes</h3>
+                                <p style="color: var(--color-text-secondary); font-size: var(--body-sm); line-height: var(--body-sm-lh); font-weight: var(--body-weight-default); margin: 0;">
                                     Após finalizar todos os foundation tokens, iniciaremos a construção da biblioteca de componentes.
                                     Buttons, Inputs, Cards, Modals e muito mais - todos construídos com base nos tokens definidos,
                                     garantindo consistência e manutenibilidade em todo o sistema.
