@@ -87,10 +87,30 @@
         }
 
         .logo {
-            font-size: 28px;
-            font-weight: 550;
-            color: var(--color-text-primary);
             margin-bottom: var(--spacing-md);
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 32px;
+            width: auto;
+        }
+
+        .logo-dark {
+            display: none;
+        }
+
+        .logo-light {
+            display: block;
+        }
+
+        [data-theme="light"] .logo-dark {
+            display: block;
+        }
+
+        [data-theme="light"] .logo-light {
+            display: none;
         }
 
         .logo-subtitle {
@@ -955,20 +975,112 @@
             display: block;
         }
 
+        /* Mobile Header */
+        .mobile-header {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--color-bg-primary);
+            border-bottom: 1px solid var(--color-border);
+            z-index: 1000;
+            padding: 0 20px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .mobile-header .logo {
+            margin: 0;
+        }
+
+        .mobile-header .logo img {
+            height: 24px;
+        }
+
+        .hamburger-button {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+            transition: background 0.2s ease;
+        }
+
+        .hamburger-button:hover {
+            background: var(--color-bg-secondary);
+        }
+
+        .hamburger-button span {
+            width: 24px;
+            height: 2px;
+            background: var(--color-text-primary);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-button.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .hamburger-button.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-button.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
-            .app-container {
-                flex-direction: column;
-            }
-
-            .sidebar {
-                width: 100%;
-                height: auto;
-                max-height: 50vh;
+            .mobile-header {
+                display: flex;
             }
 
             .main-content {
-                padding: var(--spacing-3xl);
+                margin-top: 60px;
+            }
+
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 80%;
+                max-width: 320px;
+                height: 100vh;
+                z-index: 1001;
+                transition: left 0.3s ease;
+                overflow-y: auto;
+            }
+
+            .sidebar.mobile-open {
+                left: 0;
+            }
+
+            .app-container {
+                flex-direction: column;
             }
 
             .token-item {
@@ -1176,11 +1288,30 @@
     </style>
 </head>
 <body>
+    <!-- Mobile Header -->
+    <header class="mobile-header">
+        <div class="logo">
+            <img src="images/brand=main, variant=full, size=lg, color=light.svg" alt="Bullet Logo" class="logo-light">
+            <img src="images/brand=main, variant=full, size=lg, color=dark.svg" alt="Bullet Logo" class="logo-dark">
+        </div>
+        <button class="hamburger-button" id="hamburgerButton" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
     <div class="app-container">
         <!-- Sidebar Navigation -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <div class="logo">Royal DS</div>
+                <div class="logo">
+                    <img src="images/brand=main, variant=full, size=lg, color=light.svg" alt="Bullet Logo" class="logo-light">
+                    <img src="images/brand=main, variant=full, size=lg, color=dark.svg" alt="Bullet Logo" class="logo-dark">
+                </div>
                 <div class="logo-subtitle">Design System Documentation</div>
 
                 <!-- Theme Toggle -->
@@ -1228,13 +1359,14 @@
                         </svg>
                         <span>Colors</span>
                     </div>
-                    <div class="nav-item" data-section="typography">
+                    <div class="nav-item disabled">
                         <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <polyline points="4 7 4 4 20 4 20 7"></polyline>
                             <line x1="9" y1="20" x2="15" y2="20"></line>
                             <line x1="12" y1="4" x2="12" y2="20"></line>
                         </svg>
                         <span>Typography</span>
+                        <span class="nav-item-badge">Em breve</span>
                     </div>
                     <div class="nav-item" data-section="spacing">
                         <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -1265,14 +1397,13 @@
                         <span>Shadows</span>
                         <span class="nav-item-badge">Em breve</span>
                     </div>
-                    <div class="nav-item disabled">
+                    <div class="nav-item" data-section="opacity">
                         <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="12" cy="12" r="10" opacity="0.3"></circle>
                             <circle cx="12" cy="12" r="6" opacity="0.6"></circle>
                             <circle cx="12" cy="12" r="3"></circle>
                         </svg>
                         <span>Opacity</span>
-                        <span class="nav-item-badge">Em breve</span>
                     </div>
                 </div>
 
@@ -1288,53 +1419,135 @@
             <!-- Welcome Section -->
             <section id="welcome" class="content-section active">
                 <div class="welcome-hero">
-                    <h1 class="welcome-title">Royal DS</h1>
+                    <h1 class="welcome-title">Bem vindo(a) ao Royal DS</h1>
                     <p class="welcome-description">
-                        Um Design System completo e moderno, desenvolvido para aplicações cross-platform.
-                        Baseado em tokens semânticos que garantem consistência visual e facilidade de manutenção
-                        em projetos React e Flutter.
+                        Como um Royal Flush no poker, nosso Design System é sua mão vencedora: tokens precisos,
+                        componentes consistentes e uma experiência que sempre dá all-in na qualidade.
+                        Aqui, você sempre joga com as melhores cartas.
                     </p>
                 </div>
 
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-number">500+</div>
-                        <div class="stat-label">Design Tokens</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">2</div>
-                        <div class="stat-label">Temas (Bank & Pro)</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">3</div>
-                        <div class="stat-label">Breakpoints</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">100%</div>
-                        <div class="stat-label">Token-Based</div>
+                <div class="token-category" style="margin-top: 48px;">
+                    <h2 class="token-category-title">Foundation Tokens</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 24px;">
+                        <div class="shortcut-card" data-section="colors" style="padding: 24px; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 12px; cursor: pointer; transition: all 0.2s ease;">
+                            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 12px;">
+                                <svg style="width: 24px; height: 24px; color: var(--color-accent);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                </svg>
+                                <h3 style="font-size: 18px; margin: 0; color: var(--color-text-primary); font-weight: 600;">Colors</h3>
+                            </div>
+                            <p style="color: var(--color-text-secondary); font-size: 14px; margin: 0; line-height: 1.5;">
+                                Paleta completa de cores semânticas e primitivas
+                            </p>
+                        </div>
+
+                        <div class="shortcut-card" data-section="spacing" style="padding: 24px; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 12px; cursor: pointer; transition: all 0.2s ease;">
+                            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 12px;">
+                                <svg style="width: 24px; height: 24px; color: var(--color-accent);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="4" y1="12" x2="20" y2="12"></line>
+                                    <polyline points="8 8 4 12 8 16"></polyline>
+                                    <polyline points="16 16 20 12 16 8"></polyline>
+                                </svg>
+                                <h3 style="font-size: 18px; margin: 0; color: var(--color-text-primary); font-weight: 600;">Spacing</h3>
+                            </div>
+                            <p style="color: var(--color-text-secondary); font-size: 14px; margin: 0; line-height: 1.5;">
+                                Sistema de espaçamento inline, inset e stack
+                            </p>
+                        </div>
+
+                        <div class="shortcut-card" data-section="borders" style="padding: 24px; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 12px; cursor: pointer; transition: all 0.2s ease;">
+                            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 12px;">
+                                <svg style="width: 24px; height: 24px; color: var(--color-accent);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                </svg>
+                                <h3 style="font-size: 18px; margin: 0; color: var(--color-text-primary); font-weight: 600;">Borders</h3>
+                            </div>
+                            <p style="color: var(--color-text-secondary); font-size: 14px; margin: 0; line-height: 1.5;">
+                                Border radius e border width tokens
+                            </p>
+                        </div>
+
+                        <div class="shortcut-card" data-section="sizes" style="padding: 24px; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 12px; cursor: pointer; transition: all 0.2s ease;">
+                            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 12px;">
+                                <svg style="width: 24px; height: 24px; color: var(--color-accent);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="21 8 21 21 8 21"></polyline>
+                                    <rect x="1" y="1" width="12" height="12"></rect>
+                                </svg>
+                                <h3 style="font-size: 18px; margin: 0; color: var(--color-text-primary); font-weight: 600;">Sizes</h3>
+                            </div>
+                            <p style="color: var(--color-text-secondary); font-size: 14px; margin: 0; line-height: 1.5;">
+                                Tamanhos para ícones e elementos da interface
+                            </p>
+                        </div>
+
+                        <div class="shortcut-card" data-section="opacity" style="padding: 24px; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 12px; cursor: pointer; transition: all 0.2s ease;">
+                            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 12px;">
+                                <svg style="width: 24px; height: 24px; color: var(--color-accent);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10" opacity="0.3"></circle>
+                                    <circle cx="12" cy="12" r="6" opacity="0.6"></circle>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                                <h3 style="font-size: 18px; margin: 0; color: var(--color-text-primary); font-weight: 600;">Opacity</h3>
+                            </div>
+                            <p style="color: var(--color-text-secondary); font-size: 14px; margin: 0; line-height: 1.5;">
+                                Escala de opacidade para hierarquia visual
+                            </p>
+                        </div>
                     </div>
                 </div>
 
                 <div class="token-category" style="margin-top: 48px;">
-                    <h2 class="token-category-title">Princípios do Sistema</h2>
-                    <div style="display: grid; gap: 24px; margin-top: 24px;">
-                        <div style="padding: 20px; background: var(--color-bg-tertiary); border-radius: 8px;">
-                            <h3 style="font-size: 19px; margin-bottom: 8px; color: var(--color-text-primary);">Tokens Semânticos</h3>
-                            <p style="color: var(--color-text-secondary); font-size: 14px;">
-                                Todos os tokens referenciam primitivos usando notação de chaves, permitindo mudanças cascateadas em todo o sistema.
+                    <h2 class="token-category-title">Em Desenvolvimento</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 24px;">
+                        <div style="padding: 24px; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 12px; opacity: 0.6;">
+                            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 12px;">
+                                <svg style="width: 24px; height: 24px; color: var(--color-text-muted);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="4 7 4 4 20 4 20 7"></polyline>
+                                    <line x1="9" y1="20" x2="15" y2="20"></line>
+                                    <line x1="12" y1="4" x2="12" y2="20"></line>
+                                </svg>
+                                <h3 style="font-size: 18px; margin: 0; color: var(--color-text-primary); font-weight: 600;">Typography</h3>
+                                <span style="font-size: 11px; padding: 4px 8px; background: var(--color-bg-tertiary); border-radius: 4px; color: var(--color-text-muted);">Em breve</span>
+                            </div>
+                            <p style="color: var(--color-text-secondary); font-size: 14px; margin: 0; line-height: 1.5;">
+                                Sistema tipográfico completo com escalas e weights
                             </p>
                         </div>
-                        <div style="padding: 20px; background: var(--color-bg-tertiary); border-radius: 8px;">
-                            <h3 style="font-size: 19px; margin-bottom: 8px; color: var(--color-text-primary);">Cross-Platform</h3>
-                            <p style="color: var(--color-text-secondary); font-size: 14px;">
-                                Estrutura JSON unificada que pode ser consumida por React e Flutter, garantindo consistência entre plataformas.
+
+                        <div style="padding: 24px; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 12px; opacity: 0.6;">
+                            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 12px;">
+                                <svg style="width: 24px; height: 24px; color: var(--color-text-muted);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                                    <path d="M2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                                </svg>
+                                <h3 style="font-size: 18px; margin: 0; color: var(--color-text-primary); font-weight: 600;">Shadows</h3>
+                                <span style="font-size: 11px; padding: 4px 8px; background: var(--color-bg-tertiary); border-radius: 4px; color: var(--color-text-muted);">Em breve</span>
+                            </div>
+                            <p style="color: var(--color-text-secondary); font-size: 14px; margin: 0; line-height: 1.5;">
+                                Tokens de sombra para elevação e profundidade
                             </p>
                         </div>
-                        <div style="padding: 20px; background: var(--color-bg-tertiary); border-radius: 8px;">
-                            <h3 style="font-size: 19px; margin-bottom: 8px; color: var(--color-text-primary);">Contexto Adaptável</h3>
-                            <p style="color: var(--color-text-secondary); font-size: 14px;">
-                                Suporte para variações de contexto (Bank/Pro) e dispositivo (Mobile/Tablet/Desktop).
-                            </p>
+                    </div>
+                </div>
+
+                <div class="token-category" style="margin-top: 48px;">
+                    <h2 class="token-category-title">Próximos Passos</h2>
+                    <div style="padding: 24px; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 12px; margin-top: 24px;">
+                        <div style="display: flex; align-items: start; gap: 16px;">
+                            <svg style="width: 24px; height: 24px; color: var(--color-accent); flex-shrink: 0; margin-top: 2px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                <line x1="8" y1="21" x2="16" y2="21"></line>
+                                <line x1="12" y1="17" x2="12" y2="21"></line>
+                            </svg>
+                            <div>
+                                <h3 style="font-size: 18px; margin: 0 0 8px 0; color: var(--color-text-primary); font-weight: 600;">Biblioteca de Componentes</h3>
+                                <p style="color: var(--color-text-secondary); font-size: 14px; margin: 0; line-height: 1.6;">
+                                    Após finalizar todos os foundation tokens, iniciaremos a construção da biblioteca de componentes.
+                                    Buttons, Inputs, Cards, Modals e muito mais - todos construídos com base nos tokens definidos,
+                                    garantindo consistência e manutenibilidade em todo o sistema.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1626,6 +1839,28 @@
         "desktop": "{unit.positive.4xl}"
       }
     },
+    "inline-negative": {
+      "sm": {
+        "mobile": "{unit.negative.xs}",
+        "tablet": "{unit.negative.xs}",
+        "desktop": "{unit.negative.xs}"
+      },
+      "md": {
+        "mobile": "{unit.negative.sm}",
+        "tablet": "{unit.negative.sm}",
+        "desktop": "{unit.negative.sm}"
+      },
+      "lg": {
+        "mobile": "{unit.negative.md}",
+        "tablet": "{unit.negative.md}",
+        "desktop": "{unit.negative.md}"
+      },
+      "xl": {
+        "mobile": "{unit.negative.xl}",
+        "tablet": "{unit.negative.xl}",
+        "desktop": "{unit.negative.xl}"
+      }
+    },
     "stack": {
       "none": {
         "mobile": "{unit.positive.zero}",
@@ -1633,19 +1868,19 @@
         "desktop": "{unit.positive.zero}"
       },
       "2xs": {
+        "mobile": "{unit.positive.xs}",
+        "tablet": "{unit.positive.xs}",
+        "desktop": "{unit.positive.xs}"
+      },
+      "xs": {
         "mobile": "{unit.positive.sm}",
         "tablet": "{unit.positive.sm}",
         "desktop": "{unit.positive.sm}"
       },
-      "xs": {
+      "sm": {
         "mobile": "{unit.positive.md}",
         "tablet": "{unit.positive.md}",
         "desktop": "{unit.positive.md}"
-      },
-      "sm": {
-        "mobile": "{unit.positive.lg}",
-        "tablet": "{unit.positive.lg}",
-        "desktop": "{unit.positive.lg}"
       },
       "md": {
         "mobile": "{unit.positive.xl}",
@@ -1663,47 +1898,124 @@
         "desktop": "{unit.positive.4xl}"
       },
       "2xl": {
-        "mobile": 40,
-        "tablet": 40,
-        "desktop": 40
-      },
-      "3xl": {
         "mobile": "{unit.positive.5xl}",
         "tablet": "{unit.positive.5xl}",
         "desktop": "{unit.positive.5xl}"
       },
-      "4xl": {
+      "3xl": {
         "mobile": "{unit.positive.6xl}",
         "tablet": "{unit.positive.6xl}",
         "desktop": "{unit.positive.6xl}"
+      },
+      "4xl": {
+        "mobile": "{unit.positive.7xl}",
+        "tablet": "{unit.positive.7xl}",
+        "desktop": "{unit.positive.7xl}"
+      }
+    },
+    "stack-negative": {
+      "sm": {
+        "mobile": "{unit.negative.sm}",
+        "tablet": "{unit.negative.sm}",
+        "desktop": "{unit.negative.sm}"
+      },
+      "md": {
+        "mobile": "{unit.negative.md}",
+        "tablet": "{unit.negative.md}",
+        "desktop": "{unit.negative.md}"
+      },
+      "lg": {
+        "mobile": "{unit.negative.xl}",
+        "tablet": "{unit.negative.xl}",
+        "desktop": "{unit.negative.xl}"
       }
     }
   },
 
-  "borderRadius": {
-    "none": {
-      "bank": "{unit.positive.zero}",
-      "pro": "{unit.positive.zero}"
+  "border": {
+    "radius": {
+      "none": {
+        "mobile": "{unit.positive.zero}",
+        "tablet": "{unit.positive.zero}",
+        "desktop": "{unit.positive.zero}"
+      },
+      "xs": {
+        "mobile": "{unit.positive.sm}",
+        "tablet": "{unit.positive.sm}",
+        "desktop": "{unit.positive.sm}"
+      },
+      "sm": {
+        "mobile": "{unit.positive.md}",
+        "tablet": "{unit.positive.md}",
+        "desktop": "{unit.positive.md}"
+      },
+      "md": {
+        "mobile": "{unit.positive.xl}",
+        "tablet": "{unit.positive.xl}",
+        "desktop": "{unit.positive.xl}"
+      },
+      "lg": {
+        "mobile": "{unit.positive.3xl}",
+        "tablet": "{unit.positive.3xl}",
+        "desktop": "{unit.positive.3xl}"
+      },
+      "pill": {
+        "mobile": "{unit.positive.9xl}",
+        "tablet": "{unit.positive.9xl}",
+        "desktop": "{unit.positive.9xl}"
+      }
     },
-    "xs": {
-      "bank": "{unit.positive.sm}",
-      "pro": "{unit.positive.sm}"
-    },
-    "sm": {
-      "bank": "{unit.positive.xs}",
-      "pro": "{unit.positive.xs}"
-    },
-    "md": {
-      "bank": "{unit.positive.xl}",
-      "pro": "{unit.positive.xl}"
-    },
-    "lg": {
-      "bank": "{unit.positive.3xl}",
-      "pro": "{unit.positive.3xl}"
-    },
-    "pill": {
-      "bank": "{unit.positive.9xl}",
-      "pro": "{unit.positive.9xl}"
+    "width": {
+      "none": {
+        "mobile": "{unit.positive.zero}",
+        "tablet": "{unit.positive.zero}",
+        "desktop": "{unit.positive.zero}"
+      },
+      "thin": {
+        "mobile": "{unit.positive.2xs}",
+        "tablet": "{unit.positive.2xs}",
+        "desktop": "{unit.positive.2xs}"
+      },
+      "thick": {
+        "mobile": "{unit.positive.xs}",
+        "tablet": "{unit.positive.xs}",
+        "desktop": "{unit.positive.xs}"
+      },
+      "thicker": {
+        "mobile": "{unit.positive.sm}",
+        "tablet": "{unit.positive.sm}",
+        "desktop": "{unit.positive.sm}"
+      }
+    }
+  },
+
+  "size": {
+    "icon": {
+      "xs": {
+        "mobile": "{unit.positive.xl}",
+        "tablet": "{unit.positive.xl}",
+        "desktop": "{unit.positive.xl}"
+      },
+      "sm": {
+        "mobile": "{unit.positive.2xl}",
+        "tablet": "{unit.positive.2xl}",
+        "desktop": "{unit.positive.2xl}"
+      },
+      "md": {
+        "mobile": "{unit.positive.3xl}",
+        "tablet": "{unit.positive.3xl}",
+        "desktop": "{unit.positive.3xl}"
+      },
+      "lg": {
+        "mobile": "{unit.positive.4xl}",
+        "tablet": "{unit.positive.4xl}",
+        "desktop": "{unit.positive.4xl}"
+      },
+      "xl": {
+        "mobile": "{unit.positive.5xl}",
+        "tablet": "{unit.positive.5xl}",
+        "desktop": "{unit.positive.5xl}"
+      }
     }
   },
 
@@ -2245,25 +2557,6 @@
     }
   },
 
-  "borderWidth": {
-    "none": {
-      "bank": "{unit.positive.zero}",
-      "pro": "{unit.positive.zero}"
-    },
-    "thin": {
-      "bank": "{unit.positive.2xs}",
-      "pro": "{unit.positive.2xs}"
-    },
-    "thick": {
-      "bank": "{unit.positive.xs}",
-      "pro": "{unit.positive.xs}"
-    },
-    "thicker": {
-      "bank": "{unit.positive.sm}",
-      "pro": "{unit.positive.sm}"
-    }
-  },
-
   "opacity": {
     "transparent": {
       "bank": 0,
@@ -2581,6 +2874,11 @@
                 return value[effectiveMode];
             }
 
+            // If value is an object with mobile/tablet/desktop, return mobile value
+            if (value && typeof value === 'object' && value.hasOwnProperty('mobile')) {
+                return resolveToken(String(value.mobile), effectiveMode);
+            }
+
             return value !== undefined ? resolveToken(String(value), effectiveMode) : tokenPath;
         }
 
@@ -2776,6 +3074,39 @@
                         container.innerHTML = '<div style="padding:20px;color:red;">Erro ao carregar conteúdo: ' + error.message + '</div>';
                     }
                 }
+            });
+        });
+
+        // Shortcut cards navigation
+        document.querySelectorAll('.shortcut-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const section = card.dataset.section;
+
+                // Trigger navigation
+                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+                document.querySelectorAll('.content-section').forEach(el => el.classList.remove('active'));
+
+                const targetNavItem = document.querySelector(`.nav-item[data-section="${section}"]`);
+                if (targetNavItem) {
+                    targetNavItem.classList.add('active');
+                }
+
+                const targetSection = document.getElementById(section);
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                    loadSectionContent(section);
+                }
+            });
+
+            // Add hover effect
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-2px)';
+                card.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+                card.style.boxShadow = 'none';
             });
         });
 
@@ -3640,14 +3971,22 @@
                 }
                 const match = token.match(/\{unit\.(positive|negative)\.(\w+)\}/);
                 if (match) {
-                    return `${match[1]}-${match[2]}`;
+                    return `unit/${match[1]}/${match[2]}`;
                 }
                 return null;
             };
 
             // Helper function to render spacing cards
             const renderSpacingCards = (category, subcategory) => {
-                const data = subcategory === 'negative' ? designTokens.unit.negative : spacing[category];
+                // Use explicit negative definitions when they exist
+                let data;
+                if (subcategory === 'negative') {
+                    const negativeCategory = `${category}-negative`;
+                    data = spacing[negativeCategory] || {};
+                } else {
+                    data = spacing[category];
+                }
+
                 if (!data) return '';
 
                 let cardsHtml = `<div class="color-category-title">space / ${category} / ${subcategory}</div>`;
@@ -3656,19 +3995,8 @@
                 // Define custom order for spacing sizes
                 const sizeOrder = ['none', '2xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl'];
 
-                // Define which negative tokens exist for each category
-                const negativeTokens = {
-                    'inline': ['sm', 'md', 'lg', 'xl'],
-                    'stack': ['sm', 'md', 'lg', 'xl'],
-                    'inset': [] // inset não tem negative
-                };
-
-                // Filter entries based on category and subcategory
+                // Get entries
                 let entries = Object.entries(data);
-                if (subcategory === 'negative') {
-                    const allowedTokens = negativeTokens[category] || [];
-                    entries = entries.filter(([name]) => allowedTokens.includes(name));
-                }
 
                 // Sort entries based on custom order
                 const sortedEntries = entries.sort((a, b) => {
@@ -3681,7 +4009,7 @@
                     const fullTokenName = `space.${category}.${name}`;
 
                     // Get the token value (same for mobile/tablet/desktop)
-                    const token = subcategory === 'negative' ? `{unit.negative.${name}}` : (values.mobile || values);
+                    const token = values.mobile || values;
                     const resolvedValue = resolveToken(token);
                     const unitRef = getUnitReference(token);
 
@@ -4123,8 +4451,8 @@
         }
 
         function renderBorders(container) {
-            const borderRadius = designTokens.borderRadius;
-            const borderWidth = designTokens.borderWidth;
+            const borderRadius = designTokens.border.radius;
+            const borderWidth = designTokens.border.width;
             let html = '';
 
             // Helper function to get unit reference
@@ -4134,7 +4462,7 @@
                 }
                 const match = token.match(/\{unit\.positive\.(\w+)\}/);
                 if (match) {
-                    return `positive-${match[1]}`;
+                    return `unit/positive/${match[1]}`;
                 }
                 return null;
             };
@@ -4159,8 +4487,8 @@
                 });
 
                 sortedEntries.forEach(([name, values]) => {
-                    const fullTokenName = `border${type === 'radius' ? 'Radius' : 'Width'}.${name}`;
-                    const token = values.bank || values.pro;
+                    const fullTokenName = `border.${type}.${name}`;
+                    const token = values.mobile || values;
                     const resolvedValue = resolveToken(token);
                     const unitRef = getUnitReference(token);
 
@@ -4241,9 +4569,21 @@
                 <style>
                     .opacity-grid {
                         display: grid;
-                        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                        grid-template-columns: repeat(4, 1fr);
                         gap: 32px;
                         margin-top: 32px;
+                    }
+
+                    @media (max-width: 1200px) {
+                        .opacity-grid {
+                            grid-template-columns: repeat(3, 1fr);
+                        }
+                    }
+
+                    @media (max-width: 768px) {
+                        .opacity-grid {
+                            grid-template-columns: repeat(2, 1fr);
+                        }
                     }
 
                     .opacity-card {
@@ -4282,7 +4622,7 @@
                         left: 0;
                         width: 100%;
                         height: 100%;
-                        background: #0066FF;
+                        background: #C2F141;
                     }
 
                     .opacity-icon {
@@ -4296,62 +4636,26 @@
                     .opacity-info {
                         display: flex;
                         flex-direction: column;
-                        gap: 12px;
+                        gap: 8px;
                         width: 100%;
                         text-align: center;
                     }
 
                     .opacity-name {
-                        font-size: 16px;
-                        font-weight: 600;
-                        color: var(--color-text-primary);
-                        font-family: 'Courier New', monospace;
-                    }
-
-                    .opacity-properties {
-                        display: flex;
-                        flex-direction: column;
-                        gap: 6px;
-                        font-size: 12px;
-                        color: var(--color-text-muted);
-                    }
-
-                    .opacity-property {
-                        display: flex;
-                        justify-content: space-between;
-                        padding: 4px 8px;
-                        background: var(--color-bg-tertiary);
-                        border-radius: 4px;
-                    }
-
-                    .opacity-property-label {
-                        font-weight: 600;
-                    }
-
-                    .opacity-property-value {
-                        font-family: 'Courier New', monospace;
-                        color: var(--color-text-secondary);
-                    }
-
-                    .opacity-section-title {
-                        font-size: 18px;
-                        font-weight: 600;
-                        color: var(--color-text-primary);
-                        margin-top: 48px;
-                        margin-bottom: 16px;
-                    }
-
-                    .opacity-description {
                         font-size: 14px;
-                        color: var(--color-text-muted);
-                        margin-bottom: 24px;
+                        font-weight: 400;
+                        color: var(--color-text-secondary);
+                        font-family: 'Courier New', monospace;
+                    }
+
+                    .opacity-value {
+                        font-size: 14px;
+                        font-weight: 400;
+                        color: var(--color-text-primary);
+                        font-family: 'Courier New', monospace;
+                        line-height: 1;
                     }
                 </style>
-
-                <div class="opacity-section-title">Opacity Examples</div>
-                <div class="opacity-description">
-                    Níveis de opacidade para criar camadas e efeitos de transparência
-                </div>
 
                 <div class="opacity-grid">
             `;
@@ -4368,16 +4672,7 @@
                         </div>
                         <div class="opacity-info">
                             <div class="opacity-name">opacity.${opacity.name}</div>
-                            <div class="opacity-properties">
-                                <div class="opacity-property">
-                                    <span class="opacity-property-label">Value:</span>
-                                    <span class="opacity-property-value">${opacity.value}</span>
-                                </div>
-                                <div class="opacity-property">
-                                    <span class="opacity-property-label">CSS:</span>
-                                    <span class="opacity-property-value">${(opacity.value / 100).toFixed(2)}</span>
-                                </div>
-                            </div>
+                            <div class="opacity-value">${opacity.value}</div>
                         </div>
                     </div>
                 `;
@@ -4385,63 +4680,26 @@
 
             html += `
                 </div>
-
-                <div class="opacity-section-title">Opacity Properties</div>
-                <div class="opacity-description">
-                    Valores individuais de opacidade disponíveis no Design System
-                </div>
-
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 24px;">
-                    <div style="background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 12px; padding: 24px;">
-                        <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--color-text-primary);">Opacity Values</h3>
-                        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
-                            <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
-                                <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">opacity.transparent</span>
-                                <span style="color: var(--color-text-muted);">0</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
-                                <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">opacity.low</span>
-                                <span style="color: var(--color-text-muted);">12</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
-                                <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">opacity.medium</span>
-                                <span style="color: var(--color-text-muted);">32</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
-                                <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">opacity.high</span>
-                                <span style="color: var(--color-text-muted);">64</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
-                                <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">opacity.higher</span>
-                                <span style="color: var(--color-text-muted);">95</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; padding: 8px; background: var(--color-bg-tertiary); border-radius: 6px;">
-                                <span style="font-family: 'Courier New', monospace; color: var(--color-text-secondary);">opacity.opaque</span>
-                                <span style="color: var(--color-text-muted);">100</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             `;
 
             container.innerHTML = html;
         }
 
         function renderSizes(container) {
-            // Dados dos tokens de size
+            // Dados diretos dos tamanhos baseados na imagem
             const iconSizes = [
-                { name: 'xs', value: 16 },
-                { name: 'sm', value: 20 },
-                { name: 'md', value: 24 },
-                { name: 'lg', value: 32 },
-                { name: 'xl', value: 48 }
+                { name: 'xs', value: 16, primitive: 'unit/positive/xl' },
+                { name: 'sm', value: 20, primitive: 'unit/positive/2xl' },
+                { name: 'md', value: 24, primitive: 'unit/positive/3xl' },
+                { name: 'lg', value: 32, primitive: 'unit/positive/4xl' },
+                { name: 'xl', value: 48, primitive: 'unit/positive/5xl' }
             ];
 
             const thumbSizes = [
-                { name: 'sm', value: 32 },
-                { name: 'md', value: 48 },
-                { name: 'lg', value: 64 },
-                { name: 'xl', value: 96 }
+                { name: 'sm', value: 32, primitive: 'unit/positive/4xl' },
+                { name: 'md', value: 48, primitive: 'unit/positive/5xl' },
+                { name: 'lg', value: 64, primitive: 'unit/positive/6xl' },
+                { name: 'xl', value: 96, primitive: 'unit/positive/7xl' }
             ];
 
             // Helper function to render size cards
@@ -4451,24 +4709,26 @@
 
                 sizes.forEach(size => {
                     const fullTokenName = `size.${type}.${size.name}`;
+                    const pixelValue = size.value;
+                    const unitRef = size.primitive;
 
                     cardsHtml += `
                         <div class="color-card">
                             <div class="color-preview-large" style="background: var(--color-bg-primary); display: flex; align-items: center; justify-content: center;">
                                 ${type === 'icon'
-                                    ? `<div style="width: ${size.value}px; height: ${size.value}px; background: var(--color-accent); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                                        <svg width="${size.value * 0.6}" height="${size.value * 0.6}" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    ? `<div style="width: ${pixelValue}px; height: ${pixelValue}px; background: var(--color-accent); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                        <svg width="${pixelValue * 0.6}" height="${pixelValue * 0.6}" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                                             <circle cx="12" cy="7" r="4"></circle>
                                         </svg>
                                        </div>`
-                                    : `<div style="width: ${size.value}px; height: ${size.value}px; border-radius: 50%; background: linear-gradient(135deg, var(--color-accent) 0%, #0052CC 100%); border: 2px solid rgba(255, 255, 255, 0.2);"></div>`
+                                    : `<div style="width: ${pixelValue}px; height: ${pixelValue}px; border-radius: 50%; background: linear-gradient(135deg, var(--color-accent) 0%, #0052CC 100%); border: 2px solid rgba(255, 255, 255, 0.2);"></div>`
                                 }
                             </div>
                             <div>
                                 <div class="color-card-name">${fullTokenName}</div>
-                                <div class="color-card-hex">${size.value}px</div>
-                                <div class="color-card-primitive"></div>
+                                <div class="color-card-hex">${pixelValue}px</div>
+                                <div class="color-card-primitive">${unitRef || ''}</div>
                             </div>
                             <button class="color-card-copy-btn" onclick="copyColorToClipboard('${fullTokenName}', this)">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -4554,6 +4814,50 @@
             console.log('renderSpacing function exists:', typeof renderSpacing);
             console.log('designTokens exists:', typeof designTokens);
             console.log('designTokens.spacing exists:', !!designTokens.spacing);
+        });
+
+        // Mobile menu functionality
+        const hamburgerButton = document.getElementById('hamburgerButton');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function toggleMobileMenu() {
+            hamburgerButton.classList.toggle('active');
+            sidebar.classList.toggle('mobile-open');
+            sidebarOverlay.classList.toggle('active');
+
+            // Prevent body scroll when menu is open
+            if (sidebar.classList.contains('mobile-open')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+
+        function closeMobileMenu() {
+            hamburgerButton.classList.remove('active');
+            sidebar.classList.remove('mobile-open');
+            sidebarOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        hamburgerButton.addEventListener('click', toggleMobileMenu);
+        sidebarOverlay.addEventListener('click', closeMobileMenu);
+
+        // Close mobile menu when clicking on nav items
+        document.querySelectorAll('.nav-item, .nav-subitem').forEach(item => {
+            item.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    closeMobileMenu();
+                }
+            });
+        });
+
+        // Close menu on window resize if it gets wider
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                closeMobileMenu();
+            }
         });
     </script>
 </body>
