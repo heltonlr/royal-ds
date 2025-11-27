@@ -1359,14 +1359,13 @@
                         </svg>
                         <span>Colors</span>
                     </div>
-                    <div class="nav-item disabled">
+                    <div class="nav-item" data-section="typography">
                         <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <polyline points="4 7 4 4 20 4 20 7"></polyline>
                             <line x1="9" y1="20" x2="15" y2="20"></line>
                             <line x1="12" y1="4" x2="12" y2="20"></line>
                         </svg>
                         <span>Typography</span>
-                        <span class="nav-item-badge">Em breve</span>
                     </div>
                     <div class="nav-item" data-section="spacing">
                         <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -1494,26 +1493,26 @@
                                 Escala de opacidade para hierarquia visual
                             </p>
                         </div>
+
+                        <div class="shortcut-card" data-section="typography" style="padding: 24px; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 12px; cursor: pointer; transition: all 0.2s ease;">
+                            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 12px;">
+                                <svg style="width: 24px; height: 24px; color: var(--color-accent);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="4 7 4 4 20 4 20 7"></polyline>
+                                    <line x1="9" y1="20" x2="15" y2="20"></line>
+                                    <line x1="12" y1="4" x2="12" y2="20"></line>
+                                </svg>
+                                <h3 style="font-size: 18px; margin: 0; color: var(--color-text-primary); font-weight: 600;">Typography</h3>
+                            </div>
+                            <p style="color: var(--color-text-secondary); font-size: 14px; margin: 0; line-height: 1.5;">
+                                Sistema tipográfico com JUST Sans Variable
+                            </p>
+                        </div>
                     </div>
                 </div>
 
                 <div class="token-category" style="margin-top: 48px;">
                     <h2 class="token-category-title">Em Desenvolvimento</h2>
                     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 24px;">
-                        <div style="padding: 24px; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 12px; opacity: 0.6;">
-                            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 12px;">
-                                <svg style="width: 24px; height: 24px; color: var(--color-text-muted);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polyline points="4 7 4 4 20 4 20 7"></polyline>
-                                    <line x1="9" y1="20" x2="15" y2="20"></line>
-                                    <line x1="12" y1="4" x2="12" y2="20"></line>
-                                </svg>
-                                <h3 style="font-size: 18px; margin: 0; color: var(--color-text-primary); font-weight: 600;">Typography</h3>
-                                <span style="font-size: 11px; padding: 4px 8px; background: var(--color-bg-tertiary); border-radius: 4px; color: var(--color-text-muted);">Em breve</span>
-                            </div>
-                            <p style="color: var(--color-text-secondary); font-size: 14px; margin: 0; line-height: 1.5;">
-                                Sistema tipográfico completo com escalas e weights
-                            </p>
-                        </div>
 
                         <div style="padding: 24px; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 12px; opacity: 0.6;">
                             <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 12px;">
@@ -3156,6 +3155,9 @@
                 case 'sizes':
                     renderSizes(container);
                     break;
+                case 'typography':
+                    renderTypography(container);
+                    break;
                 case 'alert':
                     renderAlert(container);
                     break;
@@ -4767,6 +4769,246 @@
             `;
 
             html += renderSizeCards('thumb', thumbSizes);
+
+            html += `
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        function renderTypography(container) {
+            const headingTokens = [
+                { name: 'heading.xl', size: 41, lineHeight: 44, letterSpacing: -1, weight: 550 },
+                { name: 'heading.lg', size: 34, lineHeight: 36, letterSpacing: -0.5, weight: 550 },
+                { name: 'heading.md', size: 28, lineHeight: 28, letterSpacing: 0, weight: 550 },
+                { name: 'heading.sm', size: 23, lineHeight: 28, letterSpacing: 0, weight: 550 },
+                { name: 'heading.xs', size: 19, lineHeight: 20, letterSpacing: 0, weight: 550 }
+            ];
+
+            const subtitleTokens = [
+                { name: 'subtitle.lg', size: 23, lineHeight: 28, letterSpacing: -0.5, weight: 200 },
+                { name: 'subtitle.md', size: 19, lineHeight: 24, letterSpacing: 0, weight: 200 }
+            ];
+
+            const overlineTokens = [
+                { name: 'overline.lg', size: 14, lineHeight: 16, letterSpacing: 0.25, weight: 550 },
+                { name: 'overline.md', size: 12, lineHeight: 16, letterSpacing: 0.25, weight: 550 },
+                { name: 'overline.sm', size: 11, lineHeight: 12, letterSpacing: 0.25, weight: 550 }
+            ];
+
+            const bodyTokens = [
+                { name: 'body.lg.default', size: 19, lineHeight: 28, letterSpacing: 0, weight: 350 },
+                { name: 'body.lg.strong', size: 19, lineHeight: 28, letterSpacing: 0, weight: 550 },
+                { name: 'body.md.default', size: 16, lineHeight: 24, letterSpacing: 0, weight: 350 },
+                { name: 'body.md.strong', size: 16, lineHeight: 24, letterSpacing: 0, weight: 550 },
+                { name: 'body.sm.default', size: 14, lineHeight: 20, letterSpacing: 0, weight: 350 },
+                { name: 'body.sm.strong', size: 14, lineHeight: 20, letterSpacing: 0, weight: 550 },
+                { name: 'body.xs.default', size: 12, lineHeight: 16, letterSpacing: 0.13, weight: 350 },
+                { name: 'body.xs.strong', size: 12, lineHeight: 16, letterSpacing: 0.13, weight: 550 }
+            ];
+
+            const uiTokens = [
+                { name: 'ui.lg.default', size: 19, lineHeight: 24, letterSpacing: -0.5, weight: 350 },
+                { name: 'ui.lg.strong', size: 19, lineHeight: 24, letterSpacing: -0.5, weight: 550 },
+                { name: 'ui.md.default', size: 16, lineHeight: 24, letterSpacing: 0, weight: 350 },
+                { name: 'ui.md.strong', size: 16, lineHeight: 24, letterSpacing: 0, weight: 550 },
+                { name: 'ui.sm.default', size: 14, lineHeight: 20, letterSpacing: 0, weight: 350 },
+                { name: 'ui.sm.strong', size: 14, lineHeight: 20, letterSpacing: 0, weight: 550 },
+                { name: 'ui.xs.default', size: 11, lineHeight: 12, letterSpacing: 0.13, weight: 350 },
+                { name: 'ui.xs.strong', size: 11, lineHeight: 12, letterSpacing: 0.13, weight: 550 }
+            ];
+
+            const numberTokens = [
+                { name: 'number.xl.default', size: 34, lineHeight: 36, letterSpacing: -0.5, weight: 550 },
+                { name: 'number.xl.strike', size: 34, lineHeight: 36, letterSpacing: -0.5, weight: 550, strike: true },
+                { name: 'number.xl.light', size: 34, lineHeight: 36, letterSpacing: -0.5, weight: 350 },
+                { name: 'number.xl.light.strike', size: 34, lineHeight: 36, letterSpacing: -0.5, weight: 350, strike: true },
+                { name: 'number.lg.default', size: 23, lineHeight: 24, letterSpacing: 0, weight: 550 },
+                { name: 'number.lg.strike', size: 23, lineHeight: 24, letterSpacing: 0, weight: 550, strike: true },
+                { name: 'number.lg.light', size: 23, lineHeight: 24, letterSpacing: 0, weight: 350 },
+                { name: 'number.lg.light.strike', size: 23, lineHeight: 24, letterSpacing: 0, weight: 350, strike: true },
+                { name: 'number.md.default', size: 23, lineHeight: 24, letterSpacing: 0, weight: 550 },
+                { name: 'number.md.strike', size: 23, lineHeight: 24, letterSpacing: 0, weight: 550, strike: true },
+                { name: 'number.md.light', size: 23, lineHeight: 24, letterSpacing: 0, weight: 350 },
+                { name: 'number.md.light.strike', size: 23, lineHeight: 24, letterSpacing: 0, weight: 350, strike: true },
+                { name: 'number.sm.default', size: 14, lineHeight: 16, letterSpacing: 0, weight: 550 },
+                { name: 'number.sm.strike', size: 14, lineHeight: 16, letterSpacing: 0, weight: 550, strike: true },
+                { name: 'number.sm.light', size: 14, lineHeight: 16, letterSpacing: 0, weight: 350 },
+                { name: 'number.sm.light.strike', size: 14, lineHeight: 16, letterSpacing: 0, weight: 350, strike: true }
+            ];
+
+            // Helper function to render typography cards
+            const renderTypographyCards = (tokens, label) => {
+                let cardsHtml = `<div class="colors-grid">`;
+
+                tokens.forEach(token => {
+                    const textDecoration = token.strike ? 'line-through' : 'none';
+                    cardsHtml += `
+                        <div class="color-card">
+                            <div class="color-preview-large" style="background: var(--color-bg-primary); display: flex; align-items: center; justify-content: center; padding: 24px; min-height: 120px;">
+                                <div style="font-family: 'JUST Sans Variable', system-ui, sans-serif; font-size: ${token.size}px; line-height: ${token.lineHeight}px; letter-spacing: ${token.letterSpacing}px; font-weight: ${token.weight}; color: var(--color-text-primary); text-decoration: ${textDecoration};">
+                                    ${label}
+                                </div>
+                            </div>
+                            <div>
+                                <div class="color-card-name">${token.name}</div>
+                                <div class="color-card-hex">
+                                    <span style="font-size: 11px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Font Size</span>
+                                    <span style="font-weight: 600;">${token.size}px</span>
+                                    <span style="margin: 0 4px; color: var(--color-text-muted);">•</span>
+                                    <span style="font-size: 11px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Line Height</span>
+                                    <span style="font-weight: 600;">${token.lineHeight}px</span>
+                                </div>
+                                <div class="color-card-primitive">Weight: ${token.weight} • Letter Spacing: ${token.letterSpacing}px</div>
+                            </div>
+                            <button class="color-card-copy-btn" onclick="copyColorToClipboard('${token.name}', this)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                                <span>Copiar</span>
+                            </button>
+                        </div>
+                    `;
+                });
+
+                cardsHtml += `</div>`;
+                return cardsHtml;
+            };
+
+            let html = `
+                <style>
+                    @font-face {
+                        font-family: 'JUST Sans Variable';
+                        src: url('https://bullet-assets-pub.s3.us-east-1.amazonaws.com/fonts/JUSTSansVariable.ttf') format('truetype');
+                        font-weight: 100 900;
+                        font-style: normal;
+                    }
+                </style>
+
+                <!-- Internal Tabs System -->
+                <div class="internal-tabs-wrapper">
+                    <div class="internal-tab-buttons">
+                        <button class="internal-tab-button active" onclick="switchInternalTab(event, 'heading-typography-tab')">Heading</button>
+                        <button class="internal-tab-button" onclick="switchInternalTab(event, 'subtitle-typography-tab')">Subtitle</button>
+                        <button class="internal-tab-button" onclick="switchInternalTab(event, 'overline-typography-tab')">Overline</button>
+                        <button class="internal-tab-button" onclick="switchInternalTab(event, 'body-typography-tab')">Body</button>
+                        <button class="internal-tab-button" onclick="switchInternalTab(event, 'ui-typography-tab')">UI</button>
+                        <button class="internal-tab-button" onclick="switchInternalTab(event, 'number-typography-tab')">Number</button>
+                    </div>
+
+                    <!-- Heading Tab -->
+                    <div id="heading-typography-tab" class="internal-tab-content active">
+                        <div class="color-category-title">typography / heading</div>
+            `;
+
+            html += renderTypographyCards(headingTokens, 'Heading');
+
+            html += `
+                    </div>
+
+                    <!-- Subtitle Tab -->
+                    <div id="subtitle-typography-tab" class="internal-tab-content">
+                        <div class="color-category-title">typography / subtitle</div>
+            `;
+
+            html += renderTypographyCards(subtitleTokens, 'Subtitle');
+
+            html += `
+                    </div>
+
+                    <!-- Overline Tab -->
+                    <div id="overline-typography-tab" class="internal-tab-content">
+                        <div class="color-category-title">typography / overline</div>
+            `;
+
+            html += renderTypographyCards(overlineTokens, 'Overline');
+
+            html += `
+                    </div>
+
+                    <!-- Body Tab -->
+                    <div id="body-typography-tab" class="internal-tab-content">
+                        <div class="color-category-title">typography / body / lg</div>
+            `;
+
+            html += renderTypographyCards([bodyTokens[0], bodyTokens[1]], 'Body');
+
+            html += `
+                        <div class="color-category-title">typography / body / md</div>
+            `;
+
+            html += renderTypographyCards([bodyTokens[2], bodyTokens[3]], 'Body');
+
+            html += `
+                        <div class="color-category-title">typography / body / sm</div>
+            `;
+
+            html += renderTypographyCards([bodyTokens[4], bodyTokens[5]], 'Body');
+
+            html += `
+                        <div class="color-category-title">typography / body / xs</div>
+            `;
+
+            html += renderTypographyCards([bodyTokens[6], bodyTokens[7]], 'Body');
+
+            html += `
+                    </div>
+
+                    <!-- UI Tab -->
+                    <div id="ui-typography-tab" class="internal-tab-content">
+                        <div class="color-category-title">typography / ui / lg</div>
+            `;
+
+            html += renderTypographyCards([uiTokens[0], uiTokens[1]], 'UI');
+
+            html += `
+                        <div class="color-category-title">typography / ui / md</div>
+            `;
+
+            html += renderTypographyCards([uiTokens[2], uiTokens[3]], 'UI');
+
+            html += `
+                        <div class="color-category-title">typography / ui / sm</div>
+            `;
+
+            html += renderTypographyCards([uiTokens[4], uiTokens[5]], 'UI');
+
+            html += `
+                        <div class="color-category-title">typography / ui / xs</div>
+            `;
+
+            html += renderTypographyCards([uiTokens[6], uiTokens[7]], 'UI');
+
+            html += `
+                    </div>
+
+                    <!-- Number Tab -->
+                    <div id="number-typography-tab" class="internal-tab-content">
+                        <div class="color-category-title">typography / number / xl</div>
+            `;
+
+            html += renderTypographyCards([numberTokens[0], numberTokens[1], numberTokens[2], numberTokens[3]], '9876');
+
+            html += `
+                        <div class="color-category-title">typography / number / lg</div>
+            `;
+
+            html += renderTypographyCards([numberTokens[4], numberTokens[5], numberTokens[6], numberTokens[7]], '9876');
+
+            html += `
+                        <div class="color-category-title">typography / number / md</div>
+            `;
+
+            html += renderTypographyCards([numberTokens[8], numberTokens[9], numberTokens[10], numberTokens[11]], '9876');
+
+            html += `
+                        <div class="color-category-title">typography / number / sm</div>
+            `;
+
+            html += renderTypographyCards([numberTokens[12], numberTokens[13], numberTokens[14], numberTokens[15]], '9876');
 
             html += `
                     </div>
